@@ -1,11 +1,23 @@
 # Predicter v2 — Project Status
 
 Clean-slate rebuild of Predicter (personal Kalshi prediction-market analysis
-tool). Built in `predicter-v2/`, alongside the original app, per
-`PREDICTER_COMPLETE_HANDOFF.md` in the repo root. This file exists because the
-original build was rebuilt from scratch every session, including after
-container resets — see handoff Part V, item E. Update it at the end of every
-stage, as part of that stage's diff.
+tool), per `PREDICTER_COMPLETE_HANDOFF.md` in the repo root. This file exists
+because the original build was rebuilt from scratch every session, including
+after container resets — see handoff Part V, item E. Update it at the end of
+every stage, as part of that stage's diff.
+
+**The repo root also contains an unrelated Android/Kotlin tree
+(`app/`, `build.gradle.kts`, etc.).** Per the user, this is a dead branch from
+early in the project — the real Predicter app was built in Google AI Studio
+and lives only there, not in this repo. It is not the app the handoff
+describes and is not touched by this rebuild. Ignore it entirely.
+
+**No data is inherited from the original app.** The original app runs on
+`aistudio.google.com`; this build runs on `localhost`. Different origins
+mean separate `localStorage` — nothing transfers. The two key literals below
+are kept for consistency only. The archive starts empty, so the backtest
+correctly reports insufficient data (`MIN_BACKTEST_RECORDS = 20`) from day
+one — this is expected, not a bug (handoff Part VI item).
 
 **Do not fabricate progress here.** A stage is only checked off once
 `npm run verify` (tsc --noEmit + full test run) passes and the actual diff
@@ -32,12 +44,15 @@ has been shown for review. See handoff Part II, rules 2 and 4.
   verbatim. No trading code exists.
 - localStorage keys are frozen and must never change:
   `kalshi_resolved_markets_archive_v1`, `kalshi_tracked_interactions_v1`.
+  Kept for consistency only — no data is inherited from the original app
+  (different origin, `aistudio.google.com` vs `localhost`). Archive starts
+  empty (user decision, confirmed).
 
 ## Build stages
 
 | # | Stage | Status |
 |---|---|---|
-| 0 | Scaffold: Vite, strict tsconfig, Vitest, trading gate README, this file | **in progress** |
+| 0 | Scaffold: Vite, strict tsconfig, Vitest, trading gate README, this file | **done** |
 | 1 | `money` + `fees` + `format` + tests | not started |
 | 2 | `orderbook`: complement, ordering, depth walk, `simulateOrder` + tests | not started |
 | 3 | `probability` (fair vs executable) + `sizing` + validation + tests | not started |
