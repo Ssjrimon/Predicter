@@ -57,7 +57,7 @@ has been shown for review. See handoff Part II, rules 2 and 4.
 | 2 | `orderbook`: complement, ordering, depth walk, `simulateOrder` + tests | **done** |
 | 3 | `probability` (fair vs executable) + `sizing` + validation + tests | **done** |
 | 4 | `scoring` + `category` + `horizon` + `calibration` gating + tests | **done** |
-| 5 | `storage`: keys, append-only archive, interactions, settlement guard + tests | not started |
+| 5 | `storage`: keys, append-only archive, interactions, settlement guard + tests | **done** |
 | 6 | `backtesting` + tests | not started |
 | 7 | `data`: defensive http, Kalshi client, schema parsing, expired-market check | not started |
 | 8 | `crypto` + Express proxy (zero `privateKey` occurrences, asserted by test) | not started |
@@ -183,6 +183,30 @@ tests (20 new tests, 65 total, all passing).
   gets hidden by a display condition. A dedicated test asserts the
   summary object has exactly three keys (`n`, `avgBrier`, `avgLogLoss`),
   guarding against a future session quietly adding a blended score field.
+
+## Stage 5 — what shipped
+
+`src/storage/keys.ts`, `types.ts`, `archive.ts`, `interactions.ts`,
+`settlement.ts` + tests (23 new tests, 88 total, all passing). Added
+`@types/node` (dev dependency) for the guard test's filesystem scan.
+
+- Storage functions take an injected `KeyValueStore` rather than touching
+  `window.localStorage` directly, so test fixtures (necessarily synthetic
+  prediction records) can never leak into or be mistaken for a real
+  archive.
+- `keys.test.ts` doesn't just assert the two literals are correct — it
+  scans every `.ts`/`.tsx` file under `src/` at test time and fails if
+  either raw string appears anywhere outside `keys.ts`. Confirmed clean
+  against the real tree (zero offenders) at the moment this stage landed.
+- `archive.ts`'s exported surface is locked by a test to exactly
+  `{readArchive, appendResolvedMarket, exportArchiveJson,
+  exportArchiveCsv}` — there is no update or delete function to add by
+  accident, structurally, not just by convention.
+- `settlement.ts`: `parseSettlement` requires status AND result (not the
+  historical OR), and `extractSettledOutcome` warns via `console.warn`
+  only on a genuinely unrecognized state — verified with a spy, not just
+  a returned-null assertion, so "warned" and "silently null" can't be
+  confused with each other in review.
 
 ## Unverified claims carried forward (handoff Part VIII — do not build on without checking)
 
