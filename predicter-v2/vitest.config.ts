@@ -10,7 +10,7 @@ export default defineConfig({
     //   // @vitest-environment jsdom
     environment: 'node',
 
-    include: ['src/**/*.test.ts', 'src/**/*.test.tsx', 'server/**/*.test.ts'],
+    include: ['src/**/*.test.ts', 'src/**/*.test.tsx', 'server/**/*.test.ts', 'scripts/**/*.test.ts'],
     setupFiles: ['./src/testSetup.ts'],
   },
 });

@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vite",
     "server": "tsx server/index.ts",
+    "verify:live": "tsx scripts/verify-live-tickers.ts",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",

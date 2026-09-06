@@ -60,4 +60,17 @@ describe('fetchOrderbook', () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response('err', { status: 404 })));
     expect(await fetchOrderbook('X')).toBeNull();
   });
+
+  it('returns null (and warns) rather than throwing when a 200 response does not match the assumed shape', async () => {
+    // Regression: parseRawOrderbook reads raw.orderbook.yes/.no without
+    // guarding presence, so an unexpected real shape used to throw an
+    // uncaught TypeError here instead of failing gracefully - found by
+    // scripts/verify-live-tickers.ts's own test suite.
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(jsonResponse({ yes_side: [], no_side: [] })));
+
+    await expect(fetchOrderbook('X')).resolves.toBeNull();
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    warnSpy.mockRestore();
+  });
 });

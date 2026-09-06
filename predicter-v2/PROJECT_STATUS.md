@@ -65,6 +65,54 @@ has been shown for review. See handoff Part II, rules 2 and 4.
 | 10 | Discovery, Archive, Calibration, Backtest, Settings | **done** |
 | 11 | Max-entropy utility (unwired, labeled), final audit vs Part V/VI/VII | **done** |
 | 12 | Post-completion: Open-Meteo historical base-rate view (deferred item) | **done** |
+| 13 | Live-verification tooling (`verify-live-tickers.ts`) + a real `fetchOrderbook` crash bug it found | **done** |
+
+## Stage 13 — live-verification tooling + a real bug it found
+
+Requested as a follow-up to Stage 12: actually attempt to check 20 live
+tickers. Two more paths were tried and both hit real blockers worth
+recording, plus one genuine production bug was found and fixed as a
+direct result of building this tooling.
+
+- **This sandbox**: re-confirmed blocked, and the raw response body is
+  now informative: `"Host not in allowlist: external-api.kalshi.com. Add
+  this host to your network egress settings to allow access."` This is
+  an explicit per-environment **allowlist**, not a blanket firewall — per
+  this session's own environment docs, network policy is a setting the
+  user chooses when creating the environment. **Actionable fix**: add
+  `external-api.kalshi.com` (and `archive-api.open-meteo.com`, for the
+  weather feature) to this environment's network egress allowlist in its
+  claude.ai/code settings, then re-run `npm run verify:live` from a
+  session using that environment.
+- **The "trusted network access" remote environment**: tried twice.
+  Both attempts hit a human-confirmation gate before contacting an
+  external host — a legitimate safety control this agent has no API path
+  to click through, and correctly did not try to route around.
+- **`scripts/verify-live-tickers.ts`** (+ `verify-live-tickers.test.ts`,
+  12 new tests, 194 total): a real, runnable tool built from the
+  already-tested app code (not a rewritten parallel implementation) that
+  checks N live tickers against both flagged "unverified wire shape"
+  assumptions and reports concretely which held up, printing raw JSON
+  for any that didn't. Run via `npm run verify:live` (20 random open
+  markets) or `npm run verify:live TICKER1 TICKER2 ...` (specific
+  tickers). Smoke-tested against the real (blocked) network to confirm
+  it degrades gracefully — reports the block clearly and exits 1,
+  doesn't crash.
+- **A real production bug found by writing this tool's own tests, not by
+  inspection**: `fetchOrderbook` threw an uncaught `TypeError` if a real
+  response didn't match the assumed
+  `{ orderbook: { yes: [...], no: [...] } }` shape (`.yes`/`.no` access
+  on `undefined` from `parseRawOrderbook`), instead of returning `null`
+  like every other boundary in this app. This means the *actual app*,
+  not just the verification script, would have crashed rather than
+  showing an honest error if Kalshi's real orderbook response doesn't
+  match the placeholder shape — exactly the failure mode `fetchJson`'s
+  defensive pattern exists to prevent, except this throw happened one
+  layer downstream of it, outside that pattern's reach. Fixed by wrapping
+  `parseRawOrderbook`'s call in `fetchOrderbook` with a try/catch,
+  warning and returning `null` on any parse failure. Regression test
+  added to `client.test.ts` feeding it a deliberately wrong shape and
+  asserting it resolves to `null`, not a rejected promise.
 
 ## Stage 12 — deferred items follow-up
 

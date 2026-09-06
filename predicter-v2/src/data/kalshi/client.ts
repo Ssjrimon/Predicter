@@ -14,7 +14,17 @@ export async function fetchMarket(ticker: string): Promise<ParsedMarketSummary |
   return parseMarketSummary(raw);
 }
 
-/** See `schema.ts`'s doc comment on `UnverifiedRawOrderbookResponse` — the wire shape here is unverified. */
+/**
+ * See `schema.ts`'s doc comment on `UnverifiedRawOrderbookResponse` — the
+ * wire shape here is unverified. `parseRawOrderbook` reads nested fields
+ * (`raw.orderbook.yes`/`.no`) without guarding their presence, so a real
+ * response that doesn't match the assumed shape throws a `TypeError`
+ * rather than failing gracefully — caught here and turned into the same
+ * `null`-plus-`console.warn` contract every other boundary in this app
+ * uses, rather than an uncaught exception crashing the caller (found by
+ * `scripts/verify-live-tickers.ts`'s own test suite feeding it a
+ * deliberately wrong shape).
+ */
 export async function fetchOrderbook(ticker: string): Promise<RawOrderBook | null> {
   const raw = await fetchJson<UnverifiedRawOrderbookResponse>(
     `${KALSHI_BASE_URL}/markets/${encodeURIComponent(ticker)}/orderbook`,
@@ -22,5 +32,13 @@ export async function fetchOrderbook(ticker: string): Promise<RawOrderBook | nul
   if (raw === null) {
     return null;
   }
-  return parseRawOrderbook(raw);
+  try {
+    return parseRawOrderbook(raw);
+  } catch (error) {
+    console.warn(
+      `[kalshi] Failed to parse orderbook response for ${ticker} — the assumed wire shape may be wrong:`,
+      error,
+    );
+    return null;
+  }
 }
