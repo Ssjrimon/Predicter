@@ -52,4 +52,34 @@ describe('Backtest', () => {
     expect(screen.getByText('Weekly cutoff windows')).toBeInTheDocument();
     expect(screen.queryByText(/Insufficient historical data/)).not.toBeInTheDocument();
   });
+
+  it('excludes Theoretical-mode records from the eligibility count (handoff Part V item B - non-negotiable)', () => {
+    // Exactly MIN_BACKTEST_RECORDS real records plus one Theoretical-mode
+    // record - eligibility must be based on the real count only.
+    for (let i = 0; i < MIN_BACKTEST_RECORDS; i += 1) {
+      appendResolvedMarket(
+        localStorageAdapter,
+        record({ archiveId: `real-${i}`, interactedAt: i, archivedAt: i * 1000, marketProbabilitySource: 'orderbook-midpoint' }),
+      );
+    }
+    appendResolvedMarket(
+      localStorageAdapter,
+      record({ archiveId: 'theoretical-1', interactedAt: 999, marketProbabilitySource: 'user-typed' }),
+    );
+
+    render(<Backtest />);
+    // Still exactly at the threshold (eligible), not counted as one over it.
+    expect(screen.getByText('Weekly cutoff windows')).toBeInTheDocument();
+  });
+
+  it('does not become eligible on Theoretical-mode records alone', () => {
+    for (let i = 0; i < MIN_BACKTEST_RECORDS; i += 1) {
+      appendResolvedMarket(
+        localStorageAdapter,
+        record({ archiveId: `theoretical-${i}`, interactedAt: i, marketProbabilitySource: 'user-typed' }),
+      );
+    }
+    render(<Backtest />);
+    expect(screen.getByText(new RegExp(`0 of ${MIN_BACKTEST_RECORDS}`))).toBeInTheDocument();
+  });
 });

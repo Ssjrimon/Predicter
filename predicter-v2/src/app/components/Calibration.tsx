@@ -30,10 +30,22 @@ function formatSummary(summary: CalibrationSummary): string {
  * score" anywhere on this page, and there never should be (handoff Part
  * VII) — Brier and log loss are the only two numbers this view emits per
  * breakdown.
+ *
+ * Theoretical-mode records (`marketProbabilitySource === 'user-typed'`)
+ * are excluded from every computation below — a Theoretical-mode
+ * prediction compares the user's guess against their own guess of the
+ * market, which would silently distort calibration (handoff Part V item
+ * B; this exclusion was a non-negotiable design decision, not optional
+ * polish). They still exist in the Archive, just not counted here.
  */
 export function Calibration() {
   const [refreshKey, setRefreshKey] = useState(0);
-  const records = useMemo(() => readArchive(localStorageAdapter), [refreshKey]);
+  const allRecords = useMemo(() => readArchive(localStorageAdapter), [refreshKey]);
+  const records = useMemo(
+    () => allRecords.filter((r) => r.marketProbabilitySource === 'orderbook-midpoint'),
+    [allRecords],
+  );
+  const excludedCount = allRecords.length - records.length;
 
   const overallUser = useMemo(() => summarizeCalibration(records.map(toUserScored)), [records]);
   const overallMarket = useMemo(() => summarizeCalibration(records.map(toMarketScored)), [records]);
@@ -74,6 +86,12 @@ export function Calibration() {
         <button type="button" onClick={() => setRefreshKey((k) => k + 1)}>
           Refresh
         </button>
+        {excludedCount > 0 && (
+          <p className="muted">
+            Excludes {excludedCount} Theoretical-mode prediction{excludedCount === 1 ? '' : 's'} (not scored — see
+            Archive for the full record).
+          </p>
+        )}
       </section>
 
       <section className="card">

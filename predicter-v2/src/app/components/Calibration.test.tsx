@@ -64,4 +64,24 @@ describe('Calibration', () => {
     expect(screen.getByText('By category')).toBeInTheDocument();
     expect(screen.getByText('Weather')).toBeInTheDocument();
   });
+
+  it('excludes Theoretical-mode records from every computation (handoff Part V item B - non-negotiable)', () => {
+    // 5 real orderbook-sourced records (enough to clear the n>=5 gate)...
+    for (let i = 0; i < 5; i += 1) {
+      appendResolvedMarket(
+        localStorageAdapter,
+        record({ archiveId: `real-${i}`, interactedAt: i, marketProbabilitySource: 'orderbook-midpoint' }),
+      );
+    }
+    // ...plus a Theoretical-mode record that must not affect the count or scores.
+    appendResolvedMarket(
+      localStorageAdapter,
+      record({ archiveId: 'theoretical-1', interactedAt: 999, marketProbabilitySource: 'user-typed' }),
+    );
+
+    render(<Calibration />);
+    const overall = screen.getByText('Overall').closest('section');
+    expect(overall?.textContent).toMatch(/n=5 —/); // not n=6
+    expect(screen.getByText(/Excludes 1 Theoretical-mode prediction/)).toBeInTheDocument();
+  });
 });

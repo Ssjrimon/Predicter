@@ -63,17 +63,32 @@ has been shown for review. See handoff Part II, rules 2 and 4.
 | 8 | `crypto` + Express proxy (zero `privateKey` occurrences, asserted by test) | **done** |
 | 9 | React shell, mobile-first, Sizer + Theoretical-mode warning | **done** |
 | 10 | Discovery, Archive, Calibration, Backtest, Settings | **done** |
-| 11 | Max-entropy utility (unwired, labeled), final audit vs Part V/VI/VII | not started |
+| 11 | Max-entropy utility (unwired, labeled), final audit vs Part V/VI/VII | **done** |
 
-## Known open items being fixed (handoff Part V)
+## Known open items — final status (handoff Part V)
 
-- [ ] A — expired-market banner in the Sizer (Stage 7/9)
-- [ ] B — Theoretical-mode warning + exclusion from scoring (Stage 9) — decided:
-      record with provenance, exclude from calibration and the 30-prediction gate
-- [ ] C — settlement guard requires status AND result, not OR (Stage 5)
-- [ ] D — no binary coercion; unrecognized settlement states skipped + warned (Stage 5)
-- [x] E — this file
-- [ ] F — real test suite covering the math layer (all stages)
+- [x] A — expired-market banner: `domain/expiry.ts` (`checkMarketExpiry`,
+      `formatExpiryBannerMessage`), wired in `useSizer.ts`/`Sizer.tsx`, tested
+      at the unit level (Stage 7) and confirmed rendering in a real browser
+      (Stage 9).
+- [x] B — Theoretical-mode warning + exclusion from scoring: warning text
+      (`THEORETICAL_MODE_WARNING`, verbatim) wired in Stage 9.
+      **Exclusion was NOT actually wired until Stage 11's audit caught it** —
+      `Calibration.tsx` and `Backtest.tsx` were scoring every archived record
+      regardless of `marketProbabilitySource`, silently including
+      Theoretical-mode predictions. Fixed by filtering to
+      `marketProbabilitySource === 'orderbook-midpoint'` before any
+      computation in both views, with a visible "Excludes N Theoretical-mode
+      predictions" note, and regression tests proving the exclusion (a
+      6-record archive with 1 Theoretical-mode record scores as n=5, not
+      n=6; a Backtest archive of only Theoretical-mode records never becomes
+      eligible). This is the single most consequential thing this audit
+      found — a genuinely wrong number would have been shown had it shipped
+      as originally built.
+- [x] C — settlement guard requires status AND result, not OR: `storage/settlement.ts`, Stage 5.
+- [x] D — no binary coercion; unrecognized settlement states skipped + warned: same file, Stage 5.
+- [x] E — this file (Stage 0, maintained every stage since).
+- [x] F — real test suite: 172 tests across every math/storage/data/UI module, all stages.
 
 ## Regressions from Part VI to guard with named tests (do not "fix" these)
 
@@ -402,6 +417,55 @@ settlement guard to the Stage 7 client and the archive). 25 new tests,
   archive naturally without network access to Kalshi), navigated all six
   tabs, and confirmed Archive/Calibration/Backtest render correctly
   against that data. Screenshots sent to the user.
+
+## Stage 11 — what shipped: max-entropy utility + final audit
+
+`src/domain/maxent.ts` + tests (7 new tests, 172 total, all passing).
+`solveMaxEntropyDistribution` independently reproduces the handoff's
+verified worked example
+(`[3.625, 3.375, 3.125]`, target `3.529` → `[0.6927, 0.2305, 0.0767]`) via
+its own bisection implementation — matched to 4+ decimals without copying
+the algorithm's stated output, only its description (p_i ∝ exp(-λ·r_i),
+numerically stable via max-exponent subtraction). Confirmed genuinely
+unwired: zero references anywhere under `src/app/`.
+
+**Final audit against Parts V, VI, VII** — this is not a rubber stamp;
+each item below was checked against actual code, and one real gap was
+found and fixed (see item B above).
+
+- **Part V** — all six items now `[x]`, see above. Item B's exclusion
+  fix is the one substantive finding of this audit.
+- **Part VI** (things that look like bugs but aren't) — the two items
+  this rebuild has code for (expired-market handling, insufficient-data
+  backtest/calibration on a small archive) are correctly implemented and
+  tested throughout Stages 5-10. The other four items (Miami/Austin/NYC
+  historical weather base rates via Open-Meteo) have **no corresponding
+  feature in this rebuild at all** — the 11-stage plan never included an
+  Open-Meteo integration or a historical base-rate view. Recorded here
+  explicitly rather than silently: if that feature is ever added, these
+  four base-rate results must be treated as verified-correct, not bugs to
+  "fix," exactly as the handoff states.
+- **Part VII** (do not reintroduce) — verified by grep sweep across the
+  entire `src/` tree in addition to the reasoning above:
+  - Fabricated theses/mock logs: no code generates thesis text anywhere;
+    it is a required, user-typed field with no default or auto-fill.
+  - Weighted composite volatility score: `Discovery.tsx` shows only raw
+    spread and time-to-close, single-column-sortable; a test asserts no
+    "volatility score" or "composite" text appears.
+  - Blended skill score: grepped for `skillScore`/`compositeScore`/
+    `weightedScore` across `src/` — zero matches. `Calibration.tsx` emits
+    only separate Brier/log-loss numbers, tested.
+  - Maker fees as $0.00: `MAKER_FEE_RATE_ESTIMATE = 0.0175`, tested to
+    the exact worked example; grepped for `$0.00`-adjacent maker-fee
+    phrasing — zero matches.
+  - Ensemble before signal validation: no ensemble/prediction-combination
+    code exists anywhere in this build — correctly never started.
+  - "Once fully built, enable auto-trading": `src/trading/` contains
+    exactly one file (`README.md`, the gate verbatim) — confirmed by
+    listing the directory, not just by memory of having written it that
+    way. Grepped for `markResolved`/`manualResolve`/`forceResolve` across
+    `src/` to confirm no path exists for a user to hand-resolve a
+    prediction either — zero matches, consistent with Part V item D.
 
 ## Unverified claims carried forward (handoff Part VIII — do not build on without checking)
 

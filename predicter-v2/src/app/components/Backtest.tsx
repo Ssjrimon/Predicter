@@ -14,10 +14,19 @@ function toBacktestRecord(record: ReturnType<typeof readArchive>[number]): Backt
  * partial or extrapolated chart underneath this message, because
  * `runWalkForwardBacktest` returns `timeSeries: []` before doing any
  * computation at all below the threshold (Stage 6).
+ *
+ * Theoretical-mode records are excluded here too, same reasoning as
+ * Calibration: they compare the user's guess against their own guess of
+ * the market, so including them would distort both the eligibility count
+ * and the scores themselves (handoff Part V item B).
  */
 export function Backtest() {
   const [refreshKey, setRefreshKey] = useState(0);
-  const records = useMemo(() => readArchive(localStorageAdapter), [refreshKey]);
+  const allRecords = useMemo(() => readArchive(localStorageAdapter), [refreshKey]);
+  const records = useMemo(
+    () => allRecords.filter((r) => r.marketProbabilitySource === 'orderbook-midpoint'),
+    [allRecords],
+  );
   const result = useMemo(() => runWalkForwardBacktest(records.map(toBacktestRecord)), [records]);
 
   return (
