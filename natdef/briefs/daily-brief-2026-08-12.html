@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Brief — 12 August 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E8EAE4;
+    --paper-2:#DFE2DA;
+    --paper-3:#D5D9CF;
+    --ink:#14181A;
+    --ink-2:#4C555A;
+    --ink-3:#7C858A;
+    --rule:#C2C6BD;
+    --rule-soft:#D3D7CD;
+    --petrol:#1D3A47;
+    --esc:#9E3226;
+    --hold:#8A6B1F;
+    --ease:#3F6349;
+    --vol:#6B4A7A;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:'Newsreader',Georgia,serif;font-size:17px;line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--petrol);color:var(--paper);}
+  .wrap{max-width:820px;margin:0 auto;padding:0 26px;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  h1,h2,h3,.lbl{font-family:'Archivo',system-ui,sans-serif;margin:0;}
+  a{color:var(--petrol);text-decoration-thickness:1px;text-underline-offset:2px;}
+  a:hover{color:var(--esc);}
+
+  .lbl{
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.17em;
+    text-transform:uppercase;color:var(--ink-3);
+  }
+
+  /* ---- MASTHEAD ---- */
+  header{border-bottom:2px solid var(--ink);padding:26px 0 0;}
+  .mast-top{
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;
+    padding-bottom:12px;border-bottom:1px solid var(--rule);
+  }
+  .mast-top .l{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);}
+  h1.masthead{
+    font-size:clamp(40px,8vw,74px);font-weight:800;letter-spacing:-.025em;line-height:.92;
+    padding:16px 0 6px;text-transform:uppercase;
+  }
+  .mast-sub{
+    display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;
+    padding-bottom:20px;
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);
+  }
+  .archlink{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;}
+
+  /* ---- BOTTOM LINE ---- */
+  .bottomline{padding:38px 0 34px;border-bottom:1px solid var(--rule);}
+  .bottomline p{
+    font-size:clamp(20px,3.1vw,27px);line-height:1.4;font-weight:300;margin:14px 0 0;
+    letter-spacing:-.005em;
+  }
+  .bottomline p strong{font-weight:500;}
+  .bottomline p + p{margin-top:16px;font-size:clamp(17px,2.2vw,19px);color:var(--ink-2);line-height:1.55;}
+
+  /* ---- MOVEMENT BOARD ---- */
+  .board-sec{padding:34px 0 30px;border-bottom:1px solid var(--rule);}
+  .board-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px;}
+  .board-hint{font-family:'Newsreader',serif;font-size:14px;color:var(--ink-3);font-style:italic;}
+  .board{
+    display:grid;grid-template-columns:repeat(10,1fr);gap:7px;margin-top:20px;
+  }
+  .gauge{
+    background:none;border:none;padding:0;cursor:pointer;text-align:center;
+    display:flex;flex-direction:column;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;
+  }
+  .track{
+    width:100%;height:104px;background:var(--paper-3);position:relative;overflow:hidden;
+    border-bottom:2px solid var(--ink);
+  }
+  .fill{
+    position:absolute;left:0;right:0;bottom:0;
+    background:var(--c);
+    transition:height .7s cubic-bezier(.2,.7,.3,1);
+    height:0;
+  }
+  .fill::after{
+    content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--ink);opacity:.55;
+  }
+  .gauge .arrow{font-size:13px;font-weight:700;color:var(--c);line-height:1;}
+  .gauge .code{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--ink);}
+  .gauge .val{font-size:9.5px;color:var(--ink-3);letter-spacing:.04em;}
+  .gauge:hover .track,.gauge:focus-visible .track{outline:2px solid var(--ink);outline-offset:2px;}
+  .gauge[aria-pressed="true"] .track{outline:2px solid var(--ink);outline-offset:2px;}
+
+  .readout{
+    margin-top:18px;border-left:3px solid var(--ink);padding:12px 0 12px 15px;min-height:78px;
+  }
+  .readout .r-name{font-family:'Archivo',sans-serif;font-weight:700;font-size:17px;}
+  .readout .r-name .tag{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:2px 7px;margin-left:9px;color:var(--paper);vertical-align:2px;
+  }
+  .readout .r-line{font-size:16px;color:var(--ink-2);margin-top:5px;}
+  .readout .r-watch{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-3);margin-top:8px;letter-spacing:.03em;}
+
+  @media(max-width:720px){
+    .board{grid-template-columns:repeat(10,minmax(52px,1fr));overflow-x:auto;padding-bottom:8px;}
+    .track{height:88px;}
+  }
+
+  /* ---- ITEMS ---- */
+  .items{padding:36px 0 10px;}
+  .item{padding:26px 0;border-bottom:1px solid var(--rule-soft);}
+  .item:first-of-type{padding-top:14px;}
+  .item-top{display:flex;gap:14px;align-items:baseline;}
+  .item-num{
+    font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--ink-3);
+    flex:none;padding-top:5px;
+  }
+  .item-thread{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:2px 7px;color:var(--paper);
+  }
+  .latefile{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:2px 7px;background:var(--ink);color:var(--paper);margin-left:6px;
+  }
+  h3.item-title{
+    font-size:clamp(22px,3.2vw,29px);font-weight:700;letter-spacing:-.02em;line-height:1.14;margin:7px 0 0;
+  }
+  .item-body{padding-left:0;margin-top:12px;}
+  .item-body p{margin:0 0 13px;font-size:16.5px;}
+  .sowhat{
+    border-left:3px solid var(--petrol);padding:9px 0 9px 14px;margin-top:16px;
+    font-size:16px;color:var(--ink);background:linear-gradient(90deg,rgba(29,58,71,.055),transparent 70%);
+  }
+  .sowhat b{
+    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--petrol);display:block;margin-bottom:3px;
+  }
+  .attrib{font-size:14px;color:var(--ink-3);font-style:italic;margin-top:10px;}
+
+  /* ---- CHANGED / HORIZON ---- */
+  section.block{padding:34px 0;border-top:1px solid var(--rule);}
+  h2.sec{font-size:clamp(20px,2.8vw,26px);font-weight:700;letter-spacing:-.015em;margin-top:6px;text-transform:uppercase;}
+  .sec-note{color:var(--ink-3);font-size:15px;margin-top:6px;font-style:italic;}
+
+  .changed{margin-top:20px;}
+  .chg{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--rule-soft);align-items:flex-start;}
+  .chg:last-child{border-bottom:none;}
+  .chg-kind{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+    padding:3px 8px;border:1px solid var(--ink);flex:none;margin-top:3px;min-width:92px;text-align:center;
+  }
+  .chg-kind.rev{background:var(--ink);color:var(--paper);}
+  .chg-body{font-size:15.5px;}
+  .chg-body b{font-weight:600;}
+  .chg-body .was{color:var(--ink-3);display:block;margin-top:4px;font-size:14.5px;}
+
+  .horizon{margin-top:20px;}
+  .hz{display:grid;grid-template-columns:118px 1fr;gap:14px;padding:11px 0;border-bottom:1px solid var(--rule-soft);}
+  .hz:last-child{border-bottom:none;}
+  .hz-when{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.03em;padding-top:2px;}
+  .hz-item{font-size:15.5px;}
+  .conf{
+    font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+    border:1px solid var(--ink-3);color:var(--ink-3);padding:1px 6px;margin-left:8px;white-space:nowrap;
+  }
+  .hz-note{display:block;color:var(--ink-3);font-size:14px;margin-top:3px;}
+  @media(max-width:600px){
+    .hz{grid-template-columns:1fr;gap:3px;}
+    .chg{flex-direction:column;gap:7px;}
+  }
+
+  /* ---- SOURCES / FOOTER ---- */
+  .srcs{margin-top:18px;}
+  .src{display:grid;grid-template-columns:78px 1fr;gap:14px;padding:10px 0;border-bottom:1px solid var(--rule-soft);align-items:baseline;}
+  .src:last-child{border-bottom:none;}
+  .src-tier{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;}
+  .src-body{font-size:15px;}
+  .src-body a{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;word-break:break-all;margin-top:2px;}
+  @media(max-width:600px){.src{grid-template-columns:1fr;gap:2px;}}
+
+  footer.end{border-top:2px solid var(--ink);padding:22px 0 56px;margin-top:30px;}
+  .caveat{font-size:13.5px;color:var(--ink-3);line-height:1.55;}
+  .caveat b{color:var(--ink-2);}
+
+  @media print{
+    body{background:#fff;font-size:11pt;}
+    .gauge{cursor:default;}
+    .board-hint{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="mast-top">
+      <span class="l">Strategic Threat &amp; Posture</span>
+      <span class="l">Brief No. 005 · Verified</span>
+    </div>
+    <h1 class="masthead">Daily Brief</h1>
+    <div class="mast-sub">
+      <span>Wednesday · 12 August 2026</span>
+      <span>~24 hrs since last brief · 7 primary documents · 10 threads</span>
+    </div>
+    <div class="mast-sub" style="padding-top:0;padding-bottom:16px;">
+      <span class="archlink"><a href="brief-archive.html">↑ Every brief, by date — Brief Archive</a></span>
+      <span class="archlink"><a href="strategic-threat-briefing.html">Strategic Threat &amp; Posture Briefing ↗</a></span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="bottomline">
+    <div class="lbl">The bottom line</div>
+    <p><strong>Yemen's government revised the Bab el-Mandeb toll from three to six after disclosing the Houthis struck rescuers in a follow-on hit — the deadliest single incident against shipping since the war began — while the US Navy disabled a cargo ship running the Iran blockade.</strong> Iran's SNSC secretary said in the same window that Hormuz "will not be opened" until Washington changes course, dimming near-term reopening prospects rather than advancing them.</p>
+    <p>A sweep gap surfaced separately: Turkey has floated Egyptian accession to the Mecca pact since 10 August, missed in Brief 004, and this ledger's Haiti election horizon date was three weeks stale — corrected here, not silently. No thread reversed direction; Terrorism moves up to 8 on the double-strike tactic.</p>
+  </section>
+
+  <section class="board-sec">
+    <div class="board-head">
+      <div>
+        <div class="lbl">Movement board</div>
+        <h2 class="sec" style="font-size:22px;margin-top:4px;">Where the ten threads stand</h2>
+      </div>
+      <div class="board-hint">Bar height is intensity. Color and arrow are direction. Tap a column.</div>
+    </div>
+    <div class="board" id="board"></div>
+    <div class="readout" id="readout" style="border-color:var(--vol)">
+      <div class="r-name" id="r-name">Iran / Hormuz <span class="tag" style="background:var(--vol)">Volatile</span></div>
+      <div class="r-line" id="r-line">Route agreed and fighting paused, but Iran's SNSC secretary now says Hormuz "will not be opened" until Washington changes behaviour, the US Navy disabled a vessel running the blockade, and Trump is demanding reparations for "50 years" of damage.</div>
+      <div class="r-watch" id="r-watch">WATCHING — Iran–Oman joint statement · Mojtaba Khamenei's assent · US munitions resupply · Sept War Powers clock</div>
+    </div>
+  </section>
+
+  <section class="items">
+    <div class="lbl">Items</div>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">LF1</span>
+        <div>
+          <span class="item-thread" style="background:var(--esc)">Alliance architecture</span><span class="latefile">Late file — 10 Aug</span>
+          <h3 class="item-title">Turkey says Mecca pact could expand to Egypt; other states seeking entry</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>Turkish Foreign Minister Hakan Fidan told the state-run Anadolu Agency that the trilateral Mecca defence pact — Saudi Arabia, Turkey and Pakistan, signed 7 August — could be expanded to include Egypt, saying only technical matters stand in the way and that several countries have asked to join. Pakistan's foreign minister separately said the accord is open to any regional state willing to uphold its principles. Egypt would bring one of the region's largest militaries; no accession instrument has been signed.</p>
+        <p>This was reported 10 August, before Brief 004's own 11 August cutoff, and was not caught in that sweep — a genuine gap rather than a same-cycle late file, disclosed with its true date.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          A three-day-old trilateral pact is already being talked about by one of its own signatories as an open architecture rather than a one-off arrangement — consistent with AL's read on the rate of realignment, not yet a fourth member.
+        </div>
+        <p class="attrib">Anadolu Agency via Semafor, 10 August 2026.</p>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">01</span>
+        <div>
+          <span class="item-thread" style="background:var(--esc)">Terrorism</span>
+          <h3 class="item-title">Bab el-Mandeb toll revised to six as Houthis strike rescuers in a second hit</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>Yemen's internationally recognised government said the Houthis fired three ballistic missiles at the Egyptian-owned, Tanzania-flagged cargo ship Tihamah in the Bab el-Mandeb Strait on Tuesday, then struck the site of the rescue operation with a further missile as crews evacuated the dead and wounded. The Transport Ministry and coastguard put the revised toll at six killed — three Pakistani and one Indonesian crew, plus two rescue personnel — and ten wounded, up from the same-day figure of three crew dead reported while UKMTO's investigation was still open.</p>
+        <p>Houthi-run Saba news agency said the group struck a ship carrying Saudi military equipment, without naming it or confirming the Tihamah; the Houthis have not confirmed responsibility for this vessel by name. UKMTO has not yet issued its own updated statement re-confirming the revised count.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          The deadliest single incident against shipping since the war began, and a tactical escalation in its own right — striking the rescue operation, not just the original target. TR moves to 8, still escalating.
+        </div>
+        <p class="attrib">Yemen Transport Ministry and coastguard statements, via Al Jazeera (AFP/Reuters/AP), NBC News, France24 and CBC, 11–12 August 2026.</p>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">02</span>
+        <div>
+          <span class="item-thread" style="background:var(--vol)">Iran / Hormuz</span>
+          <h3 class="item-title">US Navy disables blockade-running cargo ship; Iran hardens Hormuz conditions</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>US Central Command said a Navy helicopter fired two Hellfire missiles at the Panama-flagged Vela Nova, disabling its engine room and steering after the vessel "attempted to transit the Gulf of Oman and violate the U.S. blockade against Iran by sailing toward an Iranian port" and ignored repeated warnings. CENTCOM said the blockade has now disabled 55 commercial vessels and boarded two since it was reimposed; it did not say whether any crew were wounded.</p>
+        <p>Separately, Iran's SNSC secretary Mohsen Rezaei told Tasnim that the Strait of Hormuz "will not be opened until the United States changes its behaviour and accepts Iran's conditions," and said any Oman route agreement would be "separate" from the strait's closure. Trump, for his part, has called for Iranian reparations for "50 years" of damage.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          Direct US kinetic enforcement of the blockade continues even as Iran explicitly delinks the Oman route talks from reopening the strait itself — the diplomatic and military tracks are diverging, not converging.
+        </div>
+        <p class="attrib">CENTCOM statement via Al Jazeera; Tasnim via Al Jazeera — 11 August 2026.</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Changed on the board</div>
+    <h2 class="sec">What this brief altered</h2>
+    <div class="changed">
+      <div class="chg">
+        <span class="chg-kind">Thread moved</span>
+        <div class="chg-body">
+          <b>Terrorism: 7 → 8, still escalating.</b> Bab el-Mandeb toll revised upward from three to six after a second strike hit the rescue operation.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Line updated</span>
+        <div class="chg-body">
+          <b>Iran/Hormuz and Energy/Markets one-liners.</b> Both now carry the Vela Nova strike, Rezaei's hardened conditions and Trump's reparations demand.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Line updated</span>
+        <div class="chg-body">
+          <b>Alliance architecture one-liner.</b> Now carries Turkey's comments on Egypt and other states seeking Mecca pact entry.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Late file ×1</span>
+        <div class="chg-body">
+          <b>One item predates this brief's cutoff window and was missed in the prior sweep.</b> Turkey's Egypt/Mecca pact comments (10 Aug) run as a late file, dated to when they were reported.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Corrected</span>
+        <div class="chg-body">
+          <b>Haiti national elections horizon date.</b> This ledger carried "Aug 2026" through Brief 004. Haiti's electoral council actually set 13 December (runoff 21 February 2027) on 27 July — a standing error, not a same-cycle miss.
+          <span class="was">Was: "Aug 2026." Now: 13 Dec 2026 first round, 21 Feb 2027 runoff, per the CEP's own calendar.</span>
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Claims cut</span>
+        <div class="chg-body">
+          <b>None this sweep.</b> Every candidate claim that reached the verification gate cleared it, with hedges preserved where reporting itself was hedged.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Horizon</div>
+    <h2 class="sec">What's coming, nearest first</h2>
+    <div class="horizon">
+      <div class="hz"><div class="hz-when">Days</div><div class="hz-item">Iran–Oman joint statement <span class="conf">Contested</span><span class="hz-note">Still not signed; Rezaei now delinks it from reopening the strait itself.</span></div></div>
+      <div class="hz"><div class="hz-when">Weeks</div><div class="hz-item">Egypt (or another state) formally accedes to the Mecca pact <span class="conf">Reported</span><span class="hz-note">Turkey's FM says only technical matters remain; no instrument signed yet.</span></div></div>
+      <div class="hz"><div class="hz-when">Sept 2026</div><div class="hz-item">War Powers Act 60-day clock on the Iran campaign <span class="conf">Statutory</span></div></div>
+      <div class="hz"><div class="hz-when">13 Dec 2026</div><div class="hz-item">Haiti first-round elections, runoff 21 Feb 2027 <span class="conf">Scheduled</span><span class="hz-note">Corrected this brief from a stale "Aug 2026" target; contingent on continued security gains.</span></div></div>
+      <div class="hz"><div class="hz-when">2026</div><div class="hz-item">USMCA joint review <span class="conf">Scheduled</span></div></div>
+      <div class="hz"><div class="hz-when">2026</div><div class="hz-item">PRC coercive pressure on Japan intensifies <span class="conf">Assessed</span></div></div>
+      <div class="hz"><div class="hz-when">2027</div><div class="hz-item">PLA modernization milestone <span class="conf">Superseded</span><span class="hz-note">IC assesses no 2027 invasion planned and no fixed timeline.</span></div></div>
+      <div class="hz"><div class="hz-when">2049</div><div class="hz-item">PRC "national rejuvenation" centenary target <span class="conf">Stated goal</span></div></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Verification log</div>
+    <h2 class="sec">What was checked, and what it changed</h2>
+    <div class="changed">
+      <div class="chg">
+        <span class="chg-kind">Confirmed</span>
+        <div class="chg-body">
+          <b>Bab el-Mandeb toll revised to six, ten wounded.</b> Cross-checked Al Jazeera (AFP/Reuters/AP), NBC News, France24 and CBC, all citing Yemen's Transport Ministry and coastguard. UKMTO has not yet re-confirmed the revised count; Houthi responsibility for this named vessel remains unconfirmed by the Houthis' own statement.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Confirmed</span>
+        <div class="chg-body">
+          <b>Vela Nova disabled by US Navy Hellfire strike.</b> Direct citation of the CENTCOM statement via Al Jazeera; checked for an Iranian rebuttal or counter-account — none found. Logged as attributed-claim: a government's account of its own operation, not verified-primary.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Confirmed</span>
+        <div class="chg-body">
+          <b>Rezaei: Hormuz "will not be opened" until US behaviour changes.</b> Traced to Tasnim (Iran semi-official) as quoted by Al Jazeera, one hop.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Confirmed, late-filed</span>
+        <div class="chg-body">
+          <b>Turkey's Egypt/Mecca pact comments.</b> Traced to Turkish FM Fidan's on-record statement to Anadolu Agency, via Semafor. No accession signed; should have appeared in Brief 004's sweep and did not.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Corrected</span>
+        <div class="chg-body">
+          <b>Haiti election horizon date.</b> Checked the ledger's "Aug 2026" target against current reporting; found the CEP published its actual calendar (13 Dec / 21 Feb 2027) on 27 July, three weeks before this sweep caught it. A standing ledger error across at least Briefs 003–004, not a same-cycle late file — disclosed here rather than silently fixed.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Re-verified</span>
+        <div class="chg-body">
+          <b>Officeholders.</b> DNI (Jay Clayton), Secretary of War (Hegseth), Chairman of the Joint Chiefs (Gen. Dan Caine) and CENTCOM commander (Adm. Brad Cooper) re-checked against this sweep's sources, including ODNI's own 3 August press release confirming Clayton — unchanged since Brief 004.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Sources</div>
+    <h2 class="sec">Documents touched</h2>
+    <div class="srcs">
+      <div class="src"><div class="src-tier">Official</div><div class="src-body"><b>Jay Clayton Sworn In As Director Of National Intelligence</b> — ODNI press release, 3 August 2026, re-checked this sweep.<a href="https://www.odni.gov/14064/pr-12-26/" target="_blank" rel="noopener">odni.gov</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Six killed in Houthi attack on Bab al-Mandeb ship, Yemen's government says</b> — Al Jazeera (AFP/Reuters/AP), 12 August 2026.<a href="https://www.aljazeera.com/news/2026/8/12/six-killed-in-houthi-attack-on-bab-al-mandeb-ship-yemens-government-says" target="_blank" rel="noopener">aljazeera.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Four crew, two rescuers killed in Red Sea attack; U.S. strikes ship in Gulf of Oman</b> — NBC News, 11–12 August 2026.<a href="https://www.nbcnews.com/world/iran/iran-war-yemen-red-sea-ships-attacked-bab-el-mandeb-strait-rcna592068" target="_blank" rel="noopener">nbcnews.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>At least six killed in suspected Houthi attack on Egyptian ship in the Red Sea</b> — France24, 11 August 2026.<a href="https://www.france24.com/en/middle-east/20260811-three-killed-in-suspected-houthi-attack-on-egyptian-ship-in-the-red-sea" target="_blank" rel="noopener">france24.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Houthi attack kills six in Red Sea; Trump slams Iran as hopes for Hormuz Strait deal dim</b> — CNBC, 12 August 2026.<a href="https://www.cnbc.com/2026/08/12/us-iran-war-trump-hormuz-houthi-attack-blockade-.html" target="_blank" rel="noopener">cnbc.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>US military fires on cargo vessel it said sought to break Iran blockade</b> — Al Jazeera, citing CENTCOM statement, 11 August 2026.<a href="https://www.aljazeera.com/news/2026/8/11/us-military-fires-on-cargo-vessel-it-said-sought-to-break-iran-blockade" target="_blank" rel="noopener">aljazeera.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Egypt could be the latest addition to the Mecca defense pact</b> — Semafor, citing Anadolu Agency, 10 August 2026.<a href="https://www.semafor.com/article/08/10/2026/egypt-could-be-the-latest-addition-to-the-mecca-defense-pact" target="_blank" rel="noopener">semafor.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Haiti electoral council schedules long-delayed presidential vote for December</b> — KFGO (Reuters), 27 July 2026.<a href="https://kfgo.com/2026/07/27/haiti-electoral-council-schedules-long-delayed-presidential-vote-for-december/" target="_blank" rel="noopener">kfgo.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Haiti targets late-2026 elections despite gang violence, humanitarian crisis</b> — Caribbean National Weekly, 20 July 2026.<a href="https://www.caribbeannationalweekly.com/posts/haiti-targets-late-2026-elections-despite-gang-violence-humanitarian-crisis" target="_blank" rel="noopener">caribbeannationalweekly.com</a></div></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="end">
+  <div class="wrap">
+    <p class="caveat"><b>Caveats.</b> Independent, AI-assisted compilation of public open sources. Not an official government product. Figures from an active conflict are contested; where a government or belligerent is the source, the claim is attributed rather than adopted. Forward-looking items carry confidence labels. Corrections to prior briefs appear in the verification log, never silently. This brief runs one late-filed item and one standing correction — see above — rather than folding either silently into today's news. Houthi responsibility for the named vessel in the Bab el-Mandeb Strait remains a reporting hedge, not a confirmed finding of this brief.</p>
+  </div>
+</footer>
+
+<script>
+  const THREADS = [
+    {code:"IR", name:"Iran / Hormuz", i:9, dir:"volatile", line:"Route agreed and fighting paused, but Iran's SNSC secretary now says Hormuz \"will not be opened\" until Washington changes behaviour, the US Navy disabled a vessel running the blockade, and Trump is demanding reparations for \"50 years\" of damage.", watch:"Iran–Oman joint statement · Mojtaba Khamenei's assent · US munitions resupply · Sept War Powers clock"},
+    {code:"EN", name:"Energy / Markets", i:8, dir:"volatile", line:"Hormuz transit volume remains at a five-week low and reopening talk has hardened rather than progressed; CENTCOM says it has now disabled 55 commercial vessels and boarded two under the blockade.", watch:"Brent range · Hormuz transit counts · OPEC+ output · War-risk premiums"},
+    {code:"TR", name:"Terrorism", i:8, dir:"escalating", line:"The Bab el-Mandeb toll rose from three to six as Yemen's government said the Houthis hit rescuers in a second strike; the deadliest single incident against shipping since the war began.", watch:"Post-Khamenei Shia retaliation calls · Bamako blockade · ISIS reconstitution in Syria"},
+    {code:"CY", name:"Cyber / Tech", i:7, dir:"escalating", line:"Carried forward. No verified new movement tied to the water-utility campaign this sweep.", watch:"Water-sector spread · CISA guidance · Volt/Salt Typhoon · Quantum milestones"},
+    {code:"CN", name:"China / Taiwan", i:6, dir:"escalating", line:"Carried forward. No new PLA activity or primary-document change located this sweep.", watch:"Yonaguni deployment · Senkaku activity · PRC economic measures on Japan"},
+    {code:"RU", name:"Russia / Ukraine", i:6, dir:"holding", line:"Carried forward. Formal negotiations remain stalled since February; no corroborated movement this sweep.", watch:"Next negotiating round · Territory and security guarantees · Russian sabotage in Europe"},
+    {code:"AL", name:"Alliance architecture", i:5, dir:"escalating", line:"Allies are building obligations to each other rather than only to Washington; Turkey now says the Mecca pact could expand to Egypt and that other states have asked to join.", watch:"Mecca pact implementation or expansion · Hague 5% delivery · Indo-Pacific burden-sharing · Gulf statements on the US security guarantee"},
+    {code:"KP", name:"North Korea", i:5, dir:"holding", line:"Carried forward. Cadence consistent with the prior tactical missile test; no nuclear-test indicators this sweep.", watch:"Nuclear test indicators · ICBM/IRBM cadence · Crypto heist attribution"},
+    {code:"HL", name:"Homeland / Hemisphere", i:4, dir:"easing", line:"The core Homeland numbers remain the best in years; Haiti's long-delayed elections now have a corrected calendar (13 Dec/21 Feb) after this ledger carried a stale August target for three briefs.", watch:"Haiti elections · USMCA review · Cuba/Haiti migration surge risk"},
+    {code:"EU", name:"Europe / NATO", i:4, dir:"holding", line:"Carried forward. No verified movement this sweep.", watch:"Hague 5% delivery · Russian sabotage · European mine-clearance mission"},
+  ];
+  const DIRMETA = {
+    escalating:{c:"var(--esc)", arrow:"▲", label:"Escalating"},
+    holding:{c:"var(--hold)", arrow:"■", label:"Holding"},
+    easing:{c:"var(--ease)", arrow:"▼", label:"Easing"},
+    volatile:{c:"var(--vol)", arrow:"◆", label:"Volatile"},
+  };
+  const board = document.getElementById('board');
+  THREADS.forEach((t, idx) => {
+    const m = DIRMETA[t.dir];
+    const b = document.createElement('button');
+    b.className = 'gauge';
+    b.style.setProperty('--c', m.c);
+    b.setAttribute('aria-pressed', idx === 0 ? 'true' : 'false');
+    b.setAttribute('aria-label', t.name + ', intensity ' + t.i + ' of 10, ' + m.label);
+    b.innerHTML = '<span class="arrow">' + m.arrow + '</span>' +
+      '<span class="track"><span class="fill" data-h="' + (t.i * 10) + '"></span></span>' +
+      '<span class="code">' + t.code + '</span><span class="val">' + t.i + '/10</span>';
+    b.addEventListener('click', () => select(idx));
+    board.appendChild(b);
+  });
+  function select(idx){
+    const t = THREADS[idx], m = DIRMETA[t.dir];
+    document.querySelectorAll('.gauge').forEach((g,i)=>g.setAttribute('aria-pressed', i===idx?'true':'false'));
+    const ro = document.getElementById('readout');
+    ro.style.borderColor = m.c;
+    document.getElementById('r-name').innerHTML = t.name + ' <span class="tag" style="background:' + m.c + '">' + m.label + '</span>';
+    document.getElementById('r-line').textContent = t.line;
+    document.getElementById('r-watch').textContent = 'WATCHING — ' + t.watch;
+  }
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  requestAnimationFrame(()=>{
+    document.querySelectorAll('.fill').forEach((f,i)=>{
+      const h = f.dataset.h + '%';
+      if(reduce){ f.style.transition='none'; f.style.height = h; }
+      else { setTimeout(()=>{ f.style.height = h; }, 90 + i*55); }
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Brief — 11 August 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E8EAE4;
+    --paper-2:#DFE2DA;
+    --paper-3:#D5D9CF;
+    --ink:#14181A;
+    --ink-2:#4C555A;
+    --ink-3:#7C858A;
+    --rule:#C2C6BD;
+    --rule-soft:#D3D7CD;
+    --petrol:#1D3A47;
+    --esc:#9E3226;
+    --hold:#8A6B1F;
+    --ease:#3F6349;
+    --vol:#6B4A7A;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:'Newsreader',Georgia,serif;font-size:17px;line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--petrol);color:var(--paper);}
+  .wrap{max-width:820px;margin:0 auto;padding:0 26px;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  h1,h2,h3,.lbl{font-family:'Archivo',system-ui,sans-serif;margin:0;}
+  a{color:var(--petrol);text-decoration-thickness:1px;text-underline-offset:2px;}
+  a:hover{color:var(--esc);}
+
+  .lbl{
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.17em;
+    text-transform:uppercase;color:var(--ink-3);
+  }
+
+  /* ---- MASTHEAD ---- */
+  header{border-bottom:2px solid var(--ink);padding:26px 0 0;}
+  .mast-top{
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;
+    padding-bottom:12px;border-bottom:1px solid var(--rule);
+  }
+  .mast-top .l{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);}
+  h1.masthead{
+    font-size:clamp(40px,8vw,74px);font-weight:800;letter-spacing:-.025em;line-height:.92;
+    padding:16px 0 6px;text-transform:uppercase;
+  }
+  .mast-sub{
+    display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;
+    padding-bottom:20px;
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);
+  }
+  .archlink{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;}
+
+  /* ---- BOTTOM LINE ---- */
+  .bottomline{padding:38px 0 34px;border-bottom:1px solid var(--rule);}
+  .bottomline p{
+    font-size:clamp(20px,3.1vw,27px);line-height:1.4;font-weight:300;margin:14px 0 0;
+    letter-spacing:-.005em;
+  }
+  .bottomline p strong{font-weight:500;}
+  .bottomline p + p{margin-top:16px;font-size:clamp(17px,2.2vw,19px);color:var(--ink-2);line-height:1.55;}
+
+  /* ---- MOVEMENT BOARD ---- */
+  .board-sec{padding:34px 0 30px;border-bottom:1px solid var(--rule);}
+  .board-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px;}
+  .board-hint{font-family:'Newsreader',serif;font-size:14px;color:var(--ink-3);font-style:italic;}
+  .board{
+    display:grid;grid-template-columns:repeat(10,1fr);gap:7px;margin-top:20px;
+  }
+  .gauge{
+    background:none;border:none;padding:0;cursor:pointer;text-align:center;
+    display:flex;flex-direction:column;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;
+  }
+  .track{
+    width:100%;height:104px;background:var(--paper-3);position:relative;overflow:hidden;
+    border-bottom:2px solid var(--ink);
+  }
+  .fill{
+    position:absolute;left:0;right:0;bottom:0;
+    background:var(--c);
+    transition:height .7s cubic-bezier(.2,.7,.3,1);
+    height:0;
+  }
+  .fill::after{
+    content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--ink);opacity:.55;
+  }
+  .gauge .arrow{font-size:13px;font-weight:700;color:var(--c);line-height:1;}
+  .gauge .code{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--ink);}
+  .gauge .val{font-size:9.5px;color:var(--ink-3);letter-spacing:.04em;}
+  .gauge:hover .track,.gauge:focus-visible .track{outline:2px solid var(--ink);outline-offset:2px;}
+  .gauge[aria-pressed="true"] .track{outline:2px solid var(--ink);outline-offset:2px;}
+
+  .readout{
+    margin-top:18px;border-left:3px solid var(--ink);padding:12px 0 12px 15px;min-height:78px;
+  }
+  .readout .r-name{font-family:'Archivo',sans-serif;font-weight:700;font-size:17px;}
+  .readout .r-name .tag{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:2px 7px;margin-left:9px;color:var(--paper);vertical-align:2px;
+  }
+  .readout .r-line{font-size:16px;color:var(--ink-2);margin-top:5px;}
+  .readout .r-watch{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-3);margin-top:8px;letter-spacing:.03em;}
+
+  @media(max-width:720px){
+    .board{grid-template-columns:repeat(10,minmax(52px,1fr));overflow-x:auto;padding-bottom:8px;}
+    .track{height:88px;}
+  }
+
+  /* ---- ITEMS ---- */
+  .items{padding:36px 0 10px;}
+  .item{padding:26px 0;border-bottom:1px solid var(--rule-soft);}
+  .item:first-of-type{padding-top:14px;}
+  .item-top{display:flex;gap:14px;align-items:baseline;}
+  .item-num{
+    font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--ink-3);
+    flex:none;padding-top:5px;
+  }
+  .item-thread{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:2px 7px;color:var(--paper);
+  }
+  .latefile{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:2px 7px;background:var(--ink);color:var(--paper);margin-left:6px;
+  }
+  h3.item-title{
+    font-size:clamp(22px,3.2vw,29px);font-weight:700;letter-spacing:-.02em;line-height:1.14;margin:7px 0 0;
+  }
+  .item-body{padding-left:0;margin-top:12px;}
+  .item-body p{margin:0 0 13px;font-size:16.5px;}
+  .sowhat{
+    border-left:3px solid var(--petrol);padding:9px 0 9px 14px;margin-top:16px;
+    font-size:16px;color:var(--ink);background:linear-gradient(90deg,rgba(29,58,71,.055),transparent 70%);
+  }
+  .sowhat b{
+    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--petrol);display:block;margin-bottom:3px;
+  }
+  .attrib{font-size:14px;color:var(--ink-3);font-style:italic;margin-top:10px;}
+
+  /* ---- CHANGED / HORIZON ---- */
+  section.block{padding:34px 0;border-top:1px solid var(--rule);}
+  h2.sec{font-size:clamp(20px,2.8vw,26px);font-weight:700;letter-spacing:-.015em;margin-top:6px;text-transform:uppercase;}
+  .sec-note{color:var(--ink-3);font-size:15px;margin-top:6px;font-style:italic;}
+
+  .changed{margin-top:20px;}
+  .chg{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--rule-soft);align-items:flex-start;}
+  .chg:last-child{border-bottom:none;}
+  .chg-kind{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+    padding:3px 8px;border:1px solid var(--ink);flex:none;margin-top:3px;min-width:92px;text-align:center;
+  }
+  .chg-kind.rev{background:var(--ink);color:var(--paper);}
+  .chg-body{font-size:15.5px;}
+  .chg-body b{font-weight:600;}
+  .chg-body .was{color:var(--ink-3);display:block;margin-top:4px;font-size:14.5px;}
+
+  .horizon{margin-top:20px;}
+  .hz{display:grid;grid-template-columns:118px 1fr;gap:14px;padding:11px 0;border-bottom:1px solid var(--rule-soft);}
+  .hz:last-child{border-bottom:none;}
+  .hz-when{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.03em;padding-top:2px;}
+  .hz-item{font-size:15.5px;}
+  .conf{
+    font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+    border:1px solid var(--ink-3);color:var(--ink-3);padding:1px 6px;margin-left:8px;white-space:nowrap;
+  }
+  .hz-note{display:block;color:var(--ink-3);font-size:14px;margin-top:3px;}
+  @media(max-width:600px){
+    .hz{grid-template-columns:1fr;gap:3px;}
+    .chg{flex-direction:column;gap:7px;}
+  }
+
+  /* ---- SOURCES / FOOTER ---- */
+  .srcs{margin-top:18px;}
+  .src{display:grid;grid-template-columns:78px 1fr;gap:14px;padding:10px 0;border-bottom:1px solid var(--rule-soft);align-items:baseline;}
+  .src:last-child{border-bottom:none;}
+  .src-tier{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;}
+  .src-body{font-size:15px;}
+  .src-body a{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;word-break:break-all;margin-top:2px;}
+  @media(max-width:600px){.src{grid-template-columns:1fr;gap:2px;}}
+
+  footer.end{border-top:2px solid var(--ink);padding:22px 0 56px;margin-top:30px;}
+  .caveat{font-size:13.5px;color:var(--ink-3);line-height:1.55;}
+  .caveat b{color:var(--ink-2);}
+
+  @media print{
+    body{background:#fff;font-size:11pt;}
+    .gauge{cursor:default;}
+    .board-hint{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="mast-top">
+      <span class="l">Strategic Threat &amp; Posture</span>
+      <span class="l">Brief No. 004 · Verified</span>
+    </div>
+    <h1 class="masthead">Daily Brief</h1>
+    <div class="mast-sub">
+      <span>Tuesday · 11 August 2026</span>
+      <span>~15 hrs since last brief · 7 primary documents · 10 threads</span>
+    </div>
+    <div class="mast-sub" style="padding-top:0;padding-bottom:16px;">
+      <span class="archlink"><a href="brief-archive.html">↑ Every brief, by date — Brief Archive</a></span>
+      <span class="archlink"><a href="strategic-threat-briefing.html">Strategic Threat &amp; Posture Briefing ↗</a></span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="bottomline">
+    <div class="lbl">The bottom line</div>
+    <p><strong>A suspected Houthi strike killed three crew on a Bab el-Mandeb cargo ship Tuesday — the first shipping deaths since the war began — while Hormuz transit volume separately fell to a five-week low.</strong> Six vessels crossed the strait Sunday and seven Monday, against a pre-war baseline of 130–140 a day, evidence the chokepoint is stressed on volume as well as price even as route talks with Oman continue.</p>
+    <p>A two-day-old gap surfaced in this sweep: Iran replaced its top security-council official with IRGC veteran Mohsen Rezaei, an appointment that should have run in Brief 003 and didn't. It runs here as a late file, dated to when it happened. No thread reversed direction today; Terrorism moves up to 7 on the Bab el-Mandeb strike.</p>
+  </section>
+
+  <section class="board-sec">
+    <div class="board-head">
+      <div>
+        <div class="lbl">Movement board</div>
+        <h2 class="sec" style="font-size:22px;margin-top:4px;">Where the ten threads stand</h2>
+      </div>
+      <div class="board-hint">Bar height is intensity. Color and arrow are direction. Tap a column.</div>
+    </div>
+    <div class="board" id="board"></div>
+    <div class="readout" id="readout" style="border-color:var(--vol)">
+      <div class="r-name" id="r-name">Iran / Hormuz <span class="tag" style="background:var(--vol)">Volatile</span></div>
+      <div class="r-line" id="r-line">Route agreed and fighting paused, but Iran has stacked sanctions relief, war reparations and now a security-council shake-up onto the path to reopening; Hormuz traffic itself is at a five-week low.</div>
+      <div class="r-watch" id="r-watch">WATCHING — Iran–Oman joint statement · Mojtaba Khamenei's assent · US munitions resupply · Sept War Powers clock</div>
+    </div>
+  </section>
+
+  <section class="items">
+    <div class="lbl">Items</div>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">LF1</span>
+        <div>
+          <span class="item-thread" style="background:var(--vol)">Iran / Hormuz</span><span class="latefile">Late file — 9 Aug</span>
+          <h3 class="item-title">Iran names IRGC veteran Mohsen Rezaei as new SNSC secretary</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>Iran's Supreme National Security Council named Mohsen Rezaei, 71, as its new secretary, replacing Mohammad Baqer Zolqadr. Rezaei commanded the IRGC from 1981 to 1997, spent more than two decades as secretary of the Expediency Discernment Council, and is the subject of an Interpol red notice tied to the 1994 AMIA bombing in Buenos Aires. He now also serves as Supreme Leader Khamenei's representative to the body that coordinates Iran's security and foreign policy under President Pezeshkian.</p>
+        <p>This was announced 9 August and prominently reported 10 August — before Brief 003's own cutoff — and was not caught in that sweep. Corroborated across US News, Al-Monitor, Al Jazeera and IranWire; the underlying appointment is an Iranian state announcement, run as attributed-claim rather than verified-primary.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          A harder-line, more publicly outspoken figure now sits atop the body coordinating Iran's security and foreign policy during the Hormuz negotiation — a personnel change inside the same institution setting the preconditions this brief has tracked since Brief 002.
+        </div>
+        <p class="attrib">US News, Al-Monitor, Al Jazeera, IranWire — 9–10 August 2026.</p>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">01</span>
+        <div>
+          <span class="item-thread" style="background:var(--esc)">Terrorism</span>
+          <h3 class="item-title">Suspected Houthi strike kills three crew on a Bab el-Mandeb cargo ship</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>UKMTO confirmed a strike Tuesday on a small cargo vessel transiting the Bab el-Mandeb Strait, saying crewmembers were injured, "some fatally," and that the incident remains under investigation. Multiple outlets — Washington Times, Insurance Journal (citing Lloyd's List Intelligence and LSEG) and CNN's live coverage — reported three dead: two Pakistani nationals and one Indonesian. The vessel is reported, with a "if confirmed" hedge in the sourcing closest to the incident, as the Egyptian-owned cargo ship Tihamah, which had departed Yemeni government-held al-Mokha on 8 August.</p>
+        <p>Houthi responsibility is suspected, not claimed or independently adjudicated at the time of this brief. If the toll and attribution hold, these are the first shipping deaths since the Iran war began 28 February — a threshold the Houthi campaign, including its 20 July blockade declaration against Saudi Arabia, had not crossed until now.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          Both hedges — Houthi attribution and the vessel's identity — are carried here rather than resolved. Even so, a first fatal hit on commercial shipping changes the risk calculus for any operator still transiting the strait. TR moves to 7, still escalating.
+        </div>
+        <p class="attrib">UKMTO statement, via Washington Times and Insurance Journal, 11 August 2026; CNN live coverage, 11 August 2026.</p>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">02</span>
+        <div>
+          <span class="item-thread" style="background:var(--vol)">Energy / Markets</span>
+          <h3 class="item-title">Hormuz shipping traffic falls to a five-week low</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>Kpler data, cited consistently by The Hill, The National and Times of Israel (Reuters), show Strait of Hormuz transits falling from a roughly 10-day average of 11–12 vessels a day to six on Sunday and seven on Monday — a five-week low — as hopes of a near-term US-Iran reopening deal continue to fade. The pre-war baseline was 130–140 ships a day before Iran closed the strait when the war began 28 February.</p>
+        <p>This is a volume-side data point alongside the price-side move (Brent's fourth straight gaining session) logged in Brief 003; both are reported by the same underlying dynamic — a stalled reopening — rather than treated as separate developments.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          Traffic, not just price, now confirms the market read: this is being priced and routed around as a prolonged closure, not a lapse before an imminent deal.
+        </div>
+        <p class="attrib">The Hill, The National, Times of Israel (Reuters) — all citing Kpler, 11 August 2026.</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Changed on the board</div>
+    <h2 class="sec">What this brief altered</h2>
+    <div class="changed">
+      <div class="chg">
+        <span class="chg-kind">Thread moved</span>
+        <div class="chg-body">
+          <b>Terrorism: 6 → 7, still escalating.</b> First reported shipping deaths of the war, on a suspected Houthi strike in the Bab el-Mandeb Strait.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Line updated</span>
+        <div class="chg-body">
+          <b>Iran/Hormuz and Energy/Markets one-liners.</b> Both now carry today's Hormuz volume data (six-to-seven vessels a day, a five-week low) alongside the price-side move logged in Brief 003.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Late file ×1</span>
+        <div class="chg-body">
+          <b>One item predates this brief's cutoff window and was missed in the prior sweep.</b> Iran's SNSC secretary appointment (9 Aug) runs as a late file, dated to when it happened, not to today.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Claim cut</span>
+        <div class="chg-body">
+          <b>Unsubstantiated "new" Salt Typhoon report.</b> Traced back to the standing 2022–2025 campaign and a 5 August House-panel report already stale relative to this window; no verifiable new event found. Cut at the gate, not written as an item.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Horizon</div>
+    <h2 class="sec">What's coming, nearest first</h2>
+    <div class="horizon">
+      <div class="hz"><div class="hz-when">Days</div><div class="hz-item">Iran–Oman joint statement <span class="conf">Contested</span><span class="hz-note">Still not signed. Two explicit preconditions remain attached — sanctions relief and war reparations — beyond the route already agreed. Now negotiated under a new SNSC secretary; Mojtaba Khamenei's assent remains unconfirmed.</span></div></div>
+      <div class="hz"><div class="hz-when">12–28 Aug</div><div class="hz-item">Haiti electoral materials distribution <span class="conf">Scheduled</span><span class="hz-note">The observable test of whether 30 August is real. Not re-verified this sweep.</span></div></div>
+      <div class="hz"><div class="hz-when">30 Aug</div><div class="hz-item">Haiti first-round general election <span class="conf">Contested</span><span class="hz-note">On the CEP calendar; the prime minister has said conditions are not met.</span></div></div>
+      <div class="hz"><div class="hz-when">Sept 2026</div><div class="hz-item">War Powers Act 60-day clock on the Iran campaign <span class="conf">Statutory</span></div></div>
+      <div class="hz"><div class="hz-when">6 Dec</div><div class="hz-item">Haiti second round, coupled with municipal elections <span class="conf">Scheduled</span></div></div>
+      <div class="hz"><div class="hz-when">2026</div><div class="hz-item">USMCA joint review <span class="conf">Scheduled</span></div></div>
+      <div class="hz"><div class="hz-when">2027</div><div class="hz-item">PLA modernization milestone <span class="conf">Superseded</span><span class="hz-note">IC assesses no 2027 invasion planned and no fixed timeline.</span></div></div>
+      <div class="hz"><div class="hz-when">2049</div><div class="hz-item">PRC "national rejuvenation" centenary target <span class="conf">Stated goal</span></div></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Verification log</div>
+    <h2 class="sec">What was checked, and what it changed</h2>
+    <div class="changed">
+      <div class="chg">
+        <span class="chg-kind">Confirmed</span>
+        <div class="chg-body">
+          <b>Bab el-Mandeb strike, three dead.</b> UKMTO's own statement cross-checked against Washington Times, Insurance Journal and CNN. Houthi responsibility and the vessel's identity (Tihamah) both carry a reporting hedge, preserved rather than resolved.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Confirmed</span>
+        <div class="chg-body">
+          <b>Hormuz traffic at a five-week low.</b> The Hill, The National and Times of Israel (Reuters) all cite Kpler; figures (6 Sunday, 7 Monday) consistent across outlets.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Confirmed, late-filed</span>
+        <div class="chg-body">
+          <b>Rezaei's SNSC appointment.</b> Cross-checked US News, Al-Monitor, Al Jazeera and IranWire. Event predates this brief's cutoff and Brief 003's; a genuine sweep gap, disclosed with its true date rather than backdated quietly.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Cut</span>
+        <div class="chg-body">
+          <b>"New" Salt Typhoon breach report.</b> Traced to a single low-reliability aggregator; underlying facts belong to the existing 2022–2025 campaign and a stale 5 August report. No verifiable new event in this window — cut, not written as an item.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Re-verified</span>
+        <div class="chg-body">
+          <b>Officeholders.</b> DNI (Gabbard), Secretary of War (Hegseth), CENTCOM commander (Cooper II) re-checked against this sweep's sources — unchanged since Brief 003.
+          <span class="was">Still open from prior briefs: US naval blockade end-date remains unresolved (no primary CENTCOM statement located); THAAD/Patriot absolute figures remain estimates, not official disclosures.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Sources</div>
+    <h2 class="sec">Documents touched</h2>
+    <div class="srcs">
+      <div class="src"><div class="src-tier">Official</div><div class="src-body"><b>UKMTO statement on Bab el-Mandeb Strait incident</b> — UK Maritime Trade Operations, 11 August 2026, as reported by press below. Still under investigation per UKMTO.</div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Houthis strike cargo ship in Bab el-Mandeb Strait, killing three crewmembers</b> — Washington Times, 11 August 2026.<a href="https://www.washingtontimes.com/news/2026/aug/11/houthis-strike-cargo-ship-bab-el-mandeb-strait-killing-three/" target="_blank" rel="noopener">washingtontimes.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Update: Three killed in attack on ship in Red Sea; container ship hit by missile: sources</b> — Insurance Journal, citing Lloyd's List Intelligence/LSEG, 11 August 2026.<a href="https://www.insurancejournal.com/news/international/2026/08/11/881026.htm" target="_blank" rel="noopener">insurancejournal.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Live updates: Attacks at sea threaten region as hopes fade for Strait of Hormuz deal</b> — CNN, 11 August 2026.<a href="https://www.cnn.com/2026/08/11/world/live-news/iran-war-trump" target="_blank" rel="noopener">cnn.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Shipping traffic in Gulf of Hormuz falls to 6 vessels</b> — The Hill, citing Kpler, 11 August 2026.<a href="https://thehill.com/policy/international/6022634-strait-of-hormuz-conflict-traffic-drops/" target="_blank" rel="noopener">thehill.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Strait of Hormuz traffic drops to seven ships as US-Iran deal hopes fade</b> — The National, citing Kpler, 11 August 2026.<a href="https://www.thenationalnews.com/business/energy/2026/08/11/strait-of-hormuz-traffic-falls-to-seven-vessels-as-us-iran-deal-hopes-fade/" target="_blank" rel="noopener">thenationalnews.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Live blog, 11 August 2026</b> — Times of Israel (Reuters), citing Kpler on Hormuz and Bab el-Mandeb transit counts.<a href="https://www.timesofisrael.com/liveblog-august-11-2026/" target="_blank" rel="noopener">timesofisrael.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Mohsen Rezaei appointed as secretary of Iran's top security body</b> — US News, 10 August 2026.<a href="https://www.usnews.com/news/world/articles/2026-08-10/mohsen-rezaei-appointed-as-secretary-of-irans-top-security-body" target="_blank" rel="noopener">usnews.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>How significant is Mohsen Rezaei's appointment as Iran's security chief?</b> — Al Jazeera, 10 August 2026.<a href="https://www.aljazeera.com/news/2026/8/10/who-is-mohsen-rezaei-and-how-significant-is-his-appointment" target="_blank" rel="noopener">aljazeera.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Mohsen Rezaei appointed as secretary of Iran's top security body</b> — Al-Monitor, 10 August 2026.<a href="https://www.al-monitor.com/originals/2026/08/mohsen-rezaei-appointed-secretary-irans-top-security-body" target="_blank" rel="noopener">al-monitor.com</a></div></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="end">
+  <div class="wrap">
+    <p class="caveat"><b>Caveats.</b> Independent, AI-assisted compilation of public open sources. Not an official government product. Figures from an active conflict are contested; where a government or belligerent is the source, the claim is attributed rather than adopted. Forward-looking items carry confidence labels. Corrections to prior briefs appear in the verification log, never silently. This brief runs one late-filed item — see above — rather than silently backdating it into today's news. Houthi attribution and the identity of the vessel struck in the Bab el-Mandeb Strait are both reporting hedges, not confirmed findings of this brief.</p>
+  </div>
+</footer>
+
+<script>
+  const THREADS = [
+    {code:"IR", name:"Iran / Hormuz", i:9, dir:"volatile", line:"Route agreed and fighting paused, but Iran has stacked sanctions relief, war reparations and now a security-council shake-up onto the path to reopening; Hormuz traffic itself is at a five-week low.", watch:"Iran–Oman joint statement · Mojtaba Khamenei's assent · US munitions resupply · Sept War Powers clock"},
+    {code:"EN", name:"Energy / Markets", i:8, dir:"volatile", line:"Hormuz transit volume, not just price, is now signaling stress — six to seven vessels a day versus a pre-war 130–140, a five-week low.", watch:"Brent range · Hormuz transit counts · OPEC+ output · War-risk premiums"},
+    {code:"CY", name:"Cyber / Tech", i:7, dir:"escalating", line:"Carried forward. No verified new movement tied to the water-utility campaign this sweep; a candidate 'new' Salt Typhoon report failed the verification gate.", watch:"Water-sector spread · CISA guidance · Volt/Salt Typhoon · Quantum milestones"},
+    {code:"TR", name:"Terrorism", i:7, dir:"escalating", line:"First shipping deaths of the war (Bab el-Mandeb, suspected Houthi) land on top of the deadliest 24 hours yet on Yemen's own coast.", watch:"Houthi strikes on Yemen/Saudi/shipping · Sahel advances · ISIS reconstitution in Syria"},
+    {code:"CN", name:"China / Taiwan", i:6, dir:"escalating", line:"Carried forward. Routine PLA sortie activity around Taiwan this sweep; no primary document or threshold change located.", watch:"Yonaguni deployment · Senkaku activity · PRC economic measures on Japan"},
+    {code:"RU", name:"Russia / Ukraine", i:6, dir:"holding", line:"Carried forward. Unverified reporting of a possible near-term negotiating round; not corroborated to the standard this brief requires.", watch:"Next negotiating round · Territory and security guarantees · Russian sabotage in Europe"},
+    {code:"AL", name:"Alliance architecture", i:5, dir:"escalating", line:"Carried forward. No verified movement on Mecca-pact implementation or Indo-Pacific burden-sharing this sweep.", watch:"Mecca pact implementation · Hague 5% delivery · Indo-Pacific burden-sharing · Gulf statements on the US security guarantee"},
+    {code:"KP", name:"North Korea", i:5, dir:"holding", line:"Carried forward. Cadence consistent with the prior tactical missile test; no new indicators this sweep.", watch:"Nuclear test indicators · ICBM/IRBM cadence · Crypto heist attribution"},
+    {code:"HL", name:"Homeland / Hemisphere", i:4, dir:"easing", line:"Carried forward. Haiti's 30 August election remains contested by its own prime minister; not re-verified this sweep.", watch:"Haiti materials distribution 12–28 Aug · USMCA review · Caribbean migration"},
+    {code:"EU", name:"Europe / NATO", i:4, dir:"holding", line:"Carried forward. No verified movement this sweep.", watch:"Hague 5% delivery · Russian sabotage · European mine-clearance mission"},
+  ];
+  const DIRMETA = {
+    escalating:{c:"var(--esc)", arrow:"▲", label:"Escalating"},
+    holding:{c:"var(--hold)", arrow:"■", label:"Holding"},
+    easing:{c:"var(--ease)", arrow:"▼", label:"Easing"},
+    volatile:{c:"var(--vol)", arrow:"◆", label:"Volatile"},
+  };
+  const board = document.getElementById('board');
+  THREADS.forEach((t, idx) => {
+    const m = DIRMETA[t.dir];
+    const b = document.createElement('button');
+    b.className = 'gauge';
+    b.style.setProperty('--c', m.c);
+    b.setAttribute('aria-pressed', idx === 0 ? 'true' : 'false');
+    b.setAttribute('aria-label', t.name + ', intensity ' + t.i + ' of 10, ' + m.label);
+    b.innerHTML = '<span class="arrow">' + m.arrow + '</span>' +
+      '<span class="track"><span class="fill" data-h="' + (t.i * 10) + '"></span></span>' +
+      '<span class="code">' + t.code + '</span><span class="val">' + t.i + '/10</span>';
+    b.addEventListener('click', () => select(idx));
+    board.appendChild(b);
+  });
+  function select(idx){
+    const t = THREADS[idx], m = DIRMETA[t.dir];
+    document.querySelectorAll('.gauge').forEach((g,i)=>g.setAttribute('aria-pressed', i===idx?'true':'false'));
+    const ro = document.getElementById('readout');
+    ro.style.borderColor = m.c;
+    document.getElementById('r-name').innerHTML = t.name + ' <span class="tag" style="background:' + m.c + '">' + m.label + '</span>';
+    document.getElementById('r-line').textContent = t.line;
+    document.getElementById('r-watch').textContent = 'WATCHING — ' + t.watch;
+  }
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  requestAnimationFrame(()=>{
+    document.querySelectorAll('.fill').forEach((f,i)=>{
+      const h = f.dataset.h + '%';
+      if(reduce){ f.style.transition='none'; f.style.height = h; }
+      else { setTimeout(()=>{ f.style.height = h; }, 90 + i*55); }
+    });
+  });
+</script>
+</body>
+</html>

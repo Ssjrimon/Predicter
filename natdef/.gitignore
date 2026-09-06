@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.DS_Store
+
+# The generated pages and the console are committed on purpose: they are the product, and
+# committing them is what lets `natdef check` prove the repository is internally consistent
+# at any commit. Nothing here is ignored on the grounds of being generated.

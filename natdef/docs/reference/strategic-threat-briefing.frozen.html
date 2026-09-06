@@ -1,0 +1,1994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strategic Threat &amp; Posture Briefing — Compiled from ODNI / NDS / NSS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0D11;
+    --panel:#12181F;
+    --panel-2:#1A222B;
+    --hair:#28323D;
+    --hair-soft:#1D262F;
+    --text:#E8EDF2;
+    --text-dim:#93A2AF;
+    --text-faint:#5B6874;
+    --gold:#C6A15B;
+    --gold-dim:#8A7548;
+    --red:#B5473B;
+    --russia:#A15A3E;
+    --iran:#8C3E4D;
+    --nkorea:#705082;
+    --blue:#4C7C97;
+    --teal:#5FA0A6;
+    --green:#74936B;
+    --purple:#8574A0;
+    --coop:#C08A46;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Spectral',Georgia,serif;
+    font-size:16px;
+    line-height:1.6;
+  }
+  ::selection{background:var(--gold-dim);color:#0A0D11;}
+  h1,h2,h3,h4{
+    font-family:'Big Shoulders Display',sans-serif;
+    font-weight:700;
+    letter-spacing:.01em;
+    text-transform:uppercase;
+    margin:0;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:var(--gold);}
+  a:hover{color:#dfc084;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+
+  /* ===== TOPBAR ===== */
+  .topbar{
+    position:sticky;top:0;z-index:40;background:rgba(10,13,17,.88);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--hair);padding:13px 0;
+  }
+  .topbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;}
+  .topbar .wordmark{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);}
+  .topbar nav{display:flex;gap:22px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;}
+  .topbar nav a{color:var(--text-dim);border-bottom:1px solid transparent;padding-bottom:2px;transition:color .15s,border-color .15s;}
+  .topbar nav a:hover{color:var(--gold);border-color:var(--gold-dim);}
+  .topbar nav a.here{color:var(--gold);}
+
+  /* ===== MASTHEAD ===== */
+  header.masthead{
+    border-bottom:1px solid var(--hair);
+    background:
+      repeating-linear-gradient(0deg, rgba(198,161,91,0.025) 0px, rgba(198,161,91,0.025) 1px, transparent 1px, transparent 34px),
+      repeating-linear-gradient(90deg, rgba(198,161,91,0.025) 0px, rgba(198,161,91,0.025) 1px, transparent 1px, transparent 34px),
+      linear-gradient(180deg,#0D1116 0%,#0A0D11 100%);
+    padding:22px 0 26px;
+  }
+  .eyebrow-row{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;
+    color:var(--gold);text-transform:uppercase;margin-bottom:18px;
+    border-bottom:1px solid var(--hair-soft);padding-bottom:10px;
+  }
+  .eyebrow-row span.dim{color:var(--text-faint);}
+  h1.title{
+    font-size:clamp(34px,5.4vw,64px);
+    line-height:0.98;
+    color:#F4EFE4;
+    max-width:920px;
+  }
+  h1.title .accent{color:var(--gold);}
+  .subtitle{
+    margin-top:14px;max-width:760px;color:var(--text-dim);font-size:16.5px;font-family:'Spectral',serif;font-style:italic;
+  }
+  .byline{
+    margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--text-faint);
+    display:flex;gap:22px;flex-wrap:wrap;text-transform:uppercase;letter-spacing:.06em;
+  }
+  .byline b{color:var(--text-dim);font-weight:500;}
+
+  /* ===== STAT STRIP ===== */
+  .statstrip{
+    display:grid;grid-template-columns:repeat(5,1fr);
+    border-bottom:1px solid var(--hair);
+  }
+  .statcell{
+    padding:20px 18px;border-left:1px solid var(--hair-soft);transition:background .2s;
+  }
+  .statcell:hover{background:rgba(198,161,91,.035);}
+  .statcell:first-child{border-left:none;}
+  .statnum{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:600;color:var(--gold);transition:color .2s;}
+  .statcell:hover .statnum{color:#dfc084;}
+  .statlabel{font-size:12px;color:var(--text-dim);margin-top:4px;line-height:1.35;font-family:'Spectral',serif;}
+  @media(max-width:900px){
+    .statstrip{grid-template-columns:repeat(2,1fr);}
+    .statcell:nth-child(3){border-left:none;}
+  }
+
+  section{padding:56px 0;border-bottom:1px solid var(--hair);}
+  section:last-of-type{border-bottom:none;}
+  .sec-head{margin-bottom:8px;}
+  .sec-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;}
+  .sec-title{font-size:clamp(24px,3.4vw,36px);margin-top:6px;color:#F4EFE4;}
+  .sec-desc{color:var(--text-dim);max-width:680px;margin-top:10px;font-size:15px;}
+
+  /* ===== MAP ===== */
+  .maplegend{display:flex;flex-wrap:wrap;gap:16px;margin:20px 0 22px;font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--text-dim);}
+  .maplegend .lg{display:flex;align-items:center;gap:6px;}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none;}
+  .dot.home{background:var(--gold);}
+  .dot.adversary{background:var(--red);}
+  .dot.ally{background:var(--blue);}
+  .dot.hemisphere{background:var(--gold-dim);}
+  .dot.contested{background:var(--green);}
+  .dot.terror{background:var(--purple);}
+  .lineswatch{width:22px;height:0;border-top:2px dashed var(--coop);display:inline-block;}
+  .lineswatch.solid{border-top:2px solid var(--blue);border-style:solid;}
+
+  .mapbox{
+    position:relative;width:100%;
+    aspect-ratio:1000/460;
+    background:
+      radial-gradient(ellipse at 15% 30%, rgba(198,161,91,0.05), transparent 55%),
+      radial-gradient(ellipse at 80% 45%, rgba(181,71,59,0.06), transparent 55%),
+      #0C1015;
+    border:1px solid var(--hair);
+    overflow:hidden;
+  }
+  .mapbox::before{
+    content:"";position:absolute;inset:0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(147,162,175,0.06) 0, rgba(147,162,175,0.06) 1px, transparent 1px, transparent 46px),
+      repeating-linear-gradient(90deg, rgba(147,162,175,0.06) 0, rgba(147,162,175,0.06) 1px, transparent 1px, transparent 46px);
+    pointer-events:none;
+  }
+  .sweep{
+    position:absolute;inset:-30%;
+    background:conic-gradient(from 0deg, transparent 0deg, rgba(198,161,91,0.10) 14deg, transparent 40deg);
+    animation:sweep 9s linear infinite;
+    pointer-events:none;
+    mix-blend-mode:screen;
+  }
+  @media (prefers-reduced-motion:reduce){ .sweep{animation:none;display:none;} }
+  @keyframes sweep{ to{ transform:rotate(360deg); } }
+
+  svg.linesvg{position:absolute;inset:0;width:100%;height:100%;}
+  .axisline{stroke:var(--coop);stroke-width:1.4;fill:none;stroke-dasharray:5 5;opacity:.75;animation:dash 2.6s linear infinite;}
+  .allyline{stroke:var(--blue);stroke-width:1.1;fill:none;opacity:.55;}
+  @keyframes dash{ to{ stroke-dashoffset:-20; } }
+
+  .node{
+    position:absolute;transform:translate(-50%,-50%);
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+    cursor:pointer;background:none;border:none;padding:6px;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .node .ring{
+    width:11px;height:11px;border-radius:50%;position:relative;
+  }
+  .node .ring::after{
+    content:"";position:absolute;inset:-6px;border-radius:50%;border:1px solid currentColor;opacity:.35;
+    animation:pulse 2.4s ease-out infinite;
+  }
+  @media (prefers-reduced-motion:reduce){ .node .ring::after{animation:none;} }
+  @keyframes pulse{ 0%{transform:scale(.5);opacity:.6;} 100%{transform:scale(1.9);opacity:0;} }
+  .node[data-cat="adversary"] .ring{background:var(--red);color:var(--red);}
+  .node[data-cat="home"] .ring{background:var(--gold);color:var(--gold);width:14px;height:14px;}
+  .node[data-cat="ally"] .ring{background:var(--blue);color:var(--blue);}
+  .node[data-cat="hemisphere"] .ring{background:var(--gold-dim);color:var(--gold-dim);}
+  .node[data-cat="contested"] .ring{background:var(--green);color:var(--green);}
+  .node[data-cat="terror"] .ring{background:var(--purple);color:var(--purple);}
+  .node .lbl{
+    font-size:9.5px;letter-spacing:.05em;color:var(--text-dim);white-space:nowrap;
+    background:rgba(10,13,17,.78);padding:1px 5px;border-radius:2px;
+  }
+  .node:hover .lbl, .node:focus-visible .lbl{color:#F4EFE4;}
+  .node:hover .ring, .node:focus-visible .ring{outline:2px solid #F4EFE4;outline-offset:2px;}
+
+  .mappanel{
+    margin-top:16px;background:var(--panel);border:1px solid var(--hair);padding:18px 20px;
+    display:none;
+  }
+  .mappanel.show{display:block;}
+  .mappanel .mp-label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;}
+  .mappanel h4{font-size:19px;margin-top:6px;color:#F4EFE4;}
+  .mappanel p{color:var(--text-dim);margin:8px 0 4px;font-size:14.5px;}
+  .mappanel a.jump{font-family:'IBM Plex Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.06em;}
+
+  /* ===== TIMELINE ===== */
+  .filterbar{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 30px;}
+  .chip{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.06em;
+    padding:6px 12px;border:1px solid var(--hair);background:var(--panel);color:var(--text-dim);
+    cursor:pointer;border-radius:20px;transition:all .15s ease;user-select:none;
+  }
+  .chip .sw{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;}
+  .chip[aria-pressed="true"]{color:#0A0D11;background:var(--gold);border-color:var(--gold);}
+  .chip:hover{border-color:var(--gold-dim);}
+  .yearbar{display:flex;flex-wrap:nowrap;gap:6px;margin:0 0 18px;overflow-x:auto;padding-bottom:4px;}
+  .ychip{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.04em;
+    padding:5px 10px;border:1px solid var(--hair);background:var(--panel);color:var(--text-faint);
+    cursor:pointer;transition:all .15s ease;user-select:none;flex:none;
+  }
+  .ychip[aria-pressed="true"]{color:#0A0D11;background:var(--gold);border-color:var(--gold);}
+  .ychip:hover{border-color:var(--gold-dim);color:var(--text-dim);}
+  .togglewrap{display:flex;align-items:center;gap:10px;margin-bottom:26px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em;}
+  .switch{position:relative;width:38px;height:20px;background:var(--panel-2);border:1px solid var(--hair);border-radius:20px;cursor:pointer;flex:none;}
+  .switch .knob{position:absolute;top:1px;left:1px;width:16px;height:16px;border-radius:50%;background:var(--text-faint);transition:all .15s ease;}
+  .switch[aria-pressed="true"]{background:rgba(198,161,91,.25);border-color:var(--gold-dim);}
+  .switch[aria-pressed="true"] .knob{left:19px;background:var(--gold);}
+
+  .rail{position:relative;padding-left:26px;}
+  .rail::before{content:"";position:absolute;left:5px;top:4px;bottom:4px;width:1px;background:linear-gradient(var(--hair),var(--hair) 90%, transparent);}
+  .era{margin:34px 0 14px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;position:relative;}
+  .era::before{content:"";position:absolute;left:-26px;top:5px;width:11px;height:11px;background:var(--bg);border:2px solid var(--gold);border-radius:50%;}
+  .event{
+    position:relative;padding:2px 0 22px 0;opacity:0;transform:translateY(10px);transition:opacity .5s ease, transform .5s ease;
+  }
+  .event.visible{opacity:1;transform:none;}
+  .event::before{content:"";position:absolute;left:-26px;top:6px;width:9px;height:9px;border-radius:50%;background:var(--dot,var(--text-faint));}
+  .event.future{opacity:.55;}
+  .event.future.visible{opacity:.82;}
+  .event.future .card{border-style:dashed;}
+  .card{background:var(--panel);border:1px solid var(--hair);padding:14px 16px;}
+  .ev-date{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-faint);letter-spacing:.06em;text-transform:uppercase;}
+  .ev-future-tag{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--gold-dim);border:1px solid var(--gold-dim);border-radius:20px;padding:1px 8px;margin-left:8px;letter-spacing:.08em;}
+  .ev-title{font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:19px;margin-top:5px;color:#F0EAE0;text-transform:none;letter-spacing:0;}
+  .ev-text{color:var(--text-dim);font-size:14.5px;margin-top:6px;}
+  .ev-src{margin-top:9px;display:flex;gap:6px;flex-wrap:wrap;}
+  .srctag{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 7px;border:1px solid var(--hair);color:var(--text-faint);border-radius:20px;text-decoration:none;letter-spacing:.04em;}
+  .srctag:hover{color:var(--gold);border-color:var(--gold-dim);}
+
+  /* ===== BRIEFINGS ===== */
+  details.briefing{
+    border:1px solid var(--hair);background:var(--panel);margin-bottom:10px;scroll-margin-top:70px;
+    transition:border-color .2s,box-shadow .2s;
+  }
+  details.briefing:hover{border-color:var(--hair-soft);}
+  details.briefing[open]{border-color:var(--gold-dim);box-shadow:0 12px 34px -18px rgba(0,0,0,.55);}
+  details.briefing summary{
+    list-style:none;cursor:pointer;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:16px;
+  }
+  details.briefing summary::-webkit-details-marker{display:none;}
+  .b-title{font-size:20px;color:#F4EFE4;display:flex;align-items:center;gap:12px;}
+  .b-index{font-family:'IBM Plex Mono',monospace;color:var(--gold);font-size:13px;}
+  .b-chevron{font-family:'IBM Plex Mono',monospace;color:var(--text-faint);transition:transform .2s ease;flex:none;}
+  details.briefing[open] .b-chevron{transform:rotate(45deg);color:var(--gold);}
+  .b-body{padding:0 20px 24px;color:var(--text-dim);}
+  .b-body p{margin:0 0 14px;font-size:15.5px;}
+  .b-body strong{color:var(--text);font-weight:600;}
+  .outlook{
+    background:var(--panel-2);border-left:2px solid var(--gold);padding:14px 16px;margin-top:14px;
+  }
+  .outlook .ol-label{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;}
+  .outlook ul{margin:8px 0 0;padding-left:18px;}
+  .outlook li{font-size:14px;margin-bottom:6px;}
+  .b-sources{margin-top:14px;display:flex;gap:6px;}
+
+  /* ===== FOOTER ===== */
+  footer{padding:44px 0 60px;}
+  .srcgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:22px 0 34px;}
+  @media(max-width:800px){.srcgrid{grid-template-columns:1fr;}}
+  .srccard{border:1px solid var(--hair);background:var(--panel);padding:16px 18px;transition:border-color .2s,transform .2s;}
+  .srccard:hover{border-color:var(--gold-dim);transform:translateY(-2px);}
+  .srccard .stag{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--gold);letter-spacing:.1em;}
+  .srccard h5{font-family:'Big Shoulders Display',sans-serif;font-size:17px;text-transform:none;letter-spacing:0;color:#F4EFE4;margin-top:6px;}
+  .srccard p{color:var(--text-faint);font-size:12.5px;margin:6px 0 10px;}
+  .srccard a{font-family:'IBM Plex Mono',monospace;font-size:11.5px;word-break:break-all;}
+  .disclaimer{color:var(--text-faint);font-size:13px;max-width:820px;border-top:1px solid var(--hair-soft);padding-top:20px;}
+  .disclaimer p{margin:0 0 10px;}
+
+  @media(max-width:640px){
+    .wrap{padding:0 16px;}
+    section{padding:40px 0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <span class="wordmark">Strategic Threat &amp; Posture</span>
+    <nav>
+      <a href="index.html">Command Center</a>
+      <a href="strategic-threat-briefing.html" class="here">Dashboard</a>
+      <a href="node-map.html">Node Map</a>
+      <a href="brief-archive.html">Archive</a>
+    </nav>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="eyebrow-row">
+      <span>Unclassified — Open-Source Compilation</span>
+      <span class="dim">Not an official U.S. Government product</span>
+    </div>
+    <h1 class="title">Strategic Threat<br><span class="accent">&amp; Posture Briefing</span></h1>
+    <p class="subtitle">A compiled global map, chronological timeline, and set of detailed briefings synthesized from three current U.S. government strategy and intelligence documents — built for one continuous read of where things stand and where they're heading.</p>
+    <div class="byline">
+      <span><b>Compiled</b> 2026-08-16 · Brief 7</span>
+      <span><b>Information cutoff</b> 2026-08-16T19:30Z</span>
+      <span><b>Sources</b> 10 current primary documents</span>
+      <span><b>Threads</b> 10 tracked daily</span>
+      <span><b>Latest source</b> Security Council 10208th Meeting (SC/16431) — Yemen at Risk of Entering Wider Middle East Conflict, 2026-08-13</span>
+      <span><b>Generated</b> 16 Aug 2026 19:47Z by render.py from intel-ledger.json</span>
+    </div>
+  </div>
+</header>
+
+<div class="statstrip wrap-outer">
+  <div class="wrap" style="display:contents;">
+        <div class="statcell"><div class="statnum">10</div><div class="statlabel">Current primary documents in the ledger</div></div>
+    <div class="statcell"><div class="statnum">10</div><div class="statlabel">Threads tracked daily</div></div>
+    <div class="statcell"><div class="statnum">93</div><div class="statlabel">Events on the timeline</div></div>
+    <div class="statcell"><div class="statnum">61</div><div class="statlabel">Verification checks logged</div></div>
+    <div class="statcell"><div class="statnum">2049</div><div class="statlabel">PRC centenary — &#x27;national rejuvenation&#x27; target</div></div>
+    <div class="statcell"><div class="statnum">16K</div><div class="statlabel">Missiles projected able to threaten the Homeland by 2035, from 3,000+ today</div></div>
+    <div class="statcell"><div class="statnum">5%</div><div class="statlabel">NATO GDP defense-spending standard set at the June 2025 Hague Summit</div></div>
+    <div class="statcell"><div class="statnum">38K</div><div class="statlabel">U.S. synthetic-opioid deaths, 12 mo. to Sept 2025 (−30% YoY, from 52K)</div></div>
+    <div class="statcell"><div class="statnum">2049</div><div class="statlabel">Beijing's "national rejuvenation" target — no fixed Taiwan timeline assessed</div></div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- ============ MAP ============ -->
+  <section id="map">
+    <div class="sec-head">
+      <div class="sec-eyebrow">01 — Global Posture</div>
+      <h2 class="sec-title">The Strategic Map</h2>
+      <p class="sec-desc">A schematic — not geographic — layout of the regions and actors covered across all three documents. Dashed amber lines trace the deepening <strong style="color:var(--text)">China–Russia–Iran–North Korea cooperation axis</strong>; solid blue lines trace the <strong style="color:var(--text)">U.S. alliance and burden-sharing network</strong>. Click any node for a summary and a jump to its full briefing.</p>
+    </div>
+
+    <div class="maplegend">
+      <span class="lg"><span class="dot home"></span>Homeland</span>
+      <span class="lg"><span class="dot hemisphere"></span>Hemisphere / key terrain</span>
+      <span class="lg"><span class="dot adversary"></span>State adversary</span>
+      <span class="lg"><span class="dot ally"></span>Ally / partner</span>
+      <span class="lg"><span class="dot contested"></span>Contested space</span>
+      <span class="lg"><span class="dot terror"></span>Terrorism front</span>
+      <span class="lg"><span class="lineswatch"></span>Adversarial cooperation</span>
+      <span class="lg"><span class="lineswatch solid"></span>U.S. alliance network</span>
+    </div>
+
+    <div class="mapbox" id="mapbox">
+      <div class="sweep"></div>
+      <svg class="linesvg" viewBox="0 0 1000 460" preserveAspectRatio="none" id="linesvg"></svg>
+      <!-- nodes injected by JS -->
+    </div>
+
+    <div class="mappanel" id="mappanel">
+      <div class="mp-label" id="mp-cat">—</div>
+      <h4 id="mp-title">—</h4>
+      <p id="mp-brief">—</p>
+      <a class="jump" href="#" id="mp-jump">Read full briefing ↓</a>
+    </div>
+  </section>
+
+  <!-- ============ TIMELINE ============ -->
+  <section id="timeline">
+    <div class="sec-head">
+      <div class="sec-eyebrow">02 — Chronology</div>
+      <h2 class="sec-title">What's Happened, What's Next</h2>
+      <p class="sec-desc">Confirmed events run 2016 through the NDS's January 2026 publication. Dashed cards past that point are the documents' own stated goals, milestones and forecasts — not certainties. Filter by thread, or toggle projected items off to see only what has already occurred.</p>
+    </div>
+
+    <div class="filterbar" id="filterbar"></div>
+    <div class="yearbar" id="yearbar"></div>
+    <div class="togglewrap">
+      <div class="switch" id="futureToggle" role="switch" aria-pressed="true" tabindex="0"><div class="knob"></div></div>
+      <span>Show projected / forecast items</span>
+    </div>
+
+    <div class="rail" id="rail"></div>
+  </section>
+
+  <!-- ============ BRIEFINGS ============ -->
+  <section id="briefings">
+    <div class="sec-head">
+      <div class="sec-eyebrow">03 — Detailed Briefings</div>
+      <h2 class="sec-title">Actor &amp; Theater Briefings</h2>
+      <p class="sec-desc">Thirteen briefings, synthesized and paraphrased from the source documents, each closing with a forward-looking assessment of likely near-term trajectory.</p>
+    </div>
+
+    <details class="briefing" id="b-homeland">
+      <summary><span class="b-title"><span class="b-index">01</span> Homeland &amp;amp; Western Hemisphere</span><span class="b-chevron">＋</span></summary>
+      <div class="b-body"><p>The Homeland picture is dominated by narco-terrorism and border security. Mexico-based cartels — principally the <strong>Sinaloa Cartel</strong> and the <strong>New Generation Jalisco Cartel</strong> — remain the dominant suppliers of fentanyl, heroin, methamphetamine and South American cocaine to the U.S. market, while a wave of <strong>independent, semi-autonomous fentanyl producers</strong> has fragmented cartel control since 2020. Synthetic opioids killed more than <strong>52,000 Americans</strong> in the 12 months to October 2024 — a 33% year-over-year drop that the ATA credits partly to wider naloxone access. China remains the top source of fentanyl precursor chemicals, with India second.</p>
+        <p>Enforcement has intensified sharply: Southwest border law-enforcement encounters fell 14% in 2024, and Border Patrol apprehensions dropped 85% year-over-year by January 2025. At the same time, cartel violence has escalated in Mexico itself — IED attacks on Mexican security forces surged from just 3 in 2020–2021 to nearly 1,600 in 2024, using landmines, mortars and grenades.</p>
+        <p>Policy has shifted decisively under the "<strong>Trump Corollary to the Monroe Doctrine</strong>": treating cartels as designated foreign terrorist organizations, running <strong>Operation SOUTHERN SPEAR</strong> against narco-terrorists across the hemisphere, and executing <strong>Operation ABSOLUTE RESOLVE</strong> against Nicolás Maduro's network in Venezuela. The NDS commits to guaranteeing U.S. military and commercial access to the Panama Canal, the Gulf of America, and Greenland, backed by a reshuffled Coast Guard/Navy posture and, where necessary, unilateral lethal action against cartels.</p>
+        <p>Homeland defense also spans Golden Dome missile and drone defense, nuclear-force modernization, cyber-defense build-out, and a "resource-sustainable" counterterrorism posture aimed only at Islamic terrorist actors with the intent and capability to strike the U.S. directly.</p>
+        <div class="outlook">
+          <div class="ol-label">Forward outlook</div>
+          <ul>
+            <li>Continued high-enforcement border posture and further cartel-fragmentation violence in Mexico.</li>
+            <li>Additional hemispheric access-assurance actions likely around Greenland, Panama and Venezuela.</li>
+            <li>Golden Dome and counter-UAS development continuing as flagship Homeland-defense programs through the rest of the decade.</li>
+          </ul>
+        </div>
+        <div class="b-sources"><a class="srctag" href="https://archive.dni.gov/files/ODNI/documents/assessments/ATA-2025-Unclassified-Report.pdf" target="_blank" rel="noopener">ATA 2025</a><a class="srctag" href="https://media.defense.gov/2026/Jan/23/2003864773/-1/-1/0/2026-NATIONAL-DEFENSE-STRATEGY.PDF" target="_blank" rel="noopener">NDS 2026</a><a class="srctag" href="https://www.whitehouse.gov/wp-content/uploads/2025/12/2025-National-Security-Strategy.pdf" target="_blank" rel="noopener">NSS 2025</a></div></div>
+    </details>
+
+    <details class="briefing" id="b-china">
+      <summary><span class="b-title"><span class="b-index">02</span> China (People&#x27;s Republic of China)</span><span class="b-chevron">＋</span></summary>
+      <div class="b-body"><p>China is described across all three documents as the most comprehensive threat the U.S. faces — "the second most powerful country in the world" and, per the NDS, "the most powerful state relative to us since the 19th century." Xi Jinping's overarching goal is the "great rejuvenation of the Chinese nation" by <strong>2049</strong>, with PLA modernization benchmarks set for <strong>2027</strong> and <strong>2035</strong> en route to a "world-class military."</p>
+        <p>Militarily, the PLA fields the DF-27 hypersonic-capable ballistic missile and the PCH191 long-range rocket launcher, and its third carrier, the <strong>Fujian</strong>, began sea trials in 2024 and is expected to reach full service around 2025–26. In cyberspace, the <strong>Volt Typhoon</strong> campaign has prepositioned access on U.S. critical infrastructure for use during a future crisis, while <strong>Salt Typhoon</strong> compromised U.S. telecommunications networks — together, the ATA calls this "the most active and persistent cyber threat" the U.S. faces.</p>
+        <p>Around Taiwan, Beijing has cut the island's formal diplomatic partners from 22 to 12 since 2016 and continues both economic coercion and military pressure, while confrontations with the Philippines in the South China Sea (2024) and with Japan near the Senkakus keep tensions elevated. China also weaponizes its dominance of critical minerals — banning gallium, germanium and antimony exports to the U.S. in December 2024 in retaliation for chip-export controls — and is racing toward AI leadership (a stated goal of displacing the U.S. as the top AI power by 2030), a $3.3 trillion bioeconomy, and lunar milestones (a 2024 sample-return mission, a crewed landing targeted for 2030, a lunar base targeted for 2035).</p>
+        <p>The NDS response is deliberately non-confrontational: "deter China in the Indo-Pacific through strength, not confrontation," expanding military-to-military communication with the PLA for stability and de-escalation while building a denial defense along the <strong>First Island Chain</strong>. The stated goal is not regime change or containment but a sustainable balance of power. The NSS frames this as economically existential too — the Indo-Pacific already generates roughly half of global GDP by purchasing-power parity, and Washington's ambition is to grow the U.S. economy from $30 trillion (2025) to $40 trillion in the 2030s alongside a rebalanced trade relationship with Beijing.</p>
+        <div class="outlook">
+          <div class="ol-label">Forward outlook</div>
+          <ul>
+            <li>Continued Taiwan pressure and diplomatic-isolation campaign through 2026.</li>
+            <li>Fujian reaching full operational service; PLA's 2027 modernization milestone as a key benchmark to watch.</li>
+            <li>Critical-minerals export restrictions likely to be reused as economic leverage in future frictions.</li>
+            <li>China projected to add more legacy-chip (28nm+) capacity than the rest of the world combined through 2028.</li>
+          </ul>
+        </div>
+        <div class="b-sources"><a class="srctag" href="https://archive.dni.gov/files/ODNI/documents/assessments/ATA-2025-Unclassified-Report.pdf" target="_blank" rel="noopener">ATA 2025</a><a class="srctag" href="https://media.defense.gov/2026/Jan/23/2003864773/-1/-1/0/2026-NATIONAL-DEFENSE-STRATEGY.PDF" target="_blank" rel="noopener">NDS 2026</a><a class="srctag" href="https://www.whitehouse.gov/wp-content/uploads/2025/12/2025-National-Security-Strategy.pdf" target="_blank" rel="noopener">NSS 2025</a></div></div>
+    </details>
+
+    <details class="briefing" id="b-russia">
+      <summary><span class="b-title"><span class="b-index">03</span> Russia</span><span class="b-chevron">＋</span></summary>
+      <div class="b-body"><p>Russia views its war in Ukraine as a proxy conflict with the West, and as of the March 2025 ATA had "seized the upper hand," grinding toward continued territorial gains despite catastrophic losses — more than <strong>750,000 dead and wounded</strong> since the February 2022 invasion, its worst toll since World War II. Russia's economy nonetheless remains the world's fourth largest by purchasing-power parity, sustained by trade with China, workarounds to sanctions, and continued defense-industrial investment.</p>
+        <p>Russia retains the world's largest and most diverse nuclear arsenal, a modernized and mobile strategic force, and an expanding non-strategic ("tactical") nuclear stockpile. Its chemical-weapons record includes two documented assassination attempts using Novichok nerve agent — against Sergei and Yulia Skripal in the U.K. (2018) and Aleksey Navalny (2020) — plus hundreds of alleged battlefield chemical-weapons uses against Ukrainian forces since late 2022. Moscow is also developing a satellite-based nuclear antisatellite weapon, first flagged after a February 2022 launch.</p>
+        <p>Cyber and influence capabilities round out the threat: deep experience integrating cyberattacks with wartime operations, and influence organizations like the Social Design Agency, ANO Dialog and RT working to erode confidence in U.S. elections and institutions. Domestically, Russia's chip industry lags badly (currently ~65nm, targeting 28nm by 2030), pushing deeper technical cooperation with China.</p>
+        <p>The NDS assesses Russia as a "persistent but manageable" threat to NATO's eastern flank rather than a challenger for European hegemony — non-U.S. NATO's $26 trillion economy dwarfs Russia's $2 trillion — and directs European allies, now committed to the 5%-of-GDP Hague standard, to take primary responsibility for conventional defense and Ukraine support, with the U.S. focused on Homeland defense and China.</p>
+        <div class="outlook">
+          <div class="ol-label">Forward outlook</div>
+          <ul>
+            <li>Continued attritional erosion of Ukraine's position absent a negotiated settlement, which both Moscow and Kyiv have shown some openness to.</li>
+            <li>Deepening Russia–China–Iran–North Korea linkages expected regardless of how the war ends.</li>
+            <li>NATO allies ramping toward the 5% GDP standard and assuming a larger share of Ukraine support through 2026 and beyond.</li>
+          </ul>
+        </div>
+        <div class="b-sources"><a class="srctag" href="https://archive.dni.gov/files/ODNI/documents/assessments/ATA-2025-Unclassified-Report.pdf" target="_blank" rel="noopener">ATA 2025</a><a class="srctag" href="https://media.defense.gov/2026/Jan/23/2003864773/-1/-1/0/2026-NATIONAL-DEFENSE-STRATEGY.PDF" target="_blank" rel="noopener">NDS 2026</a><a class="srctag" href="https://www.whitehouse.gov/wp-content/uploads/2025/12/2025-National-Security-Strategy.pdf" target="_blank" rel="noopener">NSS 2025</a></div></div>
+    </details>
+
+    <details class="briefing" id="b-iran">
+      <summary><span class="b-title"><span class="b-index">04</span> Iran</span><span class="b-chevron">＋</span></summary>
+      <div class="b-body"><p>Iran's regional network — the so-called "<strong>Axis of Resistance</strong>" (Hizballah, Hamas, the Huthis, and Iraqi Shia militias) — has been severely degraded through 2024–25. Israeli strikes on Iranian air defenses in April and October 2024 preceded the collapse of Iran's Syrian ally Bashar al-Assad in December 2024, and by June 2025, <strong>Operation MIDNIGHT HAMMER</strong> saw U.S. forces strike and, per the NDS, "obliterate" Iran's nuclear program amid Israel's "12-Day War" with Iran. A separate U.S. campaign, <strong>Operation ROUGH RIDER</strong>, degraded Huthi strike capability enough to compel a ceasefire on Red Sea shipping attacks.</p>
+        <p>Even so, the ATA (published just before Midnight Hammer) assessed Khamenei had not reauthorized the nuclear-weapons program suspended in 2003, though internal pressure and eroding taboos around the subject were building. The NDS, writing after the strike, states Iran's leaders "have also left open the possibility that they will try again to obtain a nuclear weapon." Iran retains a large stockpile of missiles and UAVs, the region's largest, and continues to threaten shipping through the Strait of Hormuz. Tehran also maintains a long-running vendetta tied to the January 2020 killing of Qods Force commander Qasem Soleimani, and Iranian cyber actors (IRGC) breached a 2024 U.S. presidential campaign-linked email account for influence purposes.</p>
+        <p>Post-Assad Syria remains volatile: the HTS-led interim government has struggled to unify the country's ethnosectarian groups, and in early March 2025, HTS-aligned and jihadist forces killed more than 1,000 people — mostly Alawite and Christian civilians — in northwestern Syria. ISIS is actively working to exploit that instability to reconstitute.</p>
+        <p>Strategically, the U.S. now frames the Middle East as a region of opportunity rather than perpetual crisis: Israel as a "model ally" defending itself with limited backing, Gulf states increasingly capable of self-defense, and an expanding Abraham Accords framework.</p>
+        <div class="outlook">
+          <div class="ol-label">Forward outlook</div>
+          <ul>
+            <li>Close monitoring for renewed Iranian nuclear signaling or reconstitution efforts.</li>
+            <li>Proxy-network rebuilding attempts by Hizballah, Huthis and Iraqi militias, even in degraded form.</li>
+            <li>Syria's stabilization remains uncertain and is flagged as a potential ISIS-resurgence vector.</li>
+          </ul>
+        </div>
+        <div class="b-sources"><a class="srctag" href="https://archive.dni.gov/files/ODNI/documents/assessments/ATA-2025-Unclassified-Report.pdf" target="_blank" rel="noopener">ATA 2025</a><a class="srctag" href="https://media.defense.gov/2026/Jan/23/2003864773/-1/-1/0/2026-NATIONAL-DEFENSE-STRATEGY.PDF" target="_blank" rel="noopener">NDS 2026</a><a class="srctag" href="https://www.whitehouse.gov/wp-content/uploads/2025/12/2025-National-Security-Strategy.pdf" target="_blank" rel="noopener">NSS 2025</a></div></div>
+    </details>
+
+    <details class="briefing" id="b-nkorea">
+      <summary><span class="b-title"><span class="b-index">05</span> North Korea (DPRK)</span><span class="b-chevron">＋</span></summary>
+      <div class="b-body"><p>Kim Jong Un's regime is increasingly bound to Moscow. The June 2024 <strong>Comprehensive Strategic Partnership</strong> treaty includes a mutual-defense clause Kim has cited to justify sending munitions, missiles and thousands of combat troops to fight for Russia in Ukraine — a relationship that also reduces Pyongyang's historic dependence on Beijing and gives North Korean forces rare modern combat experience.</p>
+        <p>In 2024, North Korea test-fired three intermediate-range ballistic missiles it claimed carried maneuverable hypersonic payloads, part of a steady buildup of its nuclear-warhead stockpile and missile-delivery sophistication. The ATA judges North Korea is "probably prepared to conduct a nuclear test" and continues ICBM flight testing capable of threatening the U.S. Homeland directly. Much of this is funded through large-scale cryptocurrency theft — hundreds of millions of dollars annually — alongside sanctioned trade in labor and UN-proscribed goods.</p>
+        <p>North Korea's conventional forces remain aging and Soviet-era, but its missile and WMD programs pose a growing, direct threat to South Korea, Japan, and increasingly the U.S. Homeland. Kim has historically relied on non-lethal coercive signaling (missile tests, balloon launches) but retains the option to escalate to lethal asymmetric action, including along the disputed Northern Limit Line.</p>
+        <p>The NDS assesses South Korea — with its strong economy, defense industry and conscription-based military — as capable of assuming primary responsibility for deterring North Korea, opening the door to a reduced U.S. force posture on the peninsula.</p>
+        <div class="outlook">
+          <div class="ol-label">Forward outlook</div>
+          <ul>
+            <li>Watch for a possible North Korean nuclear test.</li>
+            <li>Continued missile-testing cadence and deepening technical payoff from the Russia partnership.</li>
+            <li>Possible adjustments to U.S. force posture on the Korean Peninsula as Seoul assumes more responsibility.</li>
+          </ul>
+        </div>
+        <div class="b-sources"><a class="srctag" href="https://archive.dni.gov/files/ODNI/documents/assessments/ATA-2025-Unclassified-Report.pdf" target="_blank" rel="noopener">ATA 2025</a><a class="srctag" href="https://media.defense.gov/2026/Jan/23/2003864773/-1/-1/0/2026-NATIONAL-DEFENSE-STRATEGY.PDF" target="_blank" rel="noopener">NDS 2026</a></div></div>
+    </details>
+
+    <details class="briefing" id="b-terror">
+      <summary><span class="b-title"><span class="b-index">06</span> Transnational Crime &amp;amp; Terrorism</span><span class="b-chevron">＋</span></summary>
+      <div class="b-body"><p>Even in degraded form since the 2019 defeat of its physical caliphate, ISIS remains "the world's largest Islamic terrorist organization." Its branches vary sharply by capability and momentum: <strong>ISIS-Khorasan</strong> (South/Central Asia) is the most capable of external attacks and was linked to 2024 mass-casualty attacks in Russia and Iran; <strong>ISIS-Somalia</strong> doubled in size over the past year; <strong>ISIS-West Africa</strong> is the largest branch by claimed attacks; and <strong>ISIS-Sahel</strong> is expanding into coastal West Africa. The group's reach into the Homeland was demonstrated by the January 1, 2025 New Orleans attack and an October 2024 arrest of an Afghan national plotting an Election Day attack.</p>
+        <p>Al-Qa'ida's network remains active and diversified: AQAP relaunched its "Inspire" propaganda guide, al-Shabaab (its wealthiest affiliate) is deepening ties with the Huthis, and the group is expanding territorial influence in West Africa, including near U.S. personnel in Burkina Faso and Mali.</p>
+        <p>Financially motivated cybercrime is a parallel and growing threat: a mid-2024 ransomware attack on the largest U.S. healthcare payment processor disrupted prescriptions and even forced ambulance diversions, and both state-linked (2023) and purely criminal (October 2024) actors have struck U.S. water utilities. Transnational criminal organizations also launder billions through digital currencies and engage in human trafficking tied to migrant smuggling debt bondage.</p>
+        <div class="outlook">
+          <div class="ol-label">Forward outlook</div>
+          <ul>
+            <li>Africa-based ISIS branches (Somalia, West Africa, Sahel) likely to keep expanding.</li>
+            <li>Continued risk of ISIS-inspired, Homeland-directed "lone actor" attacks.</li>
+            <li>Ransomware and cyberattacks on U.S. critical infrastructure (healthcare, water) expected to persist.</li>
+          </ul>
+        </div>
+        <div class="b-sources"><a class="srctag" href="https://archive.dni.gov/files/ODNI/documents/assessments/ATA-2025-Unclassified-Report.pdf" target="_blank" rel="noopener">ATA 2025</a><a class="srctag" href="https://media.defense.gov/2026/Jan/23/2003864773/-1/-1/0/2026-NATIONAL-DEFENSE-STRATEGY.PDF" target="_blank" rel="noopener">NDS 2026</a></div></div>
+    </details>
+
+    <details class="briefing" id="b-europe">
+      <summary><span class="b-title"><span class="b-index">07</span> Europe &amp;amp; NATO</span><span class="b-chevron">＋</span></summary>
+      <div class="b-body"><p>The headline shift is burden-sharing: at the June 2025 <strong>NATO Hague Summit</strong>, allies committed to a new spending standard of 5% of GDP — 3.5% on core military spending plus 1.5% on broader security-related spending. Finland and Sweden's 2023–24 NATO accession extended the alliance's Arctic frontage, and the NDS explicitly wants European allies to take primary responsibility for their own conventional defense, including leading support for Ukraine, with the U.S. providing "critical but more limited" backing while it prioritizes Homeland defense and China.</p>
+        <p>The NSS frames Europe's challenges as running deeper than underspending, citing a decline in continental Europe's share of global GDP from 25% in 1990 to 14% today, alongside concerns about migration policy, demographic decline, and what it calls a loss of "civilizational self-confidence." Germany's continued reliance on Russian gas processed through Chinese facilities is cited as a cautionary example of the deeper economic entanglements the war has exposed.</p>
+        <p>On Ukraine specifically, U.S. policy is to press for an "expeditious cessation of hostilities" to stabilize European economies, prevent unintended escalation, and reestablish strategic stability with Moscow — while insisting that responsibility for both the war's resolution and Ukraine's reconstruction sits primarily with Europe.</p>
+        <div class="outlook">
+          <div class="ol-label">Forward outlook</div>
+          <ul>
+            <li>Continued diplomatic pressure toward a negotiated Ukraine settlement.</li>
+            <li>Allies ramping spending toward the 5% GDP standard through the remainder of the decade.</li>
+            <li>Gradual U.S. force-posture rebalancing away from Europe toward Homeland and Indo-Pacific priorities.</li>
+          </ul>
+        </div>
+        <div class="b-sources"><a class="srctag" href="https://media.defense.gov/2026/Jan/23/2003864773/-1/-1/0/2026-NATIONAL-DEFENSE-STRATEGY.PDF" target="_blank" rel="noopener">NDS 2026</a><a class="srctag" href="https://www.whitehouse.gov/wp-content/uploads/2025/12/2025-National-Security-Strategy.pdf" target="_blank" rel="noopener">NSS 2025</a></div></div>
+    </details>
+
+    <details class="briefing" id="b-mideast">
+      <summary><span class="b-title"><span class="b-index">08</span> Middle East</span><span class="b-chevron">＋</span></summary>
+      <div class="b-body"><p>The NSS frames the Middle East as receding from its decades-long position atop American foreign policy, thanks to U.S. energy independence and a run of 2025 diplomatic wins: an Israel–Iran de-escalation, an Egypt–Ethiopia agreement, a Gaza ceasefire with the return of all living hostages, and a Sharm el-Sheikh summit at which Arab states rallied behind a peace and normalization push. Gulf states, courted through Trump's May 2025 visits, are deepening AI-technology and defense partnerships with Washington.</p>
+        <p>Israel is described as a "model ally," defending itself with only limited U.S. support, and the U.S. aims to expand the <strong>Abraham Accords</strong> to more countries. Lebanon elected a president in January 2025 after a years-long vacancy, though further Hizballah–Israel conflict remains a live risk to that fragile progress. The Huthis, though degraded by Operation ROUGH RIDER, retain some capability, and Iraqi Shia militias continue pressuring the remaining U.S. presence in Iraq. The unresolved question of Gaza's post-conflict governance and West Bank instability are flagged as the region's most likely sources of renewed volatility.</p>
+        <div class="outlook">
+          <div class="ol-label">Forward outlook</div>
+          <ul>
+            <li>Further Abraham Accords expansion likely to be pursued.</li>
+            <li>Gaza reconstruction and governance remain unresolved — a flagged risk for renewed instability.</li>
+            <li>Persistent risk of a Hizballah–Israel flare-up in Lebanon.</li>
+          </ul>
+        </div>
+        <div class="b-sources"><a class="srctag" href="https://archive.dni.gov/files/ODNI/documents/assessments/ATA-2025-Unclassified-Report.pdf" target="_blank" rel="noopener">ATA 2025</a><a class="srctag" href="https://media.defense.gov/2026/Jan/23/2003864773/-1/-1/0/2026-NATIONAL-DEFENSE-STRATEGY.PDF" target="_blank" rel="noopener">NDS 2026</a><a class="srctag" href="https://www.whitehouse.gov/wp-content/uploads/2025/12/2025-National-Security-Strategy.pdf" target="_blank" rel="noopener">NSS 2025</a></div></div>
+    </details>
+
+    <details class="briefing" id="b-africa">
+      <summary><span class="b-title"><span class="b-index">09</span> Africa</span><span class="b-chevron">＋</span></summary>
+      <div class="b-body"><p>Africa hosts some of the fastest-growing extremist franchises tracked in the ATA — ISIS-West Africa (the group's largest branch by claimed attacks), an expanding ISIS-Sahel, and al-Qa'ida gaining ground toward urban centers in Burkina Faso and Mali where U.S. personnel are stationed. The NSS calls for a deliberate pivot away from decades of aid-centered policy toward trade and investment, prioritizing critical minerals and energy development, and explicitly avoiding "long-term American presence or commitments."</p>
+        <p>The NDS narrows the U.S. military mission to preventing Islamic terrorists with the capability and intent to strike the Homeland from using African safe havens, while leaning on allies and partners to lead the fight against other regional terrorist groups. Diplomatically, the administration points to a 2025 DRC–Rwanda agreement as a model for resolving regional conflict, alongside stated interest in preventing an Ethiopia–Eritrea–Somalia conflict and addressing Sudan.</p>
+        <div class="outlook">
+          <div class="ol-label">Forward outlook</div>
+          <ul>
+            <li>Counterterrorism activity limited to direct-action strikes on Homeland-capable threats, not broader campaigns.</li>
+            <li>Investment- and minerals-led engagement likely to expand.</li>
+            <li>DRC–Rwanda peace implementation worth tracking as a template for future regional diplomacy.</li>
+          </ul>
+        </div>
+        <div class="b-sources"><a class="srctag" href="https://archive.dni.gov/files/ODNI/documents/assessments/ATA-2025-Unclassified-Report.pdf" target="_blank" rel="noopener">ATA 2025</a><a class="srctag" href="https://media.defense.gov/2026/Jan/23/2003864773/-1/-1/0/2026-NATIONAL-DEFENSE-STRATEGY.PDF" target="_blank" rel="noopener">NDS 2026</a><a class="srctag" href="https://www.whitehouse.gov/wp-content/uploads/2025/12/2025-National-Security-Strategy.pdf" target="_blank" rel="noopener">NSS 2025</a></div></div>
+    </details>
+
+    <details class="briefing" id="b-tech">
+      <summary><span class="b-title"><span class="b-index">10</span> Technology, Space &amp;amp; Cyber</span><span class="b-chevron">＋</span></summary>
+      <div class="b-body"><p>This domain cuts across every actor. China's <strong>Volt Typhoon</strong> and <strong>Salt Typhoon</strong> campaigns represent the most persistent cyber threat to U.S. infrastructure and telecommunications; Beijing is also pursuing whole-of-government dominance in AI, biotechnology, quantum computing and semiconductors, with a documented history of large-scale intellectual-property theft (as much as 80% of U.S. economic-espionage cases circa 2021 involved PRC entities). Russia, constrained technologically by sanctions, is nonetheless deploying AI-generated deepfakes, AI-enabled counter-drone systems, and battlefield-tested electronic warfare, and is developing a nuclear antisatellite weapon. North Korea funds its weapons programs substantially through cryptocurrency theft, while Iran pairs offensive cyber operations with influence campaigns.</p>
+        <p>In space, China has "eclipsed Russia" as the second space power, operating the Beidou navigation constellation, ground-based counterspace weapons (jammers, directed-energy weapons, anti-satellite missiles), and an expanding low-Earth-orbit satellite-internet constellation, while pursuing crewed lunar milestones through 2030 and 2035.</p>
+        <p>On the U.S. side, the NDS's answer is <strong>Golden Dome for America</strong> — a next-generation missile and drone defense shield — paired with nuclear-force modernization, expanded cyber defenses, and the fourth line of effort: "<strong>Supercharge the U.S. Defense Industrial Base</strong>," reshoring production, adopting AI in manufacturing, and leveraging allied production capacity.</p>
+        <div class="outlook">
+          <div class="ol-label">Forward outlook</div>
+          <ul>
+            <li>2026–2028 is a critical window in the legacy-chip capacity race and Golden Dome development.</li>
+            <li>Counterspace and antisatellite competition likely to intensify.</li>
+            <li>Continued cyber prepositioning on critical infrastructure by China and Russia should be expected.</li>
+          </ul>
+        </div>
+        <div class="b-sources"><a class="srctag" href="https://archive.dni.gov/files/ODNI/documents/assessments/ATA-2025-Unclassified-Report.pdf" target="_blank" rel="noopener">ATA 2025</a><a class="srctag" href="https://media.defense.gov/2026/Jan/23/2003864773/-1/-1/0/2026-NATIONAL-DEFENSE-STRATEGY.PDF" target="_blank" rel="noopener">NDS 2026</a></div></div>
+    </details>
+
+    <details class="briefing" id="b-axis">
+      <summary><span class="b-title"><span class="b-index">11</span> The Adversarial Cooperation Axis</span><span class="b-chevron">＋</span></summary>
+      <div class="b-body"><p>The ATA identifies deepening cooperation among China, Russia, Iran and North Korea as one of the most consequential trends in the threat picture — a set of primarily bilateral relationships that individually reinforce each actor's capabilities while collectively raising the risk that a conflict with any one adversary draws in another. Russia's war in Ukraine has been the accelerant: China provides dual-use materials and components that sustain Russia's defense-industrial base and has grown bilateral trade sharply since 2022; Iran supplies UAVs to Russia in exchange for technical support to its own weapons, intelligence and cyber programs; and North Korea has sent munitions, missiles and thousands of troops to fight for Russia under the June 2024 mutual-defense treaty.</p>
+        <p>China and Russia's relationship is judged to carry the greatest long-term risk to U.S. interests — more than a decade of combined military signaling has deepened into joint bomber patrols, naval operations, and a November 2024 agreement to expand cooperation on the Arctic's Northern Sea Route, an alternative to Western-dominated shipping lanes. The four also use forums like BRICS and the UN to pursue shared goals such as de-dollarization and to blunt U.S.-led pressure.</p>
+        <p>The ATA is careful to note this cooperation is uneven — driven mainly by a shared interest in circumventing U.S. power rather than genuine alignment, and tempered by each actor's own concerns about escalation and divergent interests.</p>
+        <div class="outlook">
+          <div class="ol-label">Forward outlook</div>
+          <ul>
+            <li>Axis cohesion is assessed likely to keep deepening through 2026, independent of the Ukraine war's outcome.</li>
+            <li>Arctic/Northern Sea Route cooperation and BRICS coordination are useful leading indicators to track.</li>
+          </ul>
+        </div>
+        <div class="b-sources"><a class="srctag" href="https://archive.dni.gov/files/ODNI/documents/assessments/ATA-2025-Unclassified-Report.pdf" target="_blank" rel="noopener">ATA 2025</a></div></div>
+    </details>
+
+    <details class="briefing" id="b-posture">
+      <summary><span class="b-title"><span class="b-index">12</span> U.S. Strategic Posture — The Four Lines of Effort</span><span class="b-chevron">＋</span></summary>
+      <div class="b-body"><p>The 2026 National Defense Strategy organizes the Department of War's approach around four lines of effort:</p>
+        <p><strong>1. Defend the U.S. Homeland</strong> — secure borders, guarantee access to key hemispheric terrain (Panama Canal, Gulf of America, Greenland), build Golden Dome missile/drone defense, modernize nuclear forces, harden cyber defenses, and maintain focused counterterrorism.</p>
+        <p><strong>2. Deter China in the Indo-Pacific Through Strength, Not Confrontation</strong> — expand PLA military-to-military communication for stability, build a denial defense along the First Island Chain, and enable regional allies, aiming for a sustainable balance of power rather than domination.</p>
+        <p><strong>3. Increase Burden-Sharing with U.S. Allies and Partners</strong> — press NATO toward the 5%-of-GDP Hague standard, push South Korea toward primary responsibility for deterring North Korea, empower Gulf and Israeli partners against Iran, and rely on regional partners to lead against lesser threats in Africa and the Western Hemisphere.</p>
+        <p><strong>4. Supercharge the U.S. Defense Industrial Base</strong> — reshore defense production, expand non-traditional vendors, adopt AI in manufacturing, and leverage allied production capacity to arm both U.S. and partner forces at scale.</p>
+        <p>Named operations referenced throughout the documents: <strong>MIDNIGHT HAMMER</strong> (June 2025 strike on Iran's nuclear program), <strong>ABSOLUTE RESOLVE</strong> (action against Maduro's Venezuela-based network), <strong>SOUTHERN SPEAR</strong> (Western Hemisphere counter-narco-terrorism), and <strong>ROUGH RIDER</strong> (campaign that degraded Huthi strike capability and ended attacks on U.S. shipping).</p>
+        <div class="b-sources"><a class="srctag" href="https://media.defense.gov/2026/Jan/23/2003864773/-1/-1/0/2026-NATIONAL-DEFENSE-STRATEGY.PDF" target="_blank" rel="noopener">NDS 2026</a></div></div>
+    </details>
+
+    <details class="briefing" id="b-outlook">
+      <summary><span class="b-title"><span class="b-index">13</span> Net Assessment — Forward Outlook Through 2026 and Beyond</span><span class="b-chevron">＋</span></summary>
+      <div class="b-body"><p>Synthesizing the three documents' own stated goals, milestones and warnings — organized by horizon, from today (August 2026) outward. These are the documents' assessed trajectories, not guaranteed outcomes.</p>
+        <div class="outlook">
+          <div class="ol-label">Near-term — rest of 2026</div>
+          <ul>
+            <li>Continued NATO ally spending increases toward the 5%-of-GDP Hague standard.</li>
+            <li>Continued PRC pressure and diplomatic-isolation campaign against Taiwan; the Fujian carrier reaching full operational status.</li>
+            <li>Watch for North Korean nuclear-test signaling and continued ICBM/IRBM testing.</li>
+            <li>Ongoing monitoring of Iranian nuclear-reconstitution efforts and proxy-network rebuilding.</li>
+            <li>Russia–Ukraine likely to continue its attritional trajectory absent a negotiated settlement the U.S. is actively pushing.</li>
+            <li>Further hemispheric access-assurance actions around Greenland, Panama and Venezuela under the Trump Corollary.</li>
+            <li>Deepening China–Russia–Iran–North Korea cooperation across Arctic shipping, BRICS coordination, and defense-industrial linkages.</li>
+          </ul>
+        </div>
+        <div class="outlook">
+          <div class="ol-label">Mid-term — 2027 to 2030</div>
+          <ul>
+            <li>2027: PLA's first major counter-intervention modernization milestone.</li>
+            <li>2028: China projected to out-build the rest of the world combined in legacy (28nm+) semiconductor capacity.</li>
+            <li>2030: China's targeted deadline for global AI leadership and a crewed lunar landing.</li>
+            <li>2030: Russia's targeted deadline for mass-producing domestic 28nm semiconductor chips.</li>
+            <li>2030s: NSS-stated path from a $30 trillion (2025) to a $40 trillion U.S. economy.</li>
+          </ul>
+        </div>
+        <div class="outlook">
+          <div class="ol-label">Long-term — 2035 to 2049</div>
+          <ul>
+            <li>2035: PLA's second major modernization milestone; China's targeted deadline for a first lunar base.</li>
+            <li>2049: Xi Jinping's "great rejuvenation of the Chinese nation" and "world-class military" target — the PRC's centenary.</li>
+          </ul>
+        </div></div>
+    </details>
+
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <div class="sec-eyebrow">Sources</div>
+  <h2 class="sec-title" style="margin-top:6px;">Primary Documents</h2>
+  <div class="srcgrid">
+        <div class="srccard" style="border-color:var(--gold-dim);">
+      <div class="stag">PRIMARY · 2025-11 · CURRENT</div>
+      <h5>National Security Strategy of the United States of America</h5>
+      <p>The White House. Master strategy document. The 2026 NDS and 2026 ATA are both explicitly structured to implement/follow it.</p>
+      <a href="https://www.whitehouse.gov/wp-content/uploads/2025/12/2025-National-Security-Strategy.pdf" target="_blank" rel="noopener">www.whitehouse.gov ↗</a>
+    </div>
+    <div class="srccard" style="border-color:var(--gold-dim);">
+      <div class="stag">PRIMARY · 2026-01-23 · CURRENT</div>
+      <h5>2026 National Defense Strategy</h5>
+      <p>U.S. Department of War. Four lines of effort: Homeland, deter China, burden-sharing, defense industrial base.</p>
+      <a href="https://media.defense.gov/2026/Jan/23/2003864773/-1/-1/0/2026-NATIONAL-DEFENSE-STRATEGY.PDF" target="_blank" rel="noopener">media.defense.gov ↗</a>
+    </div>
+    <div class="srccard" style="border-color:var(--gold-dim);">
+      <div class="stag">PRIMARY · 2026-03-18 · CURRENT</div>
+      <h5>2026 Annual Threat Assessment of the U.S. Intelligence Community</h5>
+      <p>Office of the Director of National Intelligence. ADDED 08 Aug 2026. Restructured from actor-based to Homeland / Technological Challenges / Diverse Threat Vectors. Elevates AI and quantum to standalone sections. Materially revises</p>
+      <a href="https://archive.dni.gov/files/ODNI/documents/assessments/ATA-2026-Unclassified-Report.pdf" target="_blank" rel="noopener">archive.dni.gov ↗</a>
+    </div>
+    <div class="srccard" style="border-color:var(--gold-dim);">
+      <div class="stag">PRIMARY · 2026-03-06 · CURRENT</div>
+      <h5>President Trump&#x27;s Cyber Strategy for America</h5>
+      <p>The White House. Six pillars; released with EO &#x27;Combating Cybercrime, Fraud, and Predatory Schemes Against American Citizens&#x27; and a fact sheet. Shorter and higher-level than the 2023 Nati</p>
+      <a href="https://www.congress.gov/crs-product/IN12667" target="_blank" rel="noopener">www.congress.gov ↗</a>
+    </div>
+    <div class="srccard" style="border-color:var(--gold-dim);">
+      <div class="stag">PRIMARY · 2026-04-07 · CURRENT</div>
+      <h5>Joint Cybersecurity Advisory AA26-097A — Iranian-Affiliated Cyber Actors Exploit PLCs Across US Critical Infrastructure</h5>
+      <p>EPA / FBI / CISA / NSA. Federal attribution of the water-sector campaign to Iranian-affiliated actors dates to 7 April 2026.</p>
+      <a href="https://www.epa.gov/newsreleases/epa-fbi-cisa-nsa-issue-joint-cybersecurity-advisory-water-system-regarding-iranian" target="_blank" rel="noopener">www.epa.gov ↗</a>
+    </div>
+    <div class="srccard" style="border-color:var(--gold-dim);">
+      <div class="stag">PRIMARY · 2026-03-20 · CURRENT</div>
+      <h5>Joint statement on the Strait of Hormuz (twenty governments)</h5>
+      <p>Norwegian Ministry of Foreign Affairs (publishing venue). Independently corroborates UNSC Resolution 2817 and the IEA coordinated reserve release, both previously resting on an aggregator.</p>
+      <a href="https://www.regjeringen.no/en/whats-new/joint-statement-on-the-strait-of-hormuz/id3153450" target="_blank" rel="noopener">www.regjeringen.no ↗</a>
+    </div>
+    <div class="srccard" style="border-color:var(--gold-dim);">
+      <div class="stag">PRIMARY · 2026-08-04 · CURRENT</div>
+      <h5>Defense of Japan 2026 (Digest)</h5>
+      <p>Japan Ministry of Defense. Ally primary document, not a US publication. Cabinet-approved 4 Aug 2026. Calls China&#x27;s posture &#x27;an unprecedented and the greatest strategic challenge.&#x27; Late-filed —</p>
+      <a href="https://www.mod.go.jp/j/press/wp/wp2026/pdf/DOJ2026_Digest_EN.pdf" target="_blank" rel="noopener">www.mod.go.jp ↗</a>
+    </div>
+    <div class="srccard" style="border-color:var(--gold-dim);">
+      <div class="stag">PRIMARY · 2026-08-13 · CURRENT</div>
+      <h5>Security Council 10208th Meeting (SC/16431) — Yemen at Risk of Entering Wider Middle East Conflict</h5>
+      <p>United Nations Meetings Coverage. The UN&#x27;s own verbatim record of the 13 Aug Yemen session. press.un.org served a JavaScript challenge to this sweep&#x27;s fetch; text read in full from GlobalSecurity.org&#x27</p>
+      <a href="https://press.un.org/en/2026/sc16431.doc.htm" target="_blank" rel="noopener">press.un.org ↗</a>
+    </div>
+    <div class="srccard" style="border-color:var(--gold-dim);">
+      <div class="stag">PRIMARY · 2026-08-11 · CURRENT</div>
+      <h5>Short-Term Energy Outlook — Global oil markets (August 2026)</h5>
+      <p>U.S. Energy Information Administration. Recovered during reconciliation of the Brief 003 fork (see verification_log, 16 Aug 2026). First US federal quantification of the Hormuz closure in this ledger; supplies the transi</p>
+      <a href="https://www.eia.gov/outlooks/steo/report/global_oil.php" target="_blank" rel="noopener">www.eia.gov ↗</a>
+    </div>
+    <div class="srccard" style="border-color:var(--gold-dim);">
+      <div class="stag">PRIMARY · 2026-08-12 · CURRENT</div>
+      <h5>Oil Market Report — August 2026</h5>
+      <p>International Energy Agency. Recovered during reconciliation of the Brief 003 fork (see verification_log, 16 Aug 2026). Intergovernmental primary; independently corroborates EIA-STEO one day later from a diffe</p>
+      <a href="https://www.iea.org/reports/oil-market-report-august-2026" target="_blank" rel="noopener">www.iea.org ↗</a>
+    </div>
+    <div class="srccard">
+      <div class="stag">SECONDARY-AGGREGATOR · ongoing · TRACKING</div>
+      <h5>Iran War 2026 — Daily Update</h5>
+      <p>GlobalSecurity.org. Daily-updated open-source tracker. Not a primary government document — treat figures as contested and attribute accordingly.</p>
+      <a href="https://www.globalsecurity.org/military/ops/iran-war-update.htm" target="_blank" rel="noopener">www.globalsecurity.org ↗</a>
+    </div>
+    <div class="srccard">
+      <div class="stag">PRIMARY · TRACKING</div>
+      <h5>Operation Epic Fury (official operation page)</h5>
+      <p>U.S. Department of War. </p>
+      <a href="https://www.war.gov/Spotlights/Operation-Epic-Fury/" target="_blank" rel="noopener">www.war.gov ↗</a>
+    </div>
+    <div class="srccard">
+      <div class="stag">SECONDARY-ANALYTIC · TRACKING</div>
+      <h5>China &amp; Taiwan Update</h5>
+      <p>Institute for the Study of War / American Enterprise Institute. Near-daily cross-Strait tracker. Good leading indicator for the China thread.</p>
+      <a href="https://www.aei.org/commentary/china-taiwan-update-august-7-2026/" target="_blank" rel="noopener">www.aei.org ↗</a>
+    </div>
+    <div class="srccard">
+      <div class="stag">PRIMARY · TRACKING</div>
+      <h5>ODNI Newsroom (press releases, reports, remarks)</h5>
+      <p>Office of the Director of National Intelligence. Standing check each brief: leadership, new reports, new assessments.</p>
+      <a href="https://www.odni.gov/newsroom/" target="_blank" rel="noopener">www.odni.gov ↗</a>
+    </div>
+    <div class="srccard">
+      <div class="stag">PRIMARY · TRACKING</div>
+      <h5>Operation Epic Fury spotlight (live operation page)</h5>
+      <p>U.S. Department of War. Authoritative for operation STATUS and tense. As of 8 Aug 2026 the page describes ongoing striking and carries CENTCOM footage through 20 July.</p>
+      <a href="https://www.war.gov/Spotlights/Operation-Epic-Fury/" target="_blank" rel="noopener">www.war.gov ↗</a>
+    </div>
+    <div class="srccard">
+      <div class="stag">SECONDARY-ANALYTIC · 2026-08-12 · TRACKING</div>
+      <h5>Inside a multi-agent AI framework used to compromise government entities in Asia</h5>
+      <p>Dream (security vendor research). Vendor research, not a government finding. The blog itself was not directly reachable from this sweep&#x27;s fetch tool (outside its provenance set); read at one hop through CyberS</p>
+      <a href="https://www.dreamgroup.com/blog/inside-a-multi-agent-ai-framework-used-to-compromise-government-entities-in-asia" target="_blank" rel="noopener">www.dreamgroup.com ↗</a>
+    </div>
+    <div class="srccard">
+      <div class="stag">SECONDARY-ANALYTIC · 2026-08-16 · TRACKING</div>
+      <h5>Kharg Island and Hormuz maritime tracking — Windward and TankerTrackers.com</h5>
+      <p>Windward / TankerTrackers.com (commercial maritime intelligence). Added 16 Aug 2026 as a standing tracking source for Hormuz/Kharg throughput, which the ledger has until now carried only through price and government statements. Satellite-imagery </p>
+      <a href="https://www.thenationalnews.com/business/energy/2026/08/16/iran-reroutes-oil-flow-as-loading-resumes-at-kharg-island-terminal/" target="_blank" rel="noopener">www.thenationalnews.com ↗</a>
+    </div>
+    <div class="srccard">
+      <div class="stag">PRIMARY · 2025-03-25 · SUPERSEDED</div>
+      <h5>Annual Threat Assessment of the U.S. Intelligence Community</h5>
+      <p>Office of the Director of National Intelligence. Retained as baseline. Useful for measuring what the IC changed its mind about.</p>
+      <a href="https://archive.dni.gov/files/ODNI/documents/assessments/ATA-2025-Unclassified-Report.pdf" target="_blank" rel="noopener">archive.dni.gov ↗</a>
+    </div>
+  </div>
+  <div class="disclaimer">
+    <p><strong style="color:var(--text-dim);">Methodology &amp; caveats:</strong> This page is an independent, AI-assisted compilation and paraphrase of three public, unclassified U.S. government documents — it is not itself an official government product and has not been reviewed by ODNI, the Department of War, or the White House. Dates and figures are drawn directly from the cited documents; where a document states a goal, target, or forecast rather than a completed event, it is marked "projected" throughout. All three documents present the current administration's own characterization of events and strategy, including its assessment of its own record — readers comparing this to other reporting or historical accounts may find differing interpretations of contested events. The map is schematic, not a literal geographic projection. Compiled 08 August 2026.</p>
+  </div>
+</footer>
+
+<script>
+  // ---------- DATA ----------
+  const NODES = [
+    {
+        "id": "usa",
+        "x": 150,
+        "y": 225,
+        "label": "UNITED STATES",
+        "cat": "home",
+        "brief": "Homeland defense is the NDS's first priority: borders, Golden Dome missile/drone defense, nuclear modernization, cyber defense, and counterterrorism focused on actors capable of striking the Homeland.",
+        "link": "#b-homeland",
+        "severity": 3
+    },
+    {
+        "id": "greenland",
+        "x": 335,
+        "y": 60,
+        "label": "GREENLAND",
+        "cat": "hemisphere",
+        "brief": "A named priority for guaranteed U.S. access under the Trump Corollary to the Monroe Doctrine, given its strategic naval position and existing U.S. base.",
+        "link": "#b-homeland",
+        "severity": 3
+    },
+    {
+        "id": "mexico",
+        "x": 172,
+        "y": 300,
+        "label": "MEXICO / C. AMERICA",
+        "cat": "hemisphere",
+        "brief": "Dominant cartels (Sinaloa, CJNG) and fragmenting independent fentanyl producers drive the drug threat; IED attacks on Mexican security forces surged from 3 (2020–21) to ~1,600 (2024).",
+        "link": "#b-homeland",
+        "severity": 4
+    },
+    {
+        "id": "panama",
+        "x": 218,
+        "y": 335,
+        "label": "PANAMA CANAL",
+        "cat": "hemisphere",
+        "brief": "Named alongside Greenland and the Gulf of America as key terrain the U.S. will guarantee military and commercial access to.",
+        "link": "#b-homeland",
+        "severity": 3
+    },
+    {
+        "id": "venezuela",
+        "x": 255,
+        "y": 325,
+        "label": "VENEZUELA",
+        "cat": "adversary",
+        "brief": "Target of Operation ABSOLUTE RESOLVE against Nicolás Maduro's narco-terrorist network — cited as proof of willingness to act unilaterally in the hemisphere.",
+        "link": "#b-homeland",
+        "severity": 3
+    },
+    {
+        "id": "europe",
+        "x": 485,
+        "y": 185,
+        "label": "EUROPE / NATO",
+        "cat": "ally",
+        "brief": "Allies committed to a new 5%-of-GDP defense-spending standard at the June 2025 Hague Summit and are expected to take primary responsibility for conventional defense and Ukraine support.",
+        "link": "#b-europe",
+        "severity": 4
+    },
+    {
+        "id": "arctic",
+        "x": 565,
+        "y": 40,
+        "label": "ARCTIC / NORTHERN SEA ROUTE",
+        "cat": "contested",
+        "brief": "Russia controls roughly half the Arctic coastline; China and Russia are deepening cooperation on the Northern Sea Route as an alternative shipping corridor.",
+        "link": "#b-russia",
+        "severity": 3
+    },
+    {
+        "id": "russia",
+        "x": 635,
+        "y": 145,
+        "label": "RUSSIA",
+        "cat": "adversary",
+        "brief": "A grinding war of attrition continues in Ukraine; 750,000+ Russian casualties since 2022; the world's largest, most diverse nuclear arsenal; deepening ties to China, Iran and North Korea.",
+        "link": "#b-russia",
+        "severity": 6
+    },
+    {
+        "id": "iran",
+        "x": 588,
+        "y": 290,
+        "label": "IRAN",
+        "cat": "adversary",
+        "brief": "Nuclear program struck by Operation MIDNIGHT HAMMER (June 2025); its 'Axis of Resistance' proxies are severely degraded but the regime is intent on reconstitution.",
+        "link": "#b-iran",
+        "severity": 9
+    },
+    {
+        "id": "gulf",
+        "x": 548,
+        "y": 325,
+        "label": "ISRAEL &amp; GULF PARTNERS",
+        "cat": "ally",
+        "brief": "Israel is framed as a 'model ally' defending itself with limited U.S. backing; Gulf states are deepening defense and AI-technology partnerships with Washington.",
+        "link": "#b-mideast",
+        "severity": 7
+    },
+    {
+        "id": "africa",
+        "x": 495,
+        "y": 400,
+        "label": "AFRICA (SAHEL / HORN)",
+        "cat": "terror",
+        "brief": "ISIS-West Africa (largest branch), ISIS-Sahel and al-Shabaab continue expanding; U.S. policy pivots from aid toward trade, investment, and narrowly-scoped counterterrorism.",
+        "link": "#b-africa",
+        "severity": 6
+    },
+    {
+        "id": "china",
+        "x": 800,
+        "y": 245,
+        "label": "CHINA / TAIWAN / S. CHINA SEA",
+        "cat": "adversary",
+        "brief": "The most comprehensive military, economic, cyber and space threat; PLA modernization milestones set for 2027, 2035 and 2049; Taiwan pressure campaign ongoing.",
+        "link": "#b-china",
+        "severity": 6
+    },
+    {
+        "id": "indopac",
+        "x": 865,
+        "y": 295,
+        "label": "INDO-PACIFIC ALLIES",
+        "cat": "ally",
+        "brief": "Japan, South Korea, Australia and the Philippines are being pressed to spend more and help build a denial defense along the First Island Chain.",
+        "link": "#b-china",
+        "severity": 5
+    },
+    {
+        "id": "nkorea",
+        "x": 825,
+        "y": 180,
+        "label": "NORTH KOREA",
+        "cat": "adversary",
+        "brief": "A deepening Russia partnership since June 2024; hypersonic-claimed missile tests; assessed as 'probably prepared' to conduct a nuclear test.",
+        "link": "#b-nkorea",
+        "severity": 5
+    }
+];
+  const AXIS_LINES = [["russia","china"],["russia","iran"],["russia","nkorea"],["china","nkorea"],["china","iran"]];
+  const ALLY_LINES = [["usa","europe"],["usa","gulf"],["usa","indopac"],["usa","mexico"],["usa","panama"],["usa","greenland"]];
+
+  const CAT_META = {
+    "homeland": {
+        "label": "Homeland &amp; Hemisphere",
+        "color": "var(--gold)"
+    },
+    "china": {
+        "label": "China",
+        "color": "var(--red)"
+    },
+    "russia": {
+        "label": "Russia",
+        "color": "var(--russia)"
+    },
+    "iran": {
+        "label": "Iran",
+        "color": "var(--iran)"
+    },
+    "nkorea": {
+        "label": "North Korea",
+        "color": "var(--nkorea)"
+    },
+    "terror": {
+        "label": "Terrorism / Crime",
+        "color": "var(--purple)"
+    },
+    "alliance": {
+        "label": "Alliances / NATO",
+        "color": "var(--blue)"
+    },
+    "tech": {
+        "label": "Tech / Cyber / Space",
+        "color": "var(--green)"
+    },
+    "diplomacy": {
+        "label": "Diplomacy / Peace",
+        "color": "var(--teal)"
+    },
+    "coop": {
+        "label": "Adversarial Cooperation",
+        "color": "var(--coop)"
+    }
+};
+
+  const EVENTS = [
+    {
+        "d": "2016",
+        "t": "Beijing accelerates Taiwan isolation campaign",
+        "c": "china",
+        "txt": "Taiwan's formal diplomatic partners begin a decline from 22 countries toward just 12 today, as Beijing pressures states to switch recognition.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "2018",
+        "t": "Novichok attack on Sergei &amp; Yulia Skripal (U.K.)",
+        "c": "russia",
+        "txt": "Russian operatives use a Novichok nerve agent against a former Russian intelligence officer and his daughter on U.K. soil — one of two documented Kremlin chemical-weapons assassination attempts.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "Jan 2020",
+        "t": "Qasem Soleimani killed",
+        "c": "iran",
+        "txt": "The U.S. killing of IRGC-Qods Force commander Qasem Soleimani becomes a standing motive for Iranian plots against former and current U.S. officials.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "2020",
+        "t": "COVID-19 emerges in China; Novichok used on Navalny",
+        "c": "russia",
+        "txt": "SARS-CoV-2 emerges in Wuhan — the CIA now assesses a research-related origin as more likely than natural spillover; separately, Russia uses a Novichok agent against opposition leader Aleksey Navalny.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "2020",
+        "t": "Independent Mexican fentanyl producers proliferate",
+        "c": "homeland",
+        "txt": "Autonomous fentanyl 'cooks' outside cartel control begin fragmenting Mexico's synthetic-drug trade, drawn by the low barriers to entry.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "Feb 2022",
+        "t": "Russia launches full-scale invasion of Ukraine",
+        "c": "russia",
+        "txt": "Putin's war becomes the central driver of Russia's economic strain, military losses, and deepening reliance on China, Iran and North Korea.",
+        "src": [
+            "ATA",
+            "NSS"
+        ]
+    },
+    {
+        "d": "2022",
+        "t": "Russia launches suspected nuclear-ASAT test satellite",
+        "c": "tech",
+        "txt": "Moscow launches a satellite it claims is for radiation-effects testing, assessed as linked to development of a nuclear antisatellite weapon.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "Late 2022",
+        "t": "Iran nationwide protests",
+        "c": "iran",
+        "txt": "Widescale, prolonged domestic unrest exposes the regime's economic and legitimacy strains — a precedent the ATA says could recur.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "2023",
+        "t": "Water-infrastructure cyberattacks (Russia/Iran-linked)",
+        "c": "tech",
+        "txt": "Russian hacktivists and Iranian cyber actors hit U.S. water utilities with limited operational effect but outsized publicity — a template criminal actors copy in 2024.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "2023–24",
+        "t": "Finland and Sweden join NATO",
+        "c": "alliance",
+        "txt": "NATO's only two nonaligned Arctic states formally join the alliance, expanding NATO's Arctic frontage and unsettling Moscow's regional calculus.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "Apr 2024",
+        "t": "Israel strikes Iranian air defenses",
+        "c": "iran",
+        "txt": "An Israeli strike on Iranian military targets, including air-defense systems, opens a year of direct exchanges culminating in the 2025 '12-Day War.'",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "Jun 2024",
+        "t": "Kim–Putin sign Comprehensive Strategic Partnership",
+        "c": "coop",
+        "txt": "North Korea and Russia sign a mutual-defense treaty; Kim later cites its clause to justify sending troops to fight for Russia in Ukraine.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "Jun 2024",
+        "t": "China completes lunar sample-return mission",
+        "c": "china",
+        "txt": "A successful far-side lunar sample return feeds Beijing's push to land astronauts on the Moon by 2030 and open a lunar base by 2035.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "Mid-2024",
+        "t": "Ransomware hits largest U.S. health-payment processor",
+        "c": "tech",
+        "txt": "An attack on the country's dominant healthcare payment processor disrupts prescriptions and patient records and even forces ambulance diversions.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "2024",
+        "t": "PLA carrier Fujian begins sea trials",
+        "c": "china",
+        "txt": "China's third aircraft carrier begins sea trials, on track to enter operational service around 2025.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "2024",
+        "t": "Mexican-cartel IED attacks surge",
+        "c": "homeland",
+        "txt": "Attacks on Mexican security forces using IEDs — including landmines and mortars — jump to nearly 1,600, up from just three in 2020–2021.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "2024",
+        "t": "North Korea tests hypersonic-claimed IRBMs",
+        "c": "nkorea",
+        "txt": "Kim's regime conducts three intermediate-range missile launches it claims carry maneuverable hypersonic payloads.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "Oct 2024",
+        "t": "52,000+ U.S. opioid deaths (12-mo. total), down 33%",
+        "c": "homeland",
+        "txt": "CDC provisional data shows synthetic-opioid deaths falling sharply year over year, a trend the ATA links partly to naloxone availability.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "Oct 2024",
+        "t": "Criminal cyberattacks hit U.S. water utilities",
+        "c": "tech",
+        "txt": "Financially motivated hackers strike both large and small U.S. water systems, echoing 2023's state-linked playbook.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "Oct 2024",
+        "t": "Israel strikes Iran again; election-plot arrest in U.S.",
+        "c": "iran",
+        "txt": "A second round of Israeli strikes further degrades Iranian air defenses, while an Afghan national is arrested for plotting an ISIS-inspired Election Day attack.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "Nov 2024",
+        "t": "China–Russia expand Arctic shipping-route cooperation",
+        "c": "coop",
+        "txt": "Beijing and Moscow agree to deepen joint development of the Northern Sea Route as an alternative to Western-dominated shipping lanes.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "Dec 2024",
+        "t": "China bans critical-mineral exports to the U.S.",
+        "c": "china",
+        "txt": "Beijing halts exports of gallium, germanium and antimony — inputs for semiconductor manufacturing — in retaliation for U.S. chip export controls.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "Dec 2024",
+        "t": "Assad regime falls in Syria",
+        "c": "iran",
+        "txt": "HTS-led opposition forces topple Bashar al-Assad, severing a key pillar of Iran's 'Axis of Resistance' and opening space for an ISIS resurgence.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "Jan 1, 2025",
+        "t": "New Orleans New Year's Day attack",
+        "c": "terror",
+        "txt": "An attacker influenced by ISIS propaganda strikes New Orleans, underscoring the group's continued ability to inspire Homeland violence.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "Jan 20, 2025",
+        "t": "President Trump's second term begins",
+        "c": "homeland",
+        "txt": "The new administration inherits what the NDS calls one of the most dangerous security environments in the nation's history and reorients strategy around 'peace through strength.'",
+        "src": [
+            "NDS",
+            "NSS"
+        ]
+    },
+    {
+        "d": "Jan 2025",
+        "t": "Border Patrol apprehensions fall 85% year over year",
+        "c": "homeland",
+        "txt": "Southwest border apprehensions plunge amid stepped-up enforcement, continuing a broader 2024 decline in migrant encounters.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "Jan 2025",
+        "t": "Lebanon elects a president",
+        "c": "iran",
+        "txt": "After years of political deadlock, Lebanon elects a president — a fragile step forward that further Hizballah–Israel conflict could easily unravel.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "Early Mar 2025",
+        "t": "Sectarian violence in northwestern Syria",
+        "c": "iran",
+        "txt": "HTS-aligned forces and jihadist elements kill more than 1,000 people, mostly Alawite and Christian civilians, testing the new interim government's inclusivity claims.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "Mar 18, 2025",
+        "t": "ODNI Annual Threat Assessment information cutoff",
+        "c": "homeland",
+        "txt": "Intelligence available as of this date informs the 2025 ATA, published days later.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "May 2025",
+        "t": "Trump's Persian Gulf state visits",
+        "c": "diplomacy",
+        "txt": "The President secures Gulf-state backing for U.S. AI technology, deepening Gulf partnerships ahead of the region's pivot toward tech and investment.",
+        "src": [
+            "NSS"
+        ]
+    },
+    {
+        "d": "Jun 2025",
+        "t": "Operation MIDNIGHT HAMMER strikes Iran's nuclear program",
+        "c": "iran",
+        "txt": "U.S. forces execute a strike the NDS calls unmatched in scale and complexity, 'obliterating' Iran's nuclear program during Israel's '12-Day War' with Iran.",
+        "src": [
+            "NDS",
+            "NSS"
+        ]
+    },
+    {
+        "d": "Jun 2025",
+        "t": "NATO Hague Summit sets 5%-of-GDP standard",
+        "c": "alliance",
+        "txt": "Trump secures a new NATO defense-spending benchmark: 3.5% of GDP on core military spending plus 1.5% on security-related spending.",
+        "src": [
+            "NDS",
+            "NSS"
+        ]
+    },
+    {
+        "d": "Jan–Aug 2025",
+        "t": "Eight U.S.-brokered peace deals",
+        "c": "diplomacy",
+        "txt": "Cambodia–Thailand, Kosovo–Serbia, DRC–Rwanda, Pakistan–India, Israel–Iran, Egypt–Ethiopia, Armenia–Azerbaijan, and a Gaza ceasefire with hostage releases are all credited to diplomacy within the term's first eight months.",
+        "src": [
+            "NSS"
+        ]
+    },
+    {
+        "d": "2025",
+        "t": "Operation ROUGH RIDER degrades the Houthis",
+        "c": "iran",
+        "txt": "A U.S. campaign against Huthi strike capability compels the group to halt attacks on U.S. shipping and seek peace.",
+        "src": [
+            "NDS"
+        ]
+    },
+    {
+        "d": "2025",
+        "t": "Operation SOUTHERN SPEAR launched",
+        "c": "homeland",
+        "txt": "A dedicated Western Hemisphere counter-narco-terrorism operation signals a harder military line against cartels.",
+        "src": [
+            "NDS"
+        ]
+    },
+    {
+        "d": "2025",
+        "t": "Operation ABSOLUTE RESOLVE targets Maduro network",
+        "c": "homeland",
+        "txt": "Military action against Nicolás Maduro's narco-terrorist network in Venezuela is cited as proof the U.S. will act unilaterally when partners can't or won't.",
+        "src": [
+            "NDS"
+        ]
+    },
+    {
+        "d": "Sep 11, 2025",
+        "t": "Pentagon 9/11 observance",
+        "c": "homeland",
+        "txt": "President Trump marks the anniversary at the Pentagon as counterterrorism remains a 'resource-sustainable,' Homeland-focused mission.",
+        "src": [
+            "NDS"
+        ]
+    },
+    {
+        "d": "Aug 8, 2025",
+        "t": "Armenia–Azerbaijan Peace Summit",
+        "c": "diplomacy",
+        "txt": "A U.S.-hosted summit produces a provisional peace treaty text and the TRIPP corridor connecting Azerbaijan to Naxcivan across southern Armenia. Border ceasefire violations subsequently fall to near zero.",
+        "src": [
+            "ATA26"
+        ]
+    },
+    {
+        "d": "Sept 2025",
+        "t": "China declares a nature reserve at Scarborough Reef",
+        "c": "china",
+        "txt": "Beijing establishes a 3,500-hectare reserve inside the Philippine EEZ, with a core zone banning fishing and an outer zone requiring approval for foreign entry.",
+        "src": [
+            "ATA26"
+        ]
+    },
+    {
+        "d": "Sept 2025",
+        "t": "Haitian gangs begin firing on the U.S. Embassy compound",
+        "c": "homeland",
+        "txt": "Periodic gunfire attacks on the Port-au-Prince compound begin, aimed at sowing unrest ahead of UN-authorized forces and elections planned for August 2026.",
+        "src": [
+            "ATA26"
+        ]
+    },
+    {
+        "d": "Oct 2025",
+        "t": "Trump's Indo-Pacific travels",
+        "c": "china",
+        "txt": "The President signs agreements deepening commercial, technological and defense ties across the Indo-Pacific.",
+        "src": [
+            "NSS"
+        ]
+    },
+    {
+        "d": "Oct 2025",
+        "t": "Busan Agreement — Trump meets Xi",
+        "c": "china",
+        "txt": "Meeting in Busan, South Korea, Beijing agrees to halt fentanyl precursor flows to North America, issues an industry advisory to Chinese firms, and imposes new export licensing.",
+        "src": [
+            "ATA26"
+        ]
+    },
+    {
+        "d": "Nov 2025",
+        "t": "Takaichi's 'survival threatening situation' remark",
+        "c": "china",
+        "txt": "Japan's PM describes a Chinese attack on Taiwan as a possible 'survival threatening situation' — a legal formulation that could authorize SDF deployment. China responds with travel advisories, a seafood ban, and cancelled exchanges.",
+        "src": [
+            "ATA26"
+        ]
+    },
+    {
+        "d": "Nov 2025",
+        "t": "Poland railway sabotage",
+        "c": "russia",
+        "txt": "An explosion on Polish rail infrastructure, cited by the ATA as an example of Russian gray-zone action against European supply lines to Ukraine.",
+        "src": [
+            "ATA26"
+        ]
+    },
+    {
+        "d": "Dec 2025",
+        "t": "Mexico imposes transshipment tariffs",
+        "c": "homeland",
+        "txt": "Ahead of the 2026 USMCA review, Mexico approves tariffs on inputs from countries without free-trade agreements, to protect North American supply chains from foreign transshipment.",
+        "src": [
+            "ATA26"
+        ]
+    },
+    {
+        "d": "Fall 2025",
+        "t": "Sharm el-Sheikh Arab-unity summit",
+        "c": "diplomacy",
+        "txt": "Arab states unite behind a Gaza peace and normalization push.",
+        "src": [
+            "NSS"
+        ]
+    },
+    {
+        "d": "Nov 2025",
+        "t": "National Security Strategy published",
+        "c": "homeland",
+        "txt": "The White House releases its 'America First' National Security Strategy — the master document the 2026 NDS is built to implement.",
+        "src": [
+            "NSS"
+        ]
+    },
+    {
+        "d": "Jan 23, 2026",
+        "t": "2026 National Defense Strategy published",
+        "c": "homeland",
+        "txt": "The Department of War releases its four-line-of-effort strategy: defend the Homeland, deter China without confrontation, expand ally burden-sharing, and supercharge the defense industrial base.",
+        "src": [
+            "NDS"
+        ]
+    },
+    {
+        "d": "Jan 2026",
+        "t": "Border encounters fall 83.8% year over year",
+        "c": "homeland",
+        "txt": "CBP data shows January 2026 southwest border encounters down 83.8% against January 2025; 2025 as a whole was down 79% against 2024.",
+        "src": [
+            "ATA26"
+        ]
+    },
+    {
+        "d": "Feb 26, 2026",
+        "t": "Pakistan strikes Kabul; open Pakistan–Afghanistan hostilities",
+        "c": "terror",
+        "txt": "Afghan Taliban forces strike Pakistani positions; Pakistan responds within hours by bombing Afghan border provinces and the capital — its first strikes on Afghan urban centers. The fighting continues.",
+        "src": [
+            "ATA26"
+        ]
+    },
+    {
+        "d": "Feb 28, 2026",
+        "t": "Operation EPIC FURY begins; Khamenei killed",
+        "c": "iran",
+        "txt": "U.S. and Israeli forces launch a broad campaign against Iranian leadership, missile production, naval forces and defense industry. The opening salvo kills Supreme Leader Ali Khamenei along with much of the senior military command. Mojtaba Khamenei succeeds him.",
+        "src": [
+            "ATA26",
+            "NDS"
+        ]
+    },
+    {
+        "d": "Mar 11, 2026",
+        "t": "UN Security Council Resolution 2817",
+        "c": "iran",
+        "txt": "The Council condemns Iran's attacks on Gulf neighbors 13–0, with China and Russia abstaining rather than exercising their vetoes.",
+        "src": [
+            "OSINT"
+        ]
+    },
+    {
+        "d": "Mar 2026",
+        "t": "Japan deploys upgraded Type-12 missiles",
+        "c": "china",
+        "txt": "Tokyo fields land-to-ship missiles with roughly 1,000 km range — standoff capability reaching mainland China — with further deployments planned on Yonaguni, some 110 km from Taiwan.",
+        "src": [
+            "OSINT"
+        ]
+    },
+    {
+        "d": "Mar 6, 2026",
+        "t": "President Trump's Cyber Strategy for America published",
+        "c": "tech",
+        "txt": "A six-pillar national cyber strategy, released with an executive order on combating cybercrime and a fact sheet. Shorter and higher-level than the 2023 National Cybersecurity Strategy; signals a more aggressive cyber deterrence posture and accelerated AI adoption for network defense.",
+        "src": [
+            "CYBER"
+        ]
+    },
+    {
+        "d": "Apr 7, 2026",
+        "t": "Joint federal advisory names Iranian actors targeting U.S. water systems",
+        "c": "tech",
+        "txt": "EPA, FBI, CISA and NSA publish advisory AA26-097A on Iranian-affiliated actors exploiting internet-exposed programmable logic controllers, documenting configuration wiping, sensor tampering and HMI disruption. Updated 22 July to add Schneider Electric and Siemens devices and to note boil-water notices and sustained manual operations.",
+        "src": [
+            "CISA"
+        ]
+    },
+    {
+        "d": "Aug 3, 2026",
+        "t": "Jay Clayton sworn in as Director of National Intelligence",
+        "c": "homeland",
+        "txt": "The ninth DNI takes office following Senate confirmation on 28 July, succeeding Tulsi Gabbard, who presented the March 2026 Annual Threat Assessment. Previously U.S. Attorney for the Southern District of New York and Chairman of the SEC.",
+        "src": [
+            "ODNI"
+        ]
+    },
+    {
+        "d": "Sept 17, 2025",
+        "t": "Saudi Arabia–Pakistan Strategic Mutual Defence Agreement",
+        "c": "alliance",
+        "txt": "Signed at Al-Yamamah Palace in Riyadh by Mohammed bin Salman and Shehbaz Sharif: any aggression against either country is considered aggression against both. Becomes the basis for the later trilateral pact.",
+        "src": [
+            "JOINT20"
+        ]
+    },
+    {
+        "d": "Mar 20, 2026",
+        "t": "Twenty governments issue a joint statement on the Strait of Hormuz",
+        "c": "diplomacy",
+        "txt": "The UK, France, Germany, Italy, Japan, Canada, Korea, Bahrain and others condemn Iranian attacks on commercial vessels and the de facto closure of the strait, cite UN Security Council Resolution 2817, and welcome the IEA coordinated strategic petroleum reserve release.",
+        "src": [
+            "JOINT20"
+        ]
+    },
+    {
+        "d": "Mar 18, 2026",
+        "t": "2026 Annual Threat Assessment published",
+        "c": "homeland",
+        "txt": "ODNI releases the 2026 ATA, restructured around Homeland, Technological Challenges, and Diverse Threat Vectors, and explicitly following the NSS priority order. AI and quantum computing are elevated to standalone sections.",
+        "src": [
+            "ATA26"
+        ]
+    },
+    {
+        "d": "Mar 18, 2026",
+        "t": "IC revises the Taiwan 2027 judgment",
+        "c": "china",
+        "txt": "The assessment states Chinese leaders do not currently plan to execute an invasion of Taiwan in 2027 and have no fixed timeline for unification — retiring the widely-held reading of 2027 as a readiness deadline.",
+        "src": [
+            "ATA26"
+        ]
+    },
+    {
+        "d": "Mar 18, 2026",
+        "t": "IC downgrades the 'adversary alignment' framing",
+        "c": "coop",
+        "txt": "The 2026 ATA states the China–Russia–Iran–North Korea relationships are limited and primarily bilateral, and that the alignment concept overstates the depth of cooperation currently occurring — a marked shift from the 2025 assessment.",
+        "src": [
+            "ATA26"
+        ]
+    },
+    {
+        "d": "Apr 8, 2026",
+        "t": "Pakistan-brokered ceasefire ends the 40-day active phase",
+        "c": "iran",
+        "txt": "Iran agrees to a ceasefire after roughly 38–40 days of major combat. The White House declares the operation's objectives met; CENTCOM reports more than 6,000 targets struck.",
+        "src": [
+            "OSINT"
+        ]
+    },
+    {
+        "d": "Apr 13, 2026",
+        "t": "U.S. announces naval blockade of Iranian ports",
+        "c": "iran",
+        "txt": "Blockade enforcement begins and becomes a central Iranian precondition in every subsequent round of negotiations.",
+        "src": [
+            "OSINT"
+        ]
+    },
+    {
+        "d": "May 5, 2026",
+        "t": "Pentagon press conference; 7 Apr – 5 May phase closes",
+        "c": "iran",
+        "txt": "Hegseth and Caine brief on the campaign and the Department publishes a 7 April–5 May timeline graphic. The operation itself is NOT concluded — as of 8 August the Department of War's live page describes U.S. and partner forces as currently striking targets, and carries CENTCOM strike footage through 20 July. The Strait of Hormuz remains effectively shut to Western-allied commercial shipping, with no such transits assessed since 4 May.",
+        "src": [
+            "DOW"
+        ]
+    },
+    {
+        "d": "Jun 17, 2026",
+        "t": "Islamabad Memorandum of Understanding signed",
+        "c": "iran",
+        "txt": "A 14-point framework: end of operations on all fronts, blockade removal within 30 days, toll-free Hormuz passage for 60 days with demining, at least $300bn reconstruction, phased sanctions termination, and on-site down-blending of enriched uranium under IAEA supervision. Repeatedly suspended and contested thereafter.",
+        "src": [
+            "OSINT"
+        ]
+    },
+    {
+        "d": "Jul 4, 2026",
+        "t": "Khamenei state funeral begins",
+        "c": "iran",
+        "txt": "Six days of ceremonies open in Tehran. Successor Mojtaba Khamenei does not appear publicly, reportedly due to security threats and injuries sustained in the February strike.",
+        "src": [
+            "OSINT"
+        ]
+    },
+    {
+        "d": "Jul 14, 2026",
+        "t": "Blockade reinstated; Hormuz declared closed",
+        "c": "iran",
+        "txt": "The U.S. naval blockade resumes; the IRGC declares the strait closed and asserts a transit-fee regime. Attacks on commercial shipping resume.",
+        "src": [
+            "OSINT"
+        ]
+    },
+    {
+        "d": "Jul 22, 2026",
+        "t": "Houthis declare a maritime blockade of Saudi Arabia",
+        "c": "iran",
+        "txt": "A second maritime front opens in the Red Sea, with repeated missile attacks on Saudi tankers through early August.",
+        "src": [
+            "OSINT"
+        ]
+    },
+    {
+        "d": "Jul 29, 2026",
+        "t": "Japan test-fires a Tomahawk from the destroyer Chokai",
+        "c": "china",
+        "txt": "A 1,600 km weapon able to reach mainland China from Japanese waters, with 400 on order. Japan's 2026 Defense White Paper names PRC short-of-war coercion as a major threat.",
+        "src": [
+            "OSINT"
+        ]
+    },
+    {
+        "d": "Aug 5–7, 2026",
+        "t": "Hormuz corridor terms surface; Iran decouples them from reopening",
+        "c": "iran",
+        "txt": "A proposed 60-day interim mechanism becomes public — inbound through Iranian waters, outbound through Omani waters, no tolls, median-lane demining in 30 days. Tehran confirms agreement on the route's coordinates while stating this does not mean the strait is secure for transit.",
+        "src": [
+            "OSINT"
+        ]
+    },
+    {
+        "d": "Aug 5–6, 2026",
+        "t": "Iran confirms Hormuz route agreement — and detaches it from reopening",
+        "c": "iran",
+        "txt": "Tehran confirms agreement with Oman on the geographic coordinates of a transit route while stating this does not mean the strait is secure for transiting vessels, conditioning reopening on an end to the U.S. naval blockade. A joint statement is described as in final drafting.",
+        "src": [
+            "OSINT"
+        ]
+    },
+    {
+        "d": "Aug 7, 2026",
+        "t": "Mecca Joint Defence Agreement signed",
+        "c": "alliance",
+        "txt": "Saudi Arabia, Turkey and Pakistan sign a trilateral collective-defence pact in Mecca: an armed attack on any one is regarded as an attack on all. Extends the September 2025 Saudi–Pakistan commitment to Turkey after roughly a year of negotiation. Coverage widely calls it NATO-style; Atlantic Council analysts reject the comparison, noting no integrated command, treaty organisation or standing force.",
+        "src": [
+            "AC"
+        ]
+    },
+    {
+        "d": "Aug 7, 2026",
+        "t": "Houthis widen the front against Saudi Arabia",
+        "c": "terror",
+        "txt": "Houthi forces strike a Saudi base inside Yemen and targets in Najran, a Saudi border region, following the 22 July declaration of a maritime blockade of Saudi Arabia and repeated missile attacks on Saudi tankers.",
+        "src": [
+            "OSINT"
+        ]
+    },
+    {
+        "d": "Aug 2026",
+        "t": "Iran-attributed water-system intrusions reach 12 states",
+        "c": "tech",
+        "txt": "Intrusions into U.S. municipal water systems preliminarily attributed to Iran-affiliated actors spread across twelve states with no confirmed contamination. CISA urges removal of internet-exposed programmable logic controllers.",
+        "src": [
+            "OSINT"
+        ]
+    },
+    {
+        "d": "2025–26",
+        "t": "Fujian carrier enters full PLA service",
+        "c": "china",
+        "future": true,
+        "txt": "China's third carrier is expected to complete its transition from sea trials to operational fleet service.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "2026",
+        "t": "China's tech sector approaches ~23% of GDP",
+        "c": "china",
+        "future": true,
+        "txt": "Some forecasts cited in the ATA see Chinese technology industries more than doubling their GDP share since 2018.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "2026 →",
+        "t": "Continued NATO ramp toward 5% GDP",
+        "c": "alliance",
+        "future": true,
+        "txt": "Allies are expected to keep scaling toward the Hague-summit spending standard through the rest of the decade.",
+        "src": [
+            "NDS",
+            "NSS"
+        ]
+    },
+    {
+        "d": "2026 →",
+        "t": "Watch: DPRK nuclear-test signaling",
+        "c": "nkorea",
+        "future": true,
+        "txt": "The ATA assesses North Korea is 'probably prepared' to conduct a nuclear test as it continues ICBM flight testing.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "2027",
+        "t": "PLA modernization milestone — invasion reading retired",
+        "c": "china",
+        "future": true,
+        "txt": "2027 remains a PLA capability benchmark, but the 2026 ATA states explicitly that Chinese leaders do not currently plan an invasion of Taiwan that year and have no fixed unification timeline. The earlier framing of 2027 as a readiness deadline is superseded.",
+        "src": [
+            "ATA26"
+        ]
+    },
+    {
+        "d": "Aug 2026",
+        "t": "Haiti national elections",
+        "c": "homeland",
+        "future": true,
+        "txt": "Elections are planned for this month into an environment where armed groups are attacking the U.S. Embassy compound and a UN-authorized multinational force has yet to arrive.",
+        "src": [
+            "ATA26"
+        ]
+    },
+    {
+        "d": "Sept 2026",
+        "t": "War Powers Act 60-day clock on the Iran campaign",
+        "c": "iran",
+        "future": true,
+        "txt": "The statutory clock runs toward September. Two Senate resolutions have already failed, 50-49 and 50-48.",
+        "src": [
+            "OSINT"
+        ]
+    },
+    {
+        "d": "2026",
+        "t": "USMCA joint review",
+        "c": "homeland",
+        "future": true,
+        "txt": "The scheduled review is assessed to raise uncertainty across Latin American economies that rely on Mexico as an export route into the U.S.",
+        "src": [
+            "ATA26"
+        ]
+    },
+    {
+        "d": "Through 2026",
+        "t": "PRC coercive pressure on Japan intensifies",
+        "c": "china",
+        "future": true,
+        "txt": "The ATA expects Beijing's multidomain campaign against Japan to intensify, with further economic measures and increased military and coast guard activity around the Senkakus raising accident and miscalculation risk.",
+        "src": [
+            "ATA26"
+        ]
+    },
+    {
+        "d": "2030",
+        "t": "Russia's most powerful nuclear icebreaker operational",
+        "c": "russia",
+        "future": true,
+        "txt": "Russia's Arctic fleet already numbers 42 icebreakers, eight of them nuclear; a new vessel reported as the world's most powerful is due around 2030.",
+        "src": [
+            "ATA26"
+        ]
+    },
+    {
+        "d": "2035",
+        "t": "Missile threat to the Homeland projected above 16,000",
+        "c": "homeland",
+        "future": true,
+        "txt": "The IC projects the number of missiles able to threaten the U.S. Homeland rising from more than 3,000 today to more than 16,000 by 2035, across China, Russia, North Korea, Iran and Pakistan.",
+        "src": [
+            "ATA26"
+        ]
+    },
+    {
+        "d": "Through 2028",
+        "t": "China outbuilds the world in legacy-chip capacity",
+        "c": "china",
+        "future": true,
+        "txt": "Beijing is expected to add more 28nm-and-up semiconductor fabrication capacity than the rest of the world combined.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "2030",
+        "t": "China's goal: global AI leadership",
+        "c": "china",
+        "future": true,
+        "txt": "Beijing's multifaceted national strategy aims to displace the United States as the world's most influential AI power.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "2030",
+        "t": "China's goal: crewed Moon landing",
+        "c": "china",
+        "future": true,
+        "txt": "A lunar astronaut mission is targeted as the next milestone after 2024's sample-return success.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "2030",
+        "t": "Russia's goal: mass-produce 28nm chips",
+        "c": "russia",
+        "future": true,
+        "txt": "Moscow's domestic microelectronics industry, currently capped near 65nm, is targeting a major process-node leap.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "2030s",
+        "t": "U.S. economy targeted to reach $40 trillion",
+        "c": "homeland",
+        "future": true,
+        "txt": "The NSS lays out a path from a $30 trillion U.S. economy in 2025 to $40 trillion in the 2030s, contingent on sustained growth and a rebalanced China relationship.",
+        "src": [
+            "NSS"
+        ]
+    },
+    {
+        "d": "2035",
+        "t": "PLA's next modernization milestone",
+        "c": "china",
+        "future": true,
+        "txt": "A second Beijing-set benchmark year for building 'a world-class military.'",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "2035",
+        "t": "China's goal: first lunar base",
+        "c": "china",
+        "future": true,
+        "txt": "Beijing aims to establish humanity's newest permanent lunar outpost.",
+        "src": [
+            "ATA"
+        ]
+    },
+    {
+        "d": "2049",
+        "t": "China's 'great rejuvenation' target",
+        "c": "china",
+        "future": true,
+        "txt": "Xi Jinping's ultimate deadline for a 'world-class' PLA and the 'great rejuvenation of the Chinese nation' — the centenary of the PRC.",
+        "src": [
+            "ATA"
+        ]
+    }
+];
+
+  const SRC_URLS = {
+    "ATA": "https://archive.dni.gov/files/ODNI/documents/assessments/ATA-2025-Unclassified-Report.pdf",
+    "ATA26": "https://archive.dni.gov/files/ODNI/documents/assessments/ATA-2026-Unclassified-Report.pdf",
+    "NDS": "https://media.defense.gov/2026/Jan/23/2003864773/-1/-1/0/2026-NATIONAL-DEFENSE-STRATEGY.PDF",
+    "NSS": "https://www.whitehouse.gov/wp-content/uploads/2025/12/2025-National-Security-Strategy.pdf",
+    "OSINT": "https://www.globalsecurity.org/military/ops/iran-war-update.htm",
+    "DOW": "https://www.war.gov/Spotlights/Operation-Epic-Fury/",
+    "CYBER": "https://www.congress.gov/crs-product/IN12667",
+    "CISA": "https://www.epa.gov/newsreleases/epa-fbi-cisa-nsa-issue-joint-cybersecurity-advisory-water-system-regarding-iranian",
+    "ODNI": "https://www.odni.gov/14064/pr-12-26/",
+    "JOINT20": "https://www.regjeringen.no/en/whats-new/joint-statement-on-the-strait-of-hormuz/id3153450",
+    "AC": "https://www.atlanticcouncil.org/dispatches/why-saudi-arabia-pakistan-and-turkey-just-signed-a-defense-pact/"
+};
+
+  const ERAS = [
+    {label:"Prelude — 2016 – 2021", test:e => !e.future && parseYear(e.d) <= 2021},
+    {label:"Escalation — 2022 – 2024", test:e => !e.future && parseYear(e.d) >= 2022 && parseYear(e.d) <= 2024},
+    {label:"Realignment — 2025", test:e => !e.future && parseYear(e.d) === 2025},
+    {label:"Open Conflict — 2026", test:e => !e.future && parseYear(e.d) === 2026},
+    {label:"Projected Trajectory — 2026 →", test:e => e.future},
+  ];
+  function parseYear(d){ const m = d.match(/\d{4}/); return m ? parseInt(m[0],10) : 9999; }
+
+  // ---------- MAP ----------
+  const mapbox = document.getElementById('mapbox');
+  const linesvg = document.getElementById('linesvg');
+
+  NODES.forEach(n=>{
+    const btn = document.createElement('button');
+    btn.className = 'node';
+    btn.dataset.cat = n.cat;
+    btn.style.left = (n.x/10)+'%';
+    btn.style.top = (n.y/460*100)+'%';
+    btn.innerHTML = '<span class="ring"></span><span class="lbl">'+n.label+'</span>';
+    btn.addEventListener('click', ()=> showMapPanel(n));
+    mapbox.appendChild(btn);
+  });
+
+  function nodeById(id){ return NODES.find(n=>n.id===id); }
+  function drawLine(a,b,cls){
+    const A = nodeById(a), B = nodeById(b);
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',A.x); line.setAttribute('y1',A.y);
+    line.setAttribute('x2',B.x); line.setAttribute('y2',B.y);
+    line.setAttribute('class',cls);
+    linesvg.appendChild(line);
+  }
+  ALLY_LINES.forEach(([a,b])=>drawLine(a,b,'allyline'));
+  AXIS_LINES.forEach(([a,b])=>drawLine(a,b,'axisline'));
+
+  const mappanel = document.getElementById('mappanel');
+  function showMapPanel(n){
+    document.getElementById('mp-cat').textContent = n.cat.toUpperCase();
+    document.getElementById('mp-title').innerHTML = n.label;
+    document.getElementById('mp-brief').innerHTML = n.brief;
+    const jump = document.getElementById('mp-jump');
+    jump.href = n.link;
+    jump.onclick = (ev)=>{
+      ev.preventDefault();
+      const target = document.querySelector(n.link);
+      if(target){ target.open = true; target.scrollIntoView({behavior:'smooth', block:'start'}); }
+    };
+    mappanel.classList.add('show');
+  }
+
+  // ---------- TIMELINE ----------
+  const filterbar = document.getElementById('filterbar');
+  const activeCats = new Set(Object.keys(CAT_META));
+  let showFuture = true;
+
+  const allChip = document.createElement('div');
+  allChip.className = 'chip';
+  allChip.setAttribute('role','button');
+  allChip.setAttribute('aria-pressed','true');
+  allChip.textContent = 'All threads';
+  allChip.addEventListener('click', ()=>{
+    if(activeCats.size === Object.keys(CAT_META).length){ activeCats.clear(); }
+    else { Object.keys(CAT_META).forEach(k=>activeCats.add(k)); }
+    syncChips(); renderTimeline();
+  });
+  filterbar.appendChild(allChip);
+
+  Object.entries(CAT_META).forEach(([key,meta])=>{
+    const chip = document.createElement('div');
+    chip.className = 'chip';
+    chip.dataset.cat = key;
+    chip.setAttribute('role','button');
+    chip.setAttribute('aria-pressed','true');
+    chip.innerHTML = '<span class="sw" style="background:'+meta.color+'"></span>'+meta.label;
+    chip.addEventListener('click', ()=>{
+      if(activeCats.has(key)) activeCats.delete(key); else activeCats.add(key);
+      syncChips(); renderTimeline();
+    });
+    filterbar.appendChild(chip);
+  });
+
+  function syncChips(){
+    filterbar.querySelectorAll('.chip[data-cat]').forEach(chip=>{
+      const on = activeCats.has(chip.dataset.cat);
+      chip.setAttribute('aria-pressed', on ? 'true':'false');
+    });
+    allChip.setAttribute('aria-pressed', activeCats.size === Object.keys(CAT_META).length ? 'true':'false');
+  }
+
+  // ---------- YEAR PICKER ----------
+  const yearbar = document.getElementById('yearbar');
+  let activeYear = 'all';
+  const allYears = [...new Set(EVENTS.map(e => parseYear(e.d)).filter(y => y !== 9999))].sort((a,b)=>a-b);
+
+  const allYearChip = document.createElement('div');
+  allYearChip.className = 'ychip';
+  allYearChip.setAttribute('role','button');
+  allYearChip.setAttribute('aria-pressed','true');
+  allYearChip.textContent = 'All years';
+  allYearChip.addEventListener('click', ()=>{ setYear('all'); });
+  yearbar.appendChild(allYearChip);
+
+  allYears.forEach(y=>{
+    const chip = document.createElement('div');
+    chip.className = 'ychip';
+    chip.dataset.year = y;
+    chip.setAttribute('role','button');
+    chip.setAttribute('aria-pressed','false');
+    chip.textContent = y;
+    chip.addEventListener('click', ()=>{ setYear(activeYear === String(y) ? 'all' : String(y)); });
+    yearbar.appendChild(chip);
+  });
+
+  function setYear(y){
+    activeYear = y;
+    allYearChip.setAttribute('aria-pressed', y === 'all' ? 'true' : 'false');
+    yearbar.querySelectorAll('.ychip[data-year]').forEach(chip=>{
+      chip.setAttribute('aria-pressed', chip.dataset.year === y ? 'true' : 'false');
+    });
+    renderTimeline();
+    if(y !== 'all'){
+      const firstMatch = rail.querySelector('.event');
+      if(firstMatch) firstMatch.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+  }
+
+  const futureToggle = document.getElementById('futureToggle');
+  function setFutureToggle(v){
+    showFuture = v;
+    futureToggle.setAttribute('aria-pressed', v ? 'true':'false');
+  }
+  futureToggle.addEventListener('click', ()=>{ setFutureToggle(!showFuture); renderTimeline(); });
+  futureToggle.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); setFutureToggle(!showFuture); renderTimeline(); } });
+
+  const rail = document.getElementById('rail');
+  let io;
+  function renderTimeline(){
+    rail.innerHTML = '';
+    if(io) io.disconnect();
+    io = new IntersectionObserver((entries)=>{
+      entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('visible'); io.unobserve(en.target); } });
+    }, {threshold:0.1});
+
+    ERAS.forEach(era=>{
+      const items = EVENTS.filter(e => era.test(e) && activeCats.has(e.c) && (showFuture || !e.future)
+        && (activeYear === 'all' || parseYear(e.d) === Number(activeYear)));
+      if(items.length === 0) return;
+      const eraEl = document.createElement('div');
+      eraEl.className = 'era';
+      eraEl.textContent = era.label;
+      rail.appendChild(eraEl);
+      items.forEach(e=>{
+        const meta = CAT_META[e.c];
+        const el = document.createElement('div');
+        el.className = 'event' + (e.future ? ' future':'');
+        el.style.setProperty('--dot', meta.color);
+        const srcTags = e.src.map(s=>'<a class="srctag" href="'+SRC_URLS[s]+'" target="_blank" rel="noopener">'+s+'</a>').join('');
+        el.innerHTML =
+          '<div class="card">' +
+            '<div class="ev-date">'+e.d + (e.future ? '<span class="ev-future-tag">PROJECTED</span>':'') + '</div>' +
+            '<div class="ev-title">'+e.t+'</div>' +
+            '<div class="ev-text">'+e.txt+'</div>' +
+            '<div class="ev-src">'+srcTags+'</div>' +
+          '</div>';
+        rail.appendChild(el);
+        io.observe(el);
+      });
+    });
+  }
+  renderTimeline();
+</script>
+
+</body>
+</html>

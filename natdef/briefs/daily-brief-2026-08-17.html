@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Brief — 17 August 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E8EAE4;
+    --paper-2:#DFE2DA;
+    --paper-3:#D5D9CF;
+    --ink:#14181A;
+    --ink-2:#4C555A;
+    --ink-3:#7C858A;
+    --rule:#C2C6BD;
+    --rule-soft:#D3D7CD;
+    --petrol:#1D3A47;
+    --esc:#9E3226;
+    --hold:#8A6B1F;
+    --ease:#3F6349;
+    --vol:#6B4A7A;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:'Newsreader',Georgia,serif;font-size:17px;line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--petrol);color:var(--paper);}
+  .wrap{max-width:820px;margin:0 auto;padding:0 26px;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  h1,h2,h3,.lbl{font-family:'Archivo',system-ui,sans-serif;margin:0;}
+  a{color:var(--petrol);text-decoration-thickness:1px;text-underline-offset:2px;}
+  a:hover{color:var(--esc);}
+
+  .lbl{
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.17em;
+    text-transform:uppercase;color:var(--ink-3);
+  }
+
+  /* ---- MASTHEAD ---- */
+  header{border-bottom:2px solid var(--ink);padding:26px 0 0;}
+  .mast-top{
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;
+    padding-bottom:12px;border-bottom:1px solid var(--rule);
+  }
+  .mast-top .l{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);}
+  h1.masthead{
+    font-size:clamp(40px,8vw,74px);font-weight:800;letter-spacing:-.025em;line-height:.92;
+    padding:16px 0 6px;text-transform:uppercase;
+  }
+  .mast-sub{
+    display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;
+    padding-bottom:20px;
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);
+  }
+  .archlink{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;}
+
+  /* ---- BOTTOM LINE ---- */
+  .bottomline{padding:38px 0 34px;border-bottom:1px solid var(--rule);}
+  .bottomline p{
+    font-size:clamp(20px,3.1vw,27px);line-height:1.4;font-weight:300;margin:14px 0 0;
+    letter-spacing:-.005em;
+  }
+  .bottomline p strong{font-weight:500;}
+  .bottomline p + p{margin-top:16px;font-size:clamp(17px,2.2vw,19px);color:var(--ink-2);line-height:1.55;}
+
+  /* ---- MOVEMENT BOARD ---- */
+  .board-sec{padding:34px 0 30px;border-bottom:1px solid var(--rule);}
+  .board-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px;}
+  .board-hint{font-family:'Newsreader',serif;font-size:14px;color:var(--ink-3);font-style:italic;}
+  .board{
+    display:grid;grid-template-columns:repeat(10,1fr);gap:7px;margin-top:20px;
+  }
+  .gauge{
+    background:none;border:none;padding:0;cursor:pointer;text-align:center;
+    display:flex;flex-direction:column;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;
+  }
+  .track{
+    width:100%;height:104px;background:var(--paper-3);position:relative;overflow:hidden;
+    border-bottom:2px solid var(--ink);
+  }
+  .fill{
+    position:absolute;left:0;right:0;bottom:0;
+    background:var(--c);
+    transition:height .7s cubic-bezier(.2,.7,.3,1);
+    height:0;
+  }
+  .fill::after{
+    content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--ink);opacity:.55;
+  }
+  .gauge .arrow{font-size:13px;font-weight:700;color:var(--c);line-height:1;}
+  .gauge .code{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--ink);}
+  .gauge .val{font-size:9.5px;color:var(--ink-3);letter-spacing:.04em;}
+  .gauge:hover .track,.gauge:focus-visible .track{outline:2px solid var(--ink);outline-offset:2px;}
+  .gauge[aria-pressed="true"] .track{outline:2px solid var(--ink);outline-offset:2px;}
+
+  .readout{
+    margin-top:18px;border-left:3px solid var(--ink);padding:12px 0 12px 15px;min-height:78px;
+  }
+  .readout .r-name{font-family:'Archivo',sans-serif;font-weight:700;font-size:17px;}
+  .readout .r-name .tag{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:2px 7px;margin-left:9px;color:var(--paper);vertical-align:2px;
+  }
+  .readout .r-line{font-size:16px;color:var(--ink-2);margin-top:5px;}
+  .readout .r-watch{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-3);margin-top:8px;letter-spacing:.03em;}
+
+  @media(max-width:720px){
+    .board{grid-template-columns:repeat(10,minmax(52px,1fr));overflow-x:auto;padding-bottom:8px;}
+    .track{height:88px;}
+  }
+
+  /* ---- ITEMS ---- */
+  .items{padding:36px 0 10px;}
+  .item{padding:26px 0;border-bottom:1px solid var(--rule-soft);}
+  .item:first-of-type{padding-top:14px;}
+  .item-top{display:flex;gap:14px;align-items:baseline;}
+  .item-num{
+    font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--ink-3);
+    flex:none;padding-top:5px;
+  }
+  .item-thread{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:2px 7px;color:var(--paper);
+  }
+  .latefile{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:2px 7px;background:var(--ink);color:var(--paper);margin-left:6px;
+  }
+  h3.item-title{
+    font-size:clamp(22px,3.2vw,29px);font-weight:700;letter-spacing:-.02em;line-height:1.14;margin:7px 0 0;
+  }
+  .item-body{padding-left:0;margin-top:12px;}
+  .item-body p{margin:0 0 13px;font-size:16.5px;}
+  .sowhat{
+    border-left:3px solid var(--petrol);padding:9px 0 9px 14px;margin-top:16px;
+    font-size:16px;color:var(--ink);background:linear-gradient(90deg,rgba(29,58,71,.055),transparent 70%);
+  }
+  .sowhat > b:first-child{
+    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--petrol);display:block;margin-bottom:3px;
+  }
+  .attrib{font-size:14px;color:var(--ink-3);font-style:italic;margin-top:10px;}
+
+  /* ---- CHANGED / HORIZON ---- */
+  section.block{padding:34px 0;border-top:1px solid var(--rule);}
+  h2.sec{font-size:clamp(20px,2.8vw,26px);font-weight:700;letter-spacing:-.015em;margin-top:6px;text-transform:uppercase;}
+  .sec-note{color:var(--ink-3);font-size:15px;margin-top:6px;font-style:italic;}
+
+  .changed{margin-top:20px;}
+  .chg{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--rule-soft);align-items:flex-start;}
+  .chg:last-child{border-bottom:none;}
+  .chg-kind{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+    padding:3px 8px;border:1px solid var(--ink);flex:none;margin-top:3px;min-width:92px;text-align:center;
+  }
+  .chg-kind.rev{background:var(--ink);color:var(--paper);}
+  .chg-body{font-size:15.5px;}
+  .chg-body b{font-weight:600;}
+  .chg-body .was{color:var(--ink-3);display:block;margin-top:4px;font-size:14.5px;}
+
+  .horizon{margin-top:20px;}
+  .hz{display:grid;grid-template-columns:118px 1fr;gap:14px;padding:11px 0;border-bottom:1px solid var(--rule-soft);}
+  .hz:last-child{border-bottom:none;}
+  .hz-when{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.03em;padding-top:2px;}
+  .hz-item{font-size:15.5px;}
+  .conf{
+    font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+    border:1px solid var(--ink-3);color:var(--ink-3);padding:1px 6px;margin-left:8px;white-space:nowrap;
+  }
+  .hz-note{display:block;color:var(--ink-3);font-size:14px;margin-top:3px;}
+  @media(max-width:600px){
+    .hz{grid-template-columns:1fr;gap:3px;}
+    .chg{flex-direction:column;gap:7px;}
+  }
+
+  /* ---- SOURCES / FOOTER ---- */
+  .srcs{margin-top:18px;}
+  .src{display:grid;grid-template-columns:78px 1fr;gap:14px;padding:10px 0;border-bottom:1px solid var(--rule-soft);align-items:baseline;}
+  .src:last-child{border-bottom:none;}
+  .src-tier{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;}
+  .src-body{font-size:15px;}
+  .src-body a{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;word-break:break-all;margin-top:2px;}
+  @media(max-width:600px){.src{grid-template-columns:1fr;gap:2px;}}
+
+  footer.end{border-top:2px solid var(--ink);padding:22px 0 56px;margin-top:30px;}
+  .caveat{font-size:13.5px;color:var(--ink-3);line-height:1.55;}
+  .caveat b{color:var(--ink-2);}
+
+  .cloudnote{
+    margin-top:20px;border:1px solid var(--ink);padding:16px 18px;background:var(--paper-2);
+    font-size:14.5px;color:var(--ink-2);line-height:1.6;
+  }
+  .cloudnote b{color:var(--ink);}
+
+  @media print{
+    body{background:#fff;font-size:11pt;}
+    .gauge{cursor:default;}
+    .board-hint{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="mast-top">
+      <span class="l">Strategic Threat &amp; Posture</span>
+      <span class="l">Brief No. 008 · Verified</span>
+    </div>
+    <h1 class="masthead">Daily Brief</h1>
+    <div class="mast-sub">
+      <span>Monday · 17 August 2026</span>
+      <span>Information cutoff 17 Aug 2026, 21:00Z · interval covered 16 Aug 19:30Z → 17 Aug 21:00Z</span>
+    </div>
+    <div class="mast-sub" style="padding-top:0;">
+      <span>1 late-file item below — dated 15 Aug, missed by Brief 007</span>
+      <span>10 threads · verification log below</span>
+    </div>
+    <div class="mast-sub" style="padding-top:0;">
+      <span style="color:var(--petrol)">Produced from an interactive cloud session — no device-bridge access this run</span>
+      <span>Working folder NOT updated; see Changed on the board</span>
+    </div>
+    <div class="mast-sub" style="padding-top:0;padding-bottom:16px;">
+      <span class="archlink"><a href="brief-archive.html">↑ Every brief, by date — Brief Archive</a></span>
+      <span class="archlink"><a href="strategic-threat-briefing.html">Strategic Threat &amp; Posture Briefing ↗</a></span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="bottomline">
+    <div class="lbl">The bottom line</div>
+    <p><strong>The Islamabad window's expiry kept generating aftershocks today: Trump told Fox News Iran should "put up the white flag of surrender," and separately warned Oman "we'll bomb the s*** out of them" if it gets in the way of reopening Hormuz.</strong> The IRGC's own spokesman publicly denied Trump's claim of a direct backchannel, calling it "delusions" — Washington and Tehran can't even agree on whether they're talking. IR holds at 9, escalating: rhetoric against a third country, not yet a kinetic act.</p>
+    <p>Ukraine and Russia traded strikes at continued record tempo. A Ukrainian strike on Belgorod killed at least six by the Russian governor's own count, while Foreign Minister Lavrov rejected proposed Black Sea ceasefire arrangements as "half-measures" — even as President Putin said he'd meet Trump envoys Witkoff and Kushner on a broader settlement. RU holds at 8, volatile: the war and the diplomacy are running on separate tracks. Hormuz tanker tracking shows the blockade's asymmetry precisely — overall strait transits keep recovering under the MoU's terms, but not one Iranian crude cargo has cleared the Gulf since 12 July — and Brent extended its climb to $91.53.</p>
+    <p>One note is about this product rather than the world. <strong>This brief was produced by an interactive cloud session with no access to the device this project's ledger and toolchain normally run on</strong> — the desktop app has not been reachable this cycle, and the user, informed of that, chose a full independent cloud sweep over waiting. This session read the project's own ledger, current as of Brief 007's reconciliation on 16 Aug, ran every claim below through the same verification gate, and files this brief to the project as usual — but it could not update the working-folder ledger on the user's own device, and <code>render.py</code>/<code>validate.py</code> do not exist in this session's own cloud sandbox to run against it. If a separately-running desktop scheduled task independently produced different content for today, the two will need reconciling the way Brief 003 was — disclosed now, proactively, rather than found later.</p>
+  </section>
+
+  <section class="board-sec">
+    <div class="board-head">
+      <div>
+        <div class="lbl">Movement board</div>
+        <h2 class="sec" style="font-size:22px;margin-top:4px;">Where the ten threads stand</h2>
+      </div>
+      <div class="board-hint">Bar height is intensity. Color and arrow are direction. Tap a column.</div>
+    </div>
+    <div class="board" id="board"></div>
+    <div class="readout" id="readout" style="border-color:var(--esc)">
+      <div class="r-name" id="r-name">Iran / Hormuz <span class="tag" style="background:var(--esc)">Escalating</span></div>
+      <div class="r-line" id="r-line">Trump told Fox News Iran should "put up the white flag of surrender" and warned Oman "we'll bomb the s*** out of them" if it gets in the way of reopening Hormuz — the confrontation's rhetoric now reaches a third country, even as the IRGC calls his claimed backchannel a "delusion."</div>
+      <div class="r-watch" id="r-watch">WATCHING — Bessent sanctions package, now missed twice · Iran–Oman joint statement · Whether Oman responds to the bombing threat · Any successor framework or mediator channel · Sept War Powers clock</div>
+    </div>
+  </section>
+
+  <section class="items">
+    <div class="lbl">Items</div>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">LF1</span>
+        <div>
+          <span class="item-thread" style="background:var(--hold)">North Korea</span><span class="latefile">Late file — 15 Aug</span>
+          <h3 class="item-title">South Korean troops fire warning shots as North Korean soldiers briefly cross the demarcation line</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>Yonhap news agency, citing an unnamed source, reported that South Korea's military fired warning shots after North Korean soldiers crossed the military demarcation line in the eastern DMZ. The soldiers returned across the line; no injuries were reported. The report was carried on 15 August by US News (via AP/Yonhap), Asharq Al-Awsat, The Spokesman-Review and several other wire-fed outlets, all tracing to the same Yonhap item — none add an on-record statement from South Korea's Joint Chiefs of Staff beyond Yonhap's own unnamed source.</p>
+        <p>This predates Brief 007's 16 August 19:30Z cutoff and was missed by that sweep. It lands four days before Ulchi Freedom Shield's scheduled opening today — see Changed on the board, below — though nothing in the reporting ties the crossing to the exercise.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          An isolated incident that resolved within itself does not move a thread by itself, and KP holds at 5, holding. It is filed because it predates the last cutoff and belongs to the record at the date it happened, not because it changes the picture.
+        </div>
+        <p class="attrib">Yonhap (unnamed source) → US News/AP, Asharq Al-Awsat, The Spokesman-Review, 15 August 2026. Single origin at wire distance, multiply carried. <em>attributed-claim.</em></p>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">01</span>
+        <div>
+          <span class="item-thread" style="background:var(--esc)">Iran / Hormuz</span>
+          <h3 class="item-title">Trump tells Iran to "put up the white flag of surrender," warns Oman "we'll bomb the s*** out of them"; IRGC denies his backchannel claim</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>In a Fox News interview, President Trump said of Iran, "They should put up the white flag of surrender." Discussing efforts to reopen the Strait of Hormuz, he said of Oman — the mediator holding the separate transit-route talks with Iran — "If Oman gets in the way, we'll bomb the s*** out of them," adding when asked about patience with Muscat that the US would handle it "very easily" (CBS News). Trump also said he has a direct backchannel to the IRGC that bypasses Iran's fractured political leadership: "They're good poker players, but they're dying." IRGC spokesman Brig. Gen. Hossein Mohbehi denied any such channel on the record, calling Trump's claim "delusions."</p>
+        <p>Iran's Foreign Ministry spokesman Esmaeil Baghaei said separately that the terms of the Islamabad memorandum were "not being implemented" by the US side. Trump adviser Jared Kushner said Iran was "not showing any interest in doing something that makes sense for us." On the calendar question this ledger has already settled, two more outlets add two more dates: CBS News describes the 60-day window as having "expired Monday (August 17)," while a separately-read Fox News piece describes it as having "expired on August 18." This ledger's own 16 August dating, reached independently in Brief 007, is unchanged and not re-litigated on the strength of two more guesses at the same event.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          Washington's rhetoric now reaches a third country — the mediator, not just the belligerent — which is a wider target set even without a wider set of actions. <b>IR holds at 9, escalating.</b> The backchannel dispute matters on its own terms: if the two sides can't agree whether a channel exists, there is no confirmed channel to build a de-escalation on, on top of the one this ledger already knows lapsed on 16 August.
+        </div>
+        <p class="attrib">Trump, on the record, via Fox News (exclusive interview) and CBS News (live coverage), both fetched in full, 17 August 2026. IRGC denial via Mohbehi, carried in the same CBS coverage. <em>contested — the backchannel's existence, not the quotes themselves.</em></p>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">02</span>
+        <div>
+          <span class="item-thread" style="background:var(--vol)">Russia / Ukraine</span>
+          <h3 class="item-title">Belgorod strike kills at least six as Lavrov rejects a partial Black Sea deal but Putin stays open to Witkoff and Kushner</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>Acting Belgorod Governor Alexander Shuvaev said a Ukrainian strike on the village of Koloskovo, in the Valuysky district, killed at least six people and wounded four, including a 14-year-old — a structure burned and a vehicle was damaged. The account, posted to the state-backed MAX platform, is the Russian regional government's own claim and was not independently corroborated by a non-Russian source in this sweep.</p>
+        <p>Separately, Foreign Minister Sergei Lavrov dismissed proposed Black Sea ceasefire arrangements as "half-measures," while President Putin said he was prepared to meet Trump envoys Steve Witkoff and Jared Kushner on a broader Ukraine settlement. Both were read via FDD's daily Overnight Brief, a source this ledger is citing for the first time this brief (added to <code>sources[]</code> with its orientation disclosed); FDD in turn names Lavrov and Putin directly but the underlying wire and paper reporting was not independently re-fetched this sweep.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          Rejecting a partial deal while leaving the door open to a broader one is not the same as either closing off talks or moving toward a ceasefire — the war and the diplomacy are running on separate tracks rather than converging. <b>RU holds at 8, volatile</b>, the same call this ledger has made since the 15 August divergence between territory and tempo first appeared.
+        </div>
+        <p class="attrib">Gov. Shuvaev via Al Jazeera (08:00 UTC, 17 August 2026), fetched in full — Russian regional official's own account, attributed, not adopted. Lavrov and Putin via FDD's Overnight Brief, 17 August 2026 — two-hop, flagged. <em>attributed-claim.</em></p>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">03</span>
+        <div>
+          <span class="item-thread" style="background:var(--vol)">Energy / Markets</span>
+          <h3 class="item-title">Hormuz tanker tracking shows zero Iranian crude has cleared the Gulf since 12 July, even as overall transits recover and Brent climbs to $91.53</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>Brent crude traded at $91.53 a barrel as of 6am ET, up 86 cents on the day (Fortune). Separately, United Against Nuclear Iran's tanker-level tracking — a new standing source for this ledger, <code>UANI-SHIP</code> — put cumulative Hormuz transits at 808 vessels and US-facilitated transits at 968 since the Islamabad MoU's 17 June signing, alongside 67 tankers (roughly 80 million barrels, an estimated $6 billion in revenue for the IRGC) that departed the Gulf of Oman carrying Iranian crude in the same window.</p>
+        <p>But zero laden Iranian-crude tankers have successfully departed the Gulf since the US blockade was reinstated on 12 July. UANI is a US advocacy nonprofit campaigning for sanctions enforcement, not a neutral tracker, and its figures are carried as its own claim rather than adopted — but the vessel-level detail is more granular than this ledger otherwise has for the strait, and the zero-since-12-July figure is the sharpest available read on what the blockade is actually stopping versus what it isn't.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          The blockade is working exactly as designed against Iran's own export route specifically, even while the broader transit picture the MoU created keeps recovering — two trends that look contradictory only if they aren't kept separate. <b>EN holds at 8, volatile.</b>
+        </div>
+        <p class="attrib">Fortune, 17 August 2026, 6am ET, fetched in full. UANI Iran Shipping Update, 17 August 2026, fetched in full. <em>attributed-claim.</em></p>
+      </div>
+    </article>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Changed on the board</div>
+    <h2 class="sec">What this brief altered</h2>
+    <div class="changed">
+      <div class="chg">
+        <span class="chg-kind rev">Continuity — no fork found</span>
+        <div class="chg-body">
+          <b>The Step 1 continuity check passed within this ledger.</b> <code>brief_number</code> read as 7 and <code>last_cutoff</code> as 16 Aug 19:30Z, consistent with Brief 007 as the newest <code>archive[]</code> entry (1–7, no gap or duplicate date). This brief is 008. What the check could not do this run: cross-read the working-folder ledger the way Brief 007's own continuity check caught the Brief 003 fork, because the device bridge was unreachable for this entire session. See the next entry.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Produced cloud-only — device bridge unreachable</span>
+        <div class="chg-body">
+          <b>This session could not reach the user's own device this run.</b> The bridge reported a degraded relay-only state and then an explicit "not connected" error, retried once per its own guidance and still unreachable. The user was told plainly, is primarily on mobile this cycle, and explicitly chose a full independent cloud sweep for Briefs 008–010 over waiting for reconnection.
+          <span class="was">What this run had: the project's own ledger copy, synced current as of Brief 007's 16 Aug reconciliation — not a stale multi-cycle-old copy the way Brief 003's starting point was. What this run does NOT have: the ability to update the working-folder ledger on the user's device, which stays at Brief 007 until a session with device access syncs it forward; and <code>render.py</code>/<code>validate.py</code>, which do not exist in this session's own cloud sandbox. A narrower stand-in structural check (thread ranges, direction values, archive numbering, source/class enums, file-existence cross-check) was run in their place and passed; it is not a substitute for the full Step 6 gate — no dead-link sweep, no cross-file retired-claim sweep, no node/edge count matching, no rendered-output diffing against <code>strategic-threat-briefing.html</code>.</span>
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Lines updated</span>
+        <div class="chg-body">
+          <b>IR, RU, EN and KP one-liners rewritten.</b> China/Taiwan, Homeland/Hemisphere, Terrorism, Europe/NATO, Cyber/Tech and Alliance architecture are unchanged in intensity, direction and line — no verified qualifying development was found for those six threads in this sweep's narrower cloud-only search set. That is a real limitation of today's sweep depth, not a claim that nothing happened on them; it is disclosed rather than papered over with a manufactured item.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Late file ×1</span>
+        <div class="chg-body">
+          <b>Dated to when it occurred, not to today.</b> The DMZ warning-shots incident (reported 15 Aug) predates Brief 007's cutoff and is a sweep gap, disclosed as such. It does not move KP's intensity or direction.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Claim cut</span>
+        <div class="chg-body">
+          <b>One.</b> A claim, surfaced via FDD's 17 Aug roundup, that NSA is using Anthropic's Mythos model to find Pentagon vulnerabilities. Traced to origin: TechCrunch, Axios, Fortune and Fox News all cover this as an April 2026 story, roughly four months before this cutoff. A same-day roundup format made old news look new; cut on dating, not on substance, and flagged in the verification log because it concerns a capability claim about Claude's own maker, which runs through the same gate as any other claim.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Documents added</span>
+        <div class="chg-body">
+          <b>Two tracking sources, both disclosed as non-neutral.</b> <code>UANI-SHIP</code> — United Against Nuclear Iran's daily Hormuz tanker tracker, an advocacy nonprofit's own figures, useful for vessel-level detail this ledger otherwise lacks. <code>FDD-OB</code> — Foundation for Defense of Democracies' daily national-security roundup, a hawkish think tank's index into same-day wire reporting, used here to find leads that are then walked back to their own named origin. No standing strategy document was superseded.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Revision logged</span>
+        <div class="chg-body">
+          <b>Bessent's promised Iran sanctions package misses its second named deadline.</b> The "coming Monday" (17 Aug) framing carried since 14 Aug produced no confirmed sanctions instrument by this cutoff.
+          <span class="was">Was: "still promised, still unpublished... now in its second week" (16 Aug). Now: the named Monday came and went with nothing confirmed; horizon note re-worded, not silently repeated.</span>
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Horizon moved</span>
+        <div class="chg-body">
+          <b>Ulchi Freedom Shield 2026 began today as scheduled</b> and moves from horizon into the timeline; a follow-on horizon item now tracks its 27 Aug conclusion. One new horizon item added: whether Oman responds publicly to Trump's bombing threat.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Horizon</div>
+    <h2 class="sec">What's coming, nearest first</h2>
+    <div class="horizon">
+      <div class="hz"><div class="hz-when">Days</div><div class="hz-item">Whether Oman responds publicly to Trump's threat to "bomb" it if it "gets in the way" <span class="conf">Open</span><span class="hz-note">New this brief. Oman has been the primary mediator on the Hormuz transit-route talks since at least early August; no Omani government statement located yet.</span></div></div>
+      <div class="hz"><div class="hz-when">Days</div><div class="hz-item">Whether any successor framework or mediator channel replaces the lapsed Islamabad MoU <span class="conf">Open</span><span class="hz-note">Unchanged this sweep. Pakistan, Oman and Qatar have each played a role; none has announced a successor process.</span></div></div>
+      <div class="hz"><div class="hz-when">Days</div><div class="hz-item">Iran–Oman joint statement on the Hormuz transit route <span class="conf">Contested</span><span class="hz-note">Still unsigned.</span></div></div>
+      <div class="hz"><div class="hz-when">This week</div><div class="hz-item">New US economic measures against Iran, promised by Treasury Secretary Bessent <span class="conf">Stated goal</span><span class="hz-note">Re-checked 17 Aug: still no published instrument at this cutoff despite the "coming Monday" framing carried since 14 Aug — today was that Monday. Will be checked directly at origin in the next sweep.</span></div></div>
+      <div class="hz"><div class="hz-when">27 Aug 2026</div><div class="hz-item">Ulchi Freedom Shield 2026 concludes <span class="conf">Scheduled</span><span class="hz-note">Began 17 Aug as planned, 11 days, ~18,000 ROK personnel with US forces. DPRK response through the opening was rhetorical only, consistent with prior years.</span></div></div>
+      <div class="hz"><div class="hz-when">By 24 Aug 2026</div><div class="hz-item">Possible mass Russian strike on Kyiv before Ukraine's Independence Day <span class="conf">Forecast</span><span class="hz-note">Ukraine's Center for Strategic Communications — a belligerent's forecast about its adversary, carried as such.</span></div></div>
+      <div class="hz"><div class="hz-when">Weeks</div><div class="hz-item">Accession of a fourth state to the Mecca pact <span class="conf">Contested</span><span class="hz-note">Unchanged this sweep.</span></div></div>
+      <div class="hz"><div class="hz-when">Sept 2026</div><div class="hz-item">War Powers Act 60-day clock on the Iran campaign <span class="conf">Statutory</span></div></div>
+      <div class="hz"><div class="hz-when">13 Dec 2026</div><div class="hz-item">Haiti first-round elections, runoff 21 Feb 2027 <span class="conf">Scheduled</span></div></div>
+      <div class="hz"><div class="hz-when">2026</div><div class="hz-item">USMCA joint review <span class="conf">Scheduled</span></div></div>
+      <div class="hz"><div class="hz-when">2027</div><div class="hz-item">PLA modernization milestone <span class="conf">Superseded</span><span class="hz-note">IC assesses no 2027 invasion planned and no fixed unification timeline.</span></div></div>
+      <div class="hz"><div class="hz-when">2049</div><div class="hz-item">PRC "national rejuvenation" centenary target <span class="conf">Stated goal</span></div></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Verification log</div>
+    <h2 class="sec">What was checked, and what it changed</h2>
+    <div class="changed">
+      <div class="chg">
+        <span class="chg-kind">Contested</span>
+        <div class="chg-body">
+          <b>Trump's "white flag" / Oman bombing threat / IRGC backchannel.</b> Fox News's exclusive-interview writeup and CBS News's live-updates page were each fetched in full for the direct quotes. Both are on the record and not in dispute. The backchannel's existence is disputed by the two parties who would know it: Trump asserts it, IRGC spokesman Mohbehi denies it on the record and calls it "delusions." Both run, named, unharmonized.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Contested</span>
+        <div class="chg-body">
+          <b>The 60-day window's exact expiry date.</b> This ledger's Brief 007 dated it 16 Aug (The National/Reuters). CBS News, fetched in full, says "expired Monday (August 17)." Fox News, fetched in full, says "expired on August 18." Three named outlets, three dates, for what is presented as one event — most plausibly a timezone or 60-day-counting artifact given the dates are consecutive. This ledger's own 16 Aug dating is retained; the later dates are recorded, not adopted, so a future sweep does not mistake the continued coverage for a new event.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Confirmed</span>
+        <div class="chg-body">
+          <b>Belgorod strike casualty figure.</b> Al Jazeera's 17 Aug 08:00 UTC report, fetched in full, sources the toll to acting Belgorod Governor Alexander Shuvaev via the state-backed MAX platform — a Russian regional official's self-report, not independently corroborated by a non-Russian source this sweep. Attributed, not adopted.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Confirmed at two hops</span>
+        <div class="chg-body">
+          <b>Lavrov rejects Black Sea proposals; Putin open to Witkoff/Kushner.</b> Read via FDD's 17 Aug Overnight Brief, cited by this ledger for the first time this brief. FDD names both officials directly, but the underlying wire/paper reporting was not independently re-fetched this sweep — carried at the hop distance FDD represents and flagged in the timeline entry itself, not presented as a direct read.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Confirmed at wire distance, late-filed</span>
+        <div class="chg-body">
+          <b>DMZ warning-shots incident.</b> US News's 15 Aug piece (citing Yonhap, in turn citing an unnamed source) was the clearest-dated of several wire-fed versions found; Asharq Al-Awsat's mirror was fetched in full and adds no on-record confirmation beyond the same Yonhap item. Reported 15 Aug, before Brief 007's 16 Aug 19:30Z cutoff, and missed by that sweep. Filed as LF1; does not move KP.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Re-checked, unresolved</span>
+        <div class="chg-body">
+          <b>Bessent's Monday sanctions briefing.</b> Searched at origin for confirmation the 17 Aug briefing occurred and what, if anything, it produced. None found at this cutoff. Search leads pointing to an actual "toughest sanctions in history" characterization carry dates of 19–21 Aug, after this brief's cutoff, and are deliberately not adopted here — they will be checked directly at origin when this ledger's sweep reaches those dates, not pulled forward on an incidental result.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Cut</span>
+        <div class="chg-body">
+          <b>"NSA uses Anthropic's Mythos model to find Pentagon vulnerabilities."</b> Surfaced via FDD's cyber-section item, formatted as though same-day. Searched directly for the underlying reporting: TechCrunch, Axios, Fortune and Fox News all cover the NSA/Mythos/Pentagon story from mid-April 2026. Fails the "date of the assertion, not the date I found it" test. Flagged rather than silently dropped because it concerns a capability of Claude's own maker, which the protocol requires running through the same gate as any other claim — and it failed on dating, not on substance one way or the other. No ledger content added or removed regarding Anthropic/Mythos.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Continuity</span>
+        <div class="chg-body">
+          <b>CONTINUITY — cloud-only production, disclosed per Rule 0 point 4.</b> The device bridge was unreachable for this entire session (degraded relay-only state, then an explicit "not connected" error, retried once and still unreachable). The user was told plainly and, primarily on mobile this cycle, explicitly chose a full independent cloud sweep for Briefs 008–010 over waiting for reconnection. This brief's starting ledger is the project's copy synced current as of Brief 007's 16 Aug reconciliation — not a stale copy the way Brief 003's was. What this run could not do: update the working-folder ledger on the user's device (it stays at Brief 007 until a future session syncs it forward), or run <code>render.py</code>/<code>validate.py</code>, which do not exist in this session's own cloud sandbox — a narrower manual structural check was run in their place and is disclosed as such, not represented as a full Step 6 pass. A future session with both project and device access must complete the sync, and reconcile any content the desktop-bound scheduler may have independently produced for the same dates, before either ledger copy is trusted as current for an unattended run.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Sources</div>
+    <h2 class="sec">Documents touched</h2>
+    <div class="srcs">
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Trump calls on Iran to surrender, threatens Oman over Strait of Hormuz</b> — CBS News live updates, 17–18 August 2026. Carries the Oman quote, Kushner's and Baghaei's statements, and the IRGC's on-record denial of the backchannel claim. <em>attributed-claim; contested (backchannel).</em><a href="https://www.cbsnews.com/live-updates/us-iran-war-deal-expired-strait-of-hormuz/" target="_blank" rel="noopener">cbsnews.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Trump confirms IRGC backchannel, calls for Iran's "white flag of surrender"</b> — Fox News, exclusive phone interview, 17 August 2026. Source for the white-flag quote and the "good poker players" backchannel quote. <em>attributed-claim.</em><a href="https://www.foxnews.com/world/trump-confirms-irgc-backchannel-calls-irans-white-flag-surrender" target="_blank" rel="noopener">foxnews.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>At least six people killed in Ukrainian missile attack on Russia's Belgorod</b> — Al Jazeera, 17 August 2026, 08:00 UTC. Sources the toll to acting Gov. Alexander Shuvaev. <em>attributed-claim.</em><a href="https://www.aljazeera.com/news/2026/8/17/at-least-six-people-killed-in-ukrainian-missile-attack-on-russias-belgorod" target="_blank" rel="noopener">aljazeera.com</a></div></div>
+      <div class="src"><div class="src-tier">Analysis</div><div class="src-body"><b>Overnight Brief — August 17, 2026</b> — Foundation for Defense of Democracies. Source for the Lavrov/Putin items; new standing source <code>FDD-OB</code>, hawkish orientation disclosed. <em>attributed-claim; two-hop on items sourced from it.</em><a href="https://www.fdd.org/overnight-brief/august-17-2026/" target="_blank" rel="noopener">fdd.org</a></div></div>
+      <div class="src"><div class="src-tier">Analysis</div><div class="src-body"><b>Iran Shipping Update – August 17, 2026</b> — United Against Nuclear Iran. Source for Hormuz transit and Iranian-crude tanker figures; new standing source <code>UANI-SHIP</code>, advocacy orientation disclosed. <em>attributed-claim.</em><a href="https://www.unitedagainstnucleariran.com/analysis/iran-shipping-update-august-17-2026" target="_blank" rel="noopener">unitedagainstnucleariran.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Current price of oil as of August 17, 2026</b> — Fortune, 6am ET. Source for the Brent figure. <em>attributed-claim.</em><a href="https://fortune.com/article/price-of-oil-08-17-2026/" target="_blank" rel="noopener">fortune.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>South Korea Fired Warning Shots After North Korean Soldiers Crossed Demarcation Line</b> — US News (AP/Yonhap), 15 August 2026; cross-read against Asharq Al-Awsat's mirror. <em>attributed-claim.</em><a href="https://www.usnews.com/news/world/articles/2026-08-15/south-korea-fired-warning-shots-after-north-korean-soldiers-crossed-demarcation-line-yonhap-says" target="_blank" rel="noopener">usnews.com</a></div></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="end">
+  <div class="wrap">
+    <p class="caveat"><b>Caveats.</b> Independent, AI-assisted compilation of public open sources. Not an official government product. This brief covers roughly 25.5 hours, from the previous cutoff to 17 August 21:00Z. One item is late-filed and dated to when it occurred rather than to today. Figures from an active conflict or reported by a belligerent's own officials are attributed rather than adopted — the Belgorod toll and the Hormuz tanker figures both fall in this category. One candidate claim was cut at the verification gate and is named above rather than omitted silently. Forward-looking items carry confidence labels.</p>
+    <div class="cloudnote">
+      <b>Production note.</b> This brief was produced by an interactive cloud session with no device-bridge access to the working folder this project's toolchain normally runs from, at the user's explicit direction (see the bottom line and verification log). The project's ledger — current as of Brief 007's 16 Aug reconciliation — was read and updated normally, and every claim above cleared the same Step 3 verification gate as any other brief. What did not happen: the working-folder ledger on the user's device was not updated and remains at Brief 007; the canonical <code>render.py</code>/<code>validate.py</code> toolchain does not exist in this session's cloud sandbox, so a narrower manual structural check was substituted and is disclosed as such. A future session with both project and device access should complete the sync and check this brief against anything the desktop-bound scheduler may have independently produced for the same date.
+    </div>
+  </div>
+</footer>
+
+<script>
+  const THREADS = [
+    {code:"IR", name:"Iran / Hormuz", i:9, dir:"escalating", line:"Trump told Fox News Iran should \"put up the white flag of surrender\" and warned Oman \"we'll bomb the s*** out of them\" if it gets in the way of reopening Hormuz — the confrontation's rhetoric now reaches a third country, even as the IRGC calls his claimed backchannel a \"delusion.\"", watch:"Bessent sanctions package, now missed twice · Iran–Oman joint statement · Whether Oman responds to the bombing threat · Any successor framework or mediator channel · Sept War Powers clock"},
+    {code:"RU", name:"Russia / Ukraine", i:8, dir:"volatile", line:"Ukraine hit Belgorod overnight, killing at least six by the Russian governor's own count, while Moscow rejects a partial Black Sea deal as insufficient even as Putin says he'd meet Witkoff and Kushner — the war and the diplomacy are running on separate tracks, not converging.", watch:"Deep-strike target sets · Russian strike tempo before 24 Aug · Ukrainian interceptor resupply · Any resumption of negotiations"},
+    {code:"TR", name:"Terrorism", i:8, dir:"escalating", line:"Carried forward. No verified qualifying development located in this sweep's narrower search set; Yemen, Red Sea and Sahel watch items re-checked without a confirmed change.", watch:"Post-Khamenei Shia retaliation calls · Bamako blockade · ISIS reconstitution in Syria"},
+    {code:"CY", name:"Cyber / Tech", i:8, dir:"escalating", line:"Carried forward. One candidate claim (an NSA/Anthropic capability story) traced to April 2026 reporting and cut as stale, not new; no qualifying new intrusion or advisory located this sweep.", watch:"Water-sector intrusion spread · CISA guidance · Volt/Salt Typhoon · Quantum/CRQC milestones · Agentic-AI intrusion tradecraft"},
+    {code:"EN", name:"Energy / Markets", i:8, dir:"volatile", line:"The headline number cuts two ways: 808 vessels have transited Hormuz and 968 under US facilitation since the MoU was signed, yet not one tanker of Iranian crude has gotten out since the blockade came back on 12 July.", watch:"Brent range · Hormuz transit counts · OPEC+ output · War-risk premiums · Kharg and North Larak throughput"},
+    {code:"CN", name:"China / Taiwan", i:6, dir:"escalating", line:"Carried forward. No new PLA activity or primary-document change located in this sweep's narrower search set.", watch:"Yonaguni deployment · Senkaku activity · Type 076 employment · PRC economic measures on Japan"},
+    {code:"AL", name:"Alliance architecture", i:5, dir:"holding", line:"Carried forward. No change to the Mecca pact's contested-expansion status or to Gulf statements on the US security guarantee located this sweep.", watch:"Mecca pact implementation or expansion · Gulf statements on the US security guarantee and basing · Hague 5% delivery · Indo-Pacific burden-sharing"},
+    {code:"EU", name:"Europe / NATO", i:5, dir:"escalating", line:"Carried forward. No new incident located this sweep beyond the Romania shoot-down already logged in Brief 007.", watch:"Hague 5% delivery · Russian sabotage incidents · Airspace incursions on the eastern flank · European mine-clearance mission in Hormuz"},
+    {code:"KP", name:"North Korea", i:5, dir:"holding", line:"Ulchi Freedom Shield began on schedule; a late-filed DMZ warning-shots incident four days before the opening resolved within itself and has not recurred.", watch:"Nuclear test indicators · ICBM/IRBM cadence · Crypto heist attribution · DPRK conduct during Ulchi Freedom Shield"},
+    {code:"HL", name:"Homeland / Hemisphere", i:4, dir:"easing", line:"Carried forward. No verified qualifying development located this sweep; Haiti election calendar and core Homeland metrics unchanged.", watch:"Haiti elections and security · USMCA review · Cuba/Haiti migration surge risk"},
+  ];
+  const DIRMETA = {
+    escalating:{c:"var(--esc)", arrow:"▲", label:"Escalating"},
+    holding:{c:"var(--hold)", arrow:"■", label:"Holding"},
+    easing:{c:"var(--ease)", arrow:"▼", label:"Easing"},
+    volatile:{c:"var(--vol)", arrow:"◆", label:"Volatile"},
+  };
+  const board = document.getElementById('board');
+  THREADS.forEach((t, idx) => {
+    const m = DIRMETA[t.dir];
+    const b = document.createElement('button');
+    b.className = 'gauge';
+    b.style.setProperty('--c', m.c);
+    b.setAttribute('aria-pressed', idx === 0 ? 'true' : 'false');
+    b.setAttribute('aria-label', t.name + ', intensity ' + t.i + ' of 10, ' + m.label);
+    b.innerHTML = '<span class="arrow">' + m.arrow + '</span>' +
+      '<span class="track"><span class="fill" data-h="' + (t.i * 10) + '"></span></span>' +
+      '<span class="code">' + t.code + '</span><span class="val">' + t.i + '/10</span>';
+    b.addEventListener('click', () => select(idx));
+    board.appendChild(b);
+  });
+  function select(idx){
+    const t = THREADS[idx], m = DIRMETA[t.dir];
+    document.querySelectorAll('.gauge').forEach((g,i)=>g.setAttribute('aria-pressed', i===idx?'true':'false'));
+    const ro = document.getElementById('readout');
+    ro.style.borderColor = m.c;
+    document.getElementById('r-name').innerHTML = t.name + ' <span class="tag" style="background:' + m.c + '">' + m.label + '</span>';
+    document.getElementById('r-line').textContent = t.line;
+    document.getElementById('r-watch').textContent = 'WATCHING — ' + t.watch;
+  }
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  requestAnimationFrame(()=>{
+    document.querySelectorAll('.fill').forEach((f,i)=>{
+      const h = f.dataset.h + '%';
+      if(reduce){ f.style.transition='none'; f.style.height = h; }
+      else { setTimeout(()=>{ f.style.height = h; }, 90 + i*55); }
+    });
+  });
+</script>
+</body>
+</html>

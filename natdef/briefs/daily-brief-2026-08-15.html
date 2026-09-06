@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Brief — 15 August 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E8EAE4;
+    --paper-2:#DFE2DA;
+    --paper-3:#D5D9CF;
+    --ink:#14181A;
+    --ink-2:#4C555A;
+    --ink-3:#7C858A;
+    --rule:#C2C6BD;
+    --rule-soft:#D3D7CD;
+    --petrol:#1D3A47;
+    --esc:#9E3226;
+    --hold:#8A6B1F;
+    --ease:#3F6349;
+    --vol:#6B4A7A;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:'Newsreader',Georgia,serif;font-size:17px;line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--petrol);color:var(--paper);}
+  .wrap{max-width:820px;margin:0 auto;padding:0 26px;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  h1,h2,h3,.lbl{font-family:'Archivo',system-ui,sans-serif;margin:0;}
+  a{color:var(--petrol);text-decoration-thickness:1px;text-underline-offset:2px;}
+  a:hover{color:var(--esc);}
+
+  .lbl{
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.17em;
+    text-transform:uppercase;color:var(--ink-3);
+  }
+
+  /* ---- MASTHEAD ---- */
+  header{border-bottom:2px solid var(--ink);padding:26px 0 0;}
+  .mast-top{
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;
+    padding-bottom:12px;border-bottom:1px solid var(--rule);
+  }
+  .mast-top .l{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);}
+  h1.masthead{
+    font-size:clamp(40px,8vw,74px);font-weight:800;letter-spacing:-.025em;line-height:.92;
+    padding:16px 0 6px;text-transform:uppercase;
+  }
+  .mast-sub{
+    display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;
+    padding-bottom:20px;
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);
+  }
+  .archlink{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;}
+
+  /* ---- BOTTOM LINE ---- */
+  .bottomline{padding:38px 0 34px;border-bottom:1px solid var(--rule);}
+  .bottomline p{
+    font-size:clamp(20px,3.1vw,27px);line-height:1.4;font-weight:300;margin:14px 0 0;
+    letter-spacing:-.005em;
+  }
+  .bottomline p strong{font-weight:500;}
+  .bottomline p + p{margin-top:16px;font-size:clamp(17px,2.2vw,19px);color:var(--ink-2);line-height:1.55;}
+
+  /* ---- MOVEMENT BOARD ---- */
+  .board-sec{padding:34px 0 30px;border-bottom:1px solid var(--rule);}
+  .board-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px;}
+  .board-hint{font-family:'Newsreader',serif;font-size:14px;color:var(--ink-3);font-style:italic;}
+  .board{
+    display:grid;grid-template-columns:repeat(10,1fr);gap:7px;margin-top:20px;
+  }
+  .gauge{
+    background:none;border:none;padding:0;cursor:pointer;text-align:center;
+    display:flex;flex-direction:column;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;
+  }
+  .track{
+    width:100%;height:104px;background:var(--paper-3);position:relative;overflow:hidden;
+    border-bottom:2px solid var(--ink);
+  }
+  .fill{
+    position:absolute;left:0;right:0;bottom:0;
+    background:var(--c);
+    transition:height .7s cubic-bezier(.2,.7,.3,1);
+    height:0;
+  }
+  .fill::after{
+    content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--ink);opacity:.55;
+  }
+  .gauge .arrow{font-size:13px;font-weight:700;color:var(--c);line-height:1;}
+  .gauge .code{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--ink);}
+  .gauge .val{font-size:9.5px;color:var(--ink-3);letter-spacing:.04em;}
+  .gauge:hover .track,.gauge:focus-visible .track{outline:2px solid var(--ink);outline-offset:2px;}
+  .gauge[aria-pressed="true"] .track{outline:2px solid var(--ink);outline-offset:2px;}
+
+  .readout{
+    margin-top:18px;border-left:3px solid var(--ink);padding:12px 0 12px 15px;min-height:78px;
+  }
+  .readout .r-name{font-family:'Archivo',sans-serif;font-weight:700;font-size:17px;}
+  .readout .r-name .tag{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:2px 7px;margin-left:9px;color:var(--paper);vertical-align:2px;
+  }
+  .readout .r-line{font-size:16px;color:var(--ink-2);margin-top:5px;}
+  .readout .r-watch{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-3);margin-top:8px;letter-spacing:.03em;}
+
+  @media(max-width:720px){
+    .board{grid-template-columns:repeat(10,minmax(52px,1fr));overflow-x:auto;padding-bottom:8px;}
+    .track{height:88px;}
+  }
+
+  /* ---- ITEMS ---- */
+  .items{padding:36px 0 10px;}
+  .item{padding:26px 0;border-bottom:1px solid var(--rule-soft);}
+  .item:first-of-type{padding-top:14px;}
+  .item-top{display:flex;gap:14px;align-items:baseline;}
+  .item-num{
+    font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--ink-3);
+    flex:none;padding-top:5px;
+  }
+  .item-thread{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:2px 7px;color:var(--paper);
+  }
+  .latefile{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:2px 7px;background:var(--ink);color:var(--paper);margin-left:6px;
+  }
+  h3.item-title{
+    font-size:clamp(22px,3.2vw,29px);font-weight:700;letter-spacing:-.02em;line-height:1.14;margin:7px 0 0;
+  }
+  .item-body{padding-left:0;margin-top:12px;}
+  .item-body p{margin:0 0 13px;font-size:16.5px;}
+  .sowhat{
+    border-left:3px solid var(--petrol);padding:9px 0 9px 14px;margin-top:16px;
+    font-size:16px;color:var(--ink);background:linear-gradient(90deg,rgba(29,58,71,.055),transparent 70%);
+  }
+  .sowhat b{
+    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--petrol);display:block;margin-bottom:3px;
+  }
+  .attrib{font-size:14px;color:var(--ink-3);font-style:italic;margin-top:10px;}
+
+  /* ---- CHANGED / HORIZON ---- */
+  section.block{padding:34px 0;border-top:1px solid var(--rule);}
+  h2.sec{font-size:clamp(20px,2.8vw,26px);font-weight:700;letter-spacing:-.015em;margin-top:6px;text-transform:uppercase;}
+  .sec-note{color:var(--ink-3);font-size:15px;margin-top:6px;font-style:italic;}
+
+  .changed{margin-top:20px;}
+  .chg{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--rule-soft);align-items:flex-start;}
+  .chg:last-child{border-bottom:none;}
+  .chg-kind{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+    padding:3px 8px;border:1px solid var(--ink);flex:none;margin-top:3px;min-width:92px;text-align:center;
+  }
+  .chg-kind.rev{background:var(--ink);color:var(--paper);}
+  .chg-body{font-size:15.5px;}
+  .chg-body b{font-weight:600;}
+  .chg-body .was{color:var(--ink-3);display:block;margin-top:4px;font-size:14.5px;}
+
+  .horizon{margin-top:20px;}
+  .hz{display:grid;grid-template-columns:118px 1fr;gap:14px;padding:11px 0;border-bottom:1px solid var(--rule-soft);}
+  .hz:last-child{border-bottom:none;}
+  .hz-when{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.03em;padding-top:2px;}
+  .hz-item{font-size:15.5px;}
+  .conf{
+    font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+    border:1px solid var(--ink-3);color:var(--ink-3);padding:1px 6px;margin-left:8px;white-space:nowrap;
+  }
+  .hz-note{display:block;color:var(--ink-3);font-size:14px;margin-top:3px;}
+  @media(max-width:600px){
+    .hz{grid-template-columns:1fr;gap:3px;}
+    .chg{flex-direction:column;gap:7px;}
+  }
+
+  /* ---- SOURCES / FOOTER ---- */
+  .srcs{margin-top:18px;}
+  .src{display:grid;grid-template-columns:78px 1fr;gap:14px;padding:10px 0;border-bottom:1px solid var(--rule-soft);align-items:baseline;}
+  .src:last-child{border-bottom:none;}
+  .src-tier{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;}
+  .src-body{font-size:15px;}
+  .src-body a{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;word-break:break-all;margin-top:2px;}
+  @media(max-width:600px){.src{grid-template-columns:1fr;gap:2px;}}
+
+  footer.end{border-top:2px solid var(--ink);padding:22px 0 56px;margin-top:30px;}
+  .caveat{font-size:13.5px;color:var(--ink-3);line-height:1.55;}
+  .caveat b{color:var(--ink-2);}
+
+  @media print{
+    body{background:#fff;font-size:11pt;}
+    .gauge{cursor:default;}
+    .board-hint{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="mast-top">
+      <span class="l">Strategic Threat &amp; Posture</span>
+      <span class="l">Brief No. 006 · Verified</span>
+    </div>
+    <h1 class="masthead">Daily Brief</h1>
+    <div class="mast-sub">
+      <span>Saturday · 15 August 2026</span>
+      <span>Information cutoff 15 Aug 2026, 15:00Z · interval covered 12 Aug 15:00Z → 15 Aug 15:00Z</span>
+    </div>
+    <div class="mast-sub" style="padding-top:0;">
+      <span>72-hour catch-up — the 13 and 14 August runs did not fire</span>
+      <span>9 primary documents · 10 threads</span>
+    </div>
+    <div class="mast-sub" style="padding-top:0;padding-bottom:16px;">
+      <span class="archlink"><a href="brief-archive.html">↑ Every brief, by date — Brief Archive</a></span>
+      <span class="archlink"><a href="strategic-threat-briefing.html">Strategic Threat &amp; Posture Briefing ↗</a></span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="bottomline">
+    <div class="lbl">The bottom line</div>
+    <p><strong>Two scheduled runs were missed, so this is a three-day catch-up. In that window the Hormuz standoff stopped being an argument about a shipping route and became one about sovereignty:</strong> President Trump said he will declare the strait "a territory of the United States," Defense Secretary Hegseth said the Navy can hold its blockade of Iranian ports "indefinitely," and Treasury Secretary Bessent promised economic isolation "the world has never seen" — while Iran's strait authority, its deputy foreign minister and its IRGC Navy commander rejected all three.</p>
+    <p>The sharpest reversal on the board is not in the Gulf. ISW now assesses Russia has <em>net-lost</em> 233 km² across the Ukraine front this year, which retires this ledger's standing judgment that Moscow holds the battlefield upper hand — even as Russian ballistic and hypersonic salvos hit a 2026 high against a Ukraine that has run out of Patriot interceptors. Russia moves to 7 and turns volatile; Europe/NATO to 5, escalating; Cyber to 8 on the first publicly reported near-autonomous AI intrusion into a government. Alliance architecture's direction drops to holding after reporting — available before the last cutoff and missed — that Riyadh, not Cairo, kept Egypt out of the Mecca pact.</p>
+  </section>
+
+  <section class="board-sec">
+    <div class="board-head">
+      <div>
+        <div class="lbl">Movement board</div>
+        <h2 class="sec" style="font-size:22px;margin-top:4px;">Where the ten threads stand</h2>
+      </div>
+      <div class="board-hint">Bar height is intensity. Color and arrow are direction. Tap a column.</div>
+    </div>
+    <div class="board" id="board"></div>
+    <div class="readout" id="readout" style="border-color:var(--vol)">
+      <div class="r-name" id="r-name">Iran / Hormuz <span class="tag" style="background:var(--vol)">Volatile</span></div>
+      <div class="r-line" id="r-line">Trump says he will declare Hormuz "a territory of the United States" and Hegseth says the blockade can hold "indefinitely"; Iran's strait authority says the waterway stays shut until its conditions are met.</div>
+      <div class="r-watch" id="r-watch">WATCHING — Iran–Oman joint statement · Mojtaba Khamenei's assent · US munitions resupply · Sept War Powers clock</div>
+    </div>
+  </section>
+
+  <section class="items">
+    <div class="lbl">Items</div>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">LF1</span>
+        <div>
+          <span class="item-thread" style="background:var(--hold)">Alliance architecture</span><span class="latefile">Late file — 11 Aug</span>
+          <h3 class="item-title">Saudi sources say Riyadh, not Cairo, kept Egypt out of the Mecca pact</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>Three Saudi sources, one of them a former senior adviser to the Saudi monarchy, told Middle East Eye that Riyadh opposed Egypt's inclusion in the Mecca Joint Defence Agreement signed on 7 August, despite Ankara formally proposing Cairo's participation. The sources described the position as driven by frustration with President Sisi's government, its alignment with Abu Dhabi, and a judgment that Egypt's military-industrial contribution does not match Turkey's or Pakistan's. They also said Kuwait has shown interest in acceding and that the door to Egypt is not permanently shut.</p>
+        <p>Turkish sources told the same outlet that Cairo was unwilling to join once approached — an account the Saudi former adviser called "laughable." Both versions rest entirely on anonymous sourcing and they are mutually exclusive. This was published 11 August at 17:00 UTC, a day before Brief 005's cutoff, and was not caught in that sweep: a genuine gap, dated to when it was published rather than folded into today.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          Brief 005 carried Ankara's open-door framing without the counter-position that was already on the record. On the available reporting the pact reads less like a nucleus for regional realignment and more like a closed trilateral whose growth is contested — which is why AL's direction moves from escalating to holding at unchanged intensity, and why the horizon item naming Egypt as the likely fourth member is superseded.
+        </div>
+        <p class="attrib">Middle East Eye exclusive, three anonymous Saudi sources and Turkish sources, 11 August 2026. Contested; neither account is on the record.</p>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">LF2</span>
+        <div>
+          <span class="item-thread" style="background:var(--esc)">Cyber / Tech</span><span class="latefile">Late file — 12 Aug</span>
+          <h3 class="item-title">First publicly reported near-autonomous AI-agent intrusion into a government target</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>Israeli security firm Dream published research describing a multi-agent system, assembled from the open-source Hermes and OpenClaw frameworks, that over four days in early July mapped 21 Taiwanese government systems, compromised at least 85 accounts and extracted more than 2,500 personnel records — then expanded on its own to government IT supply-chain vendors, a nuclear safety agency, a government email system and seven or more energy-sector companies. Dream says the framework ran autonomous "Learning Cycles" against vulnerability databases and code repositories, adapted mid-operation, corrected its own mistakes, and bypassed the frameworks' safety guardrails by packaging the work as authorised penetration testing. The firm found the operation through an exposed 160MB archive of roughly 1,400 files.</p>
+        <p>Dream did <em>not</em> attribute the operation to the Chinese government or to a named group; it said the operating documentation was written in Simplified Chinese and "points to a Chinese-language operator." Several outlets carrying the story upgraded that to "China-linked hackers," and in places to state attribution. That upgrade has no source and is cut here. Dream also stressed the system still required substantial human tuning — its "autonomous" is qualified, not absolute. Published 12 August at 17:05 UTC, two hours after the last brief's cutoff.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          Whoever ran this one, the resource floor for a state-grade intrusion campaign just dropped: two publicly downloadable frameworks, a pretext that defeats their own guardrails, and four days to reach a nuclear safety regulator. CY moves to 8. The China thread is deliberately not moved on this item, because the attribution that would justify it does not exist.
+        </div>
+        <p class="attrib">Dream research via CyberScoop, which links and quotes it; first reported by the Financial Times — 12 August 2026. Vendor research, not a government finding.</p>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">01</span>
+        <div>
+          <span class="item-thread" style="background:var(--vol)">Iran / Hormuz</span>
+          <h3 class="item-title">Trump says he will declare Hormuz a US "territory"; Hegseth says the blockade can hold "indefinitely"</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>Speaking at a law-enforcement event in New York on Friday, President Trump said that "after we finish defeating Iran… pretty soon I'll be declaring the Hormuz Strait a territory of the United States," and called the US blockade "a wall of steel." Defense Secretary Pete Hegseth, in Panama the day before, said the Navy can maintain the blockade of Iranian ports "indefinitely" by rotating ships. Treasury Secretary Scott Bessent told Newsmax the same day to expect "a combination of economic isolation the world has never seen before," with announcements the following week. No proclamation, legal instrument or sanctions package existed at this cutoff — all three are statements of intent. Legal specialists cited by Al Jazeera say the transit tolls both capitals have floated would be unlawful.</p>
+        <p>Tehran answered on all three channels. Deputy Foreign Minister Kazem Gharibabadi wrote that the strait "cannot be taken over by a tweet, nor by an aircraft carrier, nor by issuing a decree, nor by an election speech." Iran's Persian Gulf Strait Authority posted on Wednesday that the strait "remains blocked and will not be reopened until Iran's conditions are accepted," and IRGC Navy commander Rear Adm. Ali Azmaei said Iran has "complete and decisive control over all movements" in the waterway. Separately, the durability of the blockade itself became a domestic question: Navy Times and Stars and Stripes reported family accounts of declining conditions aboard USS Abraham Lincoln, Senator Blumenthal wrote to Hegseth citing nearly seven months continuously at sea, Hegseth called the reports "completely misrepresented," and CENTCOM publicly denied Iranian-media claims that seven sailors had been killed aboard. The carrier USS George Washington has begun moving from the Pacific toward the region.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          Washington's stated position has moved from enforcing transit to claiming the waterway. That removes the face-saving off-ramp the Oman route agreement was built to provide, and reframes reopening as a sovereignty question neither government can concede without visible defeat — at the same moment the force sustaining the blockade is the subject of a congressional inquiry.
+        </div>
+        <p class="attrib">Al Jazeera reporting of the New York remarks and of the Hegseth and Bessent interviews, 14 August 2026; CENTCOM statement via the same. Every element is an official statement, attributed and not adopted.</p>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">02</span>
+        <div>
+          <span class="item-thread" style="background:var(--vol)">Iran / Hormuz</span>
+          <h3 class="item-title">Two ADNOC vessels attacked in Hormuz; the UAE blames the IRGC and calls it piracy</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>ADNOC said two of its vessels were attacked while transiting the Strait of Hormuz on Thursday evening and that the situation was brought under control, with no injuries. The UAE Foreign Ministry condemned what it called a "hostile Iranian attack," described Iran's use of the strait as economic coercion amounting to "piracy," and called it a direct threat to regional stability and global energy supply. Iran did not comment. The strike followed a similar attack on an ADNOC tanker on 8 August, also blamed by Abu Dhabi on the IRGC.</p>
+        <p>The cumulative count is itself contested. Al Jazeera, sourcing AFP on 14 August, cites ADNOC for 15 vessels attacked since the war began in February; Gulf News and Seatrade Maritime the same day put the figure at 17. Neither outlet reconciles with the other and no reconciliation is available from open sources. Both figures run here; neither is adopted as this ledger's number.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          Gulf states are absorbing the cost of a standoff they are not party to — which is the pressure mechanism Iranian analysts have openly described, aimed at getting Riyadh, Abu Dhabi, Doha and Kuwait City to press Washington toward terms. Brent closed Friday at $88.52, up more than 5% on the week.
+        </div>
+        <p class="attrib">ADNOC and UAE Ministry of Foreign Affairs statements via Al Jazeera (AFP), 14 August 2026; contested tally via Gulf News and Seatrade Maritime, same date.</p>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">03</span>
+        <div>
+          <span class="item-thread" style="background:var(--esc)">Terrorism</span>
+          <h3 class="item-title">UN envoy: Yemen faces its most serious risk of return to large-scale war since the 2022 truce</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>Briefing the Security Council's 10208th meeting on Thursday, Special Envoy Hans Grundberg said "Yemen today faces a more serious risk of return to large-scale conflict than at any point since the 2022 UN-mediated truce," and warned that Houthi attacks on commercial vessels in the Red Sea and Gulf of Aden risk pulling the country into the "vortex" of the wider regional war. He cited intensifying activity along the front lines, including attacks in Marib, Hadramawt and Mokha, and said a negotiated off-ramp remains possible. Emergency Relief Coordinator Tom Fletcher told the same session that six million Yemenis — the highest number of any country — face emergency levels of deprivation nearing famine, against a humanitarian appeal barely 20% funded.</p>
+        <p>The session also produced two data points on the Bab el-Mandeb attack this ledger carried last brief: Pakistan's representative confirmed three Pakistani and one Indonesian crew member killed aboard the <em>Tihamah</em> on 11 August — a subset of, not a contradiction of, the six-dead figure from Yemen's government — and the US representative said the Houthis have targeted more than seven Saudi-linked vessels in recent weeks. Russia's delegate told the Council the Houthis had been "dragged into a regional confrontation initiated by the United States and Israel." Both readings are on the record and neither is resolved here.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          The Bab el-Mandeb attacks can no longer be read separately from Yemen's internal war. TR stays at 8, escalating rather than moving higher: the escalation this week broadened — Yemen, the Red Sea and southern Lebanon all moved — without any single front crossing a new threshold, and a warning about risk is not itself a threshold crossing.
+        </div>
+        <p class="attrib">UN Meetings Coverage SC/16431, 13 August 2026 — the UN's own record of its own session. press.un.org returned a JavaScript challenge to this sweep; text read in full via GlobalSecurity.org's verbatim mirror and cross-checked against UN News, Xinhua and The National.</p>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">04</span>
+        <div>
+          <span class="item-thread" style="background:var(--vol)">Russia / Ukraine</span>
+          <h3 class="item-title">ISW assesses Russia has net-lost 233 km² this year as Ukraine completes its Dnipropetrovsk operation</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>President Zelenskyy announced the conclusion of an operation Kyiv says recaptured 745 km² of Dnipropetrovsk region and liberated 26 settlements, pushing Russian forces back across the Donetsk and Zaporizhia regional boundaries. The Institute for the Study of War, assessing control from geolocated open-source imagery, put the Ukrainian gain more conservatively at at least 627 km² and assessed that across the entire front Russia has suffered a net loss of 233 km² in 2026 to date — despite prioritised offensives out of Pokrovsk toward Dobropillia and out of Chasiv Yar toward Kostiantynivka. Kyiv's casualty figures for the operation, and its monthly Russian-casualty totals, are belligerent claims and are not adopted here.</p>
+        <p>The air war runs the other way. Ukraine's deputy military intelligence chief Vadym Skibitskyi said Russia launched 198 ballistic and hypersonic missiles in July, the highest monthly figure of the year, and 56 in the first week of August, with production above 100 a month and stockpiling underway for a winter campaign against the grid. Ukraine says it has exhausted its Patriot interceptors, having received roughly a third as many this year as in 2025. Foreign Minister Lavrov, meanwhile, said there will be no ceasefire and that Russia will not freeze the conflict.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          This ledger's standing judgment — "Moscow retains the battlefield upper hand and sees little reason to stop" — does not survive the territorial data and is formally revised. The war is now two divergent trends rather than one: Ukraine gaining ground it cannot defend from the air, Russia gaining in the air while losing it on the ground. RU moves to 7 and to <em>volatile</em>, which is precisely the condition that vocabulary is reserved for.
+        </div>
+        <p class="attrib">ISW assessment and Ukrainian General Staff, Zelenskyy and GUR statements via Al Jazeera, 14 August 2026; cross-read against GlobalSecurity and Pravda-EN daily summaries carrying concurrent Russian advances near Scherbakovka, Volokhovskoe and Ustinovka.</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Changed on the board</div>
+    <h2 class="sec">What this brief altered</h2>
+    <div class="changed">
+      <div class="chg">
+        <span class="chg-kind rev">Runs missed</span>
+        <div class="chg-body">
+          <b>The 13 and 14 August sweeps did not fire.</b> This brief covers 72 hours rather than 24, stated on the masthead. The cause is not determinable from inside this run; the scheduled task requires the app to be open, or to be opened afterwards, per the constraint recorded in the ledger since 10 August.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Judgment revised</span>
+        <div class="chg-body">
+          <b>Russia / Ukraine: 6 holding → 7 volatile.</b> ISW's net-territory assessment against a record Russian missile tempo.
+          <span class="was">Was: "Moscow retains the battlefield upper hand and sees little reason to stop." Now: Russia has net-lost 233 km² in 2026 to date; its advantage sits in the air and missile campaign, not on the ground.</span>
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Thread moved</span>
+        <div class="chg-body">
+          <b>Europe / NATO: 4 holding → 5 escalating.</b> An alleged Russian-ordered assassination plot stopped in Warsaw, a Lithuanian warning of a false-flag drone attack on Baltic infrastructure, and a Bloomberg-reported European intelligence assessment that hybrid pressure will widen — three signals inside 72 hours, none of which would move the thread alone.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Thread moved</span>
+        <div class="chg-body">
+          <b>Cyber / Tech: 7 → 8, still escalating.</b> First publicly reported near-autonomous AI-agent compromise of a government, built from open-source frameworks.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Judgment revised</span>
+        <div class="chg-body">
+          <b>Alliance architecture: direction escalating → holding, intensity unchanged at 5.</b> Pact expansion is contested, not imminent.
+          <span class="was">Was: "Turkey now says the Mecca pact could expand to Egypt and that other states have asked to join." Now: Saudi sources say Riyadh blocked Egypt; Turkish sources say Cairo declined; both anonymous, mutually exclusive, and published before the last cutoff.</span>
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Lines updated</span>
+        <div class="chg-body">
+          <b>Iran/Hormuz, Energy/Markets and Terrorism one-liners rewritten.</b> Intensities for IR (9), EN (8), TR (8), CN (6), KP (5) and HL (4) are unchanged. Nothing verified moved on China/Taiwan, North Korea or Homeland this sweep; the Sahel and Bamako blockade were checked and are unchanged.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Late file ×2</span>
+        <div class="chg-body">
+          <b>Both late-filed items are dated to when they happened, not to today.</b> The Mecca-pact reporting (11 Aug) predates the previous cutoff and is a sweep gap; the Taiwan AI intrusion (12 Aug, 17:05 UTC) broke two hours after it.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Claims cut</span>
+        <div class="chg-body">
+          <b>Three.</b> The Iranian-media claim that seven US sailors were killed aboard USS Abraham Lincoln (denied by CENTCOM, uncorroborated); the state-attribution element of the Taiwan AI intrusion (the researcher made no such attribution); and an anonymous Ukrainian-sourced claim that North Korea is moving up to 120 ballistic missiles to Voronezh (single-source, consequential if true, unverifiable now).
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Documents added</span>
+        <div class="chg-body">
+          <b>Two.</b> UN Meetings Coverage SC/16431 (primary) and Dream's Taiwan research (secondary-analytic, tracked pending corroboration). No standing strategy document was superseded this sweep; ATA26, NSS25 and NDS26 remain current.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Horizon</div>
+    <h2 class="sec">What's coming, nearest first</h2>
+    <div class="horizon">
+      <div class="hz"><div class="hz-when">Days</div><div class="hz-item">Iran–Oman joint statement on the Hormuz transit route <span class="conf">Contested</span><span class="hz-note">Still unsigned. Iran's preconditions now sit alongside a US claim to the waterway itself; the bar has moved again, not just the date.</span></div></div>
+      <div class="hz"><div class="hz-when">17–27 Aug 2026</div><div class="hz-item">Ulchi Freedom Shield US–ROK exercise <span class="conf">Scheduled</span><span class="hz-note">Eleven days, ~18,000 ROK personnel with US forces; drone, GPS-disruption and cyber components. Pyongyang promises an "overwhelming" response — rhetoric that has accompanied every iteration.</span></div></div>
+      <div class="hz"><div class="hz-when">Week of 17 Aug</div><div class="hz-item">New US economic measures against Iran <span class="conf">Stated goal</span><span class="hz-note">Bessent, 14 Aug. No instrument, list or authority published — an announcement of an intention to announce.</span></div></div>
+      <div class="hz"><div class="hz-when">By 24 Aug 2026</div><div class="hz-item">Possible mass Russian strike on Kyiv before Ukraine's Independence Day <span class="conf">Forecast</span><span class="hz-note">Ukraine's Center for Strategic Communications — a belligerent's forecast about its adversary, carried as such.</span></div></div>
+      <div class="hz"><div class="hz-when">Weeks</div><div class="hz-item">Accession of a fourth state to the Mecca pact <span class="conf">Contested</span><span class="hz-note">Revised this brief. Turkey says only technical matters remain; Saudi sources say Riyadh blocked Egypt and report Kuwaiti interest. No instrument signed. The prior entry naming Egypt as the likely fourth member is superseded.</span></div></div>
+      <div class="hz"><div class="hz-when">Sept 2026</div><div class="hz-item">War Powers Act 60-day clock on the Iran campaign <span class="conf">Statutory</span><span class="hz-note">Two Senate resolutions have already failed, 50–49 and 50–48.</span></div></div>
+      <div class="hz"><div class="hz-when">13 Dec 2026</div><div class="hz-item">Haiti first-round elections, runoff 21 Feb 2027 <span class="conf">Scheduled</span><span class="hz-note">Re-checked this sweep, unchanged; contingent on security gains against gangs.</span></div></div>
+      <div class="hz"><div class="hz-when">2026</div><div class="hz-item">USMCA joint review <span class="conf">Scheduled</span></div></div>
+      <div class="hz"><div class="hz-when">2026</div><div class="hz-item">PRC coercive pressure on Japan intensifies <span class="conf">Assessed</span></div></div>
+      <div class="hz"><div class="hz-when">2027</div><div class="hz-item">PLA modernization milestone <span class="conf">Superseded</span><span class="hz-note">IC assesses no 2027 invasion planned and no fixed unification timeline.</span></div></div>
+      <div class="hz"><div class="hz-when">2049</div><div class="hz-item">PRC "national rejuvenation" centenary target <span class="conf">Stated goal</span></div></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Verification log</div>
+    <h2 class="sec">What was checked, and what it changed</h2>
+    <div class="changed">
+      <div class="chg">
+        <span class="chg-kind">Confirmed</span>
+        <div class="chg-body">
+          <b>Trump's Hormuz "territory" remark, Hegseth's "indefinitely," Bessent's economic-isolation promise.</b> Al Jazeera's 14 August report of the New York remarks and its explainer carrying the Hegseth (Panama) and Bessent (Newsmax) quotes were both fetched in full. Checked for a proclamation, executive order, Federal Register notice or Treasury designation — none exists at this cutoff. All three run as stated intent.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Re-verified</span>
+        <div class="chg-body">
+          <b>Operation Epic Fury is still framed as running.</b> CENTCOM's own live operation page was fetched directly and reads in the present tense: "CENTCOM forces are striking targets to dismantle the Iranian regime's security apparatus." Newest linked update material is dated April 2026. The war.gov spotlight page was not reachable from this sweep's fetch tool, so centcom.mil is the authority used. The retired "formally declared complete" claim stays retired.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Confirmed</span>
+        <div class="chg-body">
+          <b>Grundberg's Yemen warning.</b> press.un.org served a JavaScript challenge; SC/16431 was read in full through GlobalSecurity.org's verbatim mirror and the quotation cross-checked against UN News (13 Aug), Xinhua and The National. Consistent across all four. Primary for what was said in the chamber, not for the battlefield facts described in it.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Confirmed</span>
+        <div class="chg-body">
+          <b>ISW's net −233 km² assessment.</b> One hop via Al Jazeera's 14 August front-line summary, cross-read against GlobalSecurity and Pravda-EN daily summaries carrying concurrent Russian advances — consistent with a mixed picture rather than a rout either way. ISW is secondary-analytic, not primary, but it is methodologically explicit and it is the strongest basis available. Kyiv's own 745 km² and ~10,000-dead figures are belligerent claims and are not adopted.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Confirmed, late-filed</span>
+        <div class="chg-body">
+          <b>Saudi opposition to Egypt's Mecca-pact accession.</b> The Middle East Eye report was fetched in full; published 11 August 17:00 UTC, before Brief 005's cutoff, so it was available and missed. Checked against the Turkish account already in the ledger and against Chatham House and Alhurra coverage of Egypt's exclusion. Two mutually exclusive anonymous accounts; runs as contested, not as a finding.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Confirmed, late-filed</span>
+        <div class="chg-body">
+          <b>Near-autonomous AI intrusion into Taiwan's government.</b> Dream's own blog was outside this sweep's fetch provenance; read at one hop through CyberScoop, which links and quotes it, with the Financial Times as first reporter. The chain is named in the item text per the two-hop rule.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Contested</span>
+        <div class="chg-body">
+          <b>Cumulative ADNOC vessels attacked: 15 or 17.</b> Al Jazeera (AFP) cites ADNOC for 15; Gulf News and Seatrade Maritime report 17, published within hours the same day. Not a rounding difference — two outlets attribute different totals to the same company. Both named, neither adopted, no silent harmonisation.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Contested</span>
+        <div class="chg-body">
+          <b>Conditions aboard USS Abraham Lincoln.</b> Navy Times and Stars and Stripes sourced to family members, one on the record; Hegseth calls the reporting "completely misrepresented"; CENTCOM states no service members aboard have died and that the 3 August man-overboard was recovered safely. All three positions run, named. Blumenthal's "record length" characterisation is a senator's claim in a letter, not a Navy record confirmed here.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Cut</span>
+        <div class="chg-body">
+          <b>"Seven US Navy personnel killed in a fight aboard USS Abraham Lincoln."</b> Traced only to unnamed Iranian outlets as characterised by Al Jazeera, against a direct CENTCOM denial. Uncorroborated belligerent-media claim; does not clear the gate. It appears in this brief only as the thing CENTCOM denied.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Cut</span>
+        <div class="chg-body">
+          <b>"China-linked hackers" as the actor behind the Taiwan AI intrusion.</b> Dream said the documentation "points to a Chinese-language operator" and explicitly declined to attribute to the Chinese government or a named group. Downstream outlets upgraded that; the upgrade has no source. CN intensity deliberately not moved on this item.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Cut</span>
+        <div class="chg-body">
+          <b>"North Korea is sending up to 120 ballistic missiles to Voronezh."</b> Attributed to "several Ukrainian sources," unnamed, with no DPRK, Russian, US or allied-government confirmation found. Consequential if true, unverifiable now. KP left at 5, holding; logged so a later corroboration can be dated against this check.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Re-verified</span>
+        <div class="chg-body">
+          <b>Officeholders and standing documents.</b> DNI (Jay Clayton), Secretary of War (Hegseth), Chairman of the Joint Chiefs (Gen. Dan Caine) and CENTCOM commander (Adm. Brad Cooper) all unchanged since Brief 005. No new ODNI, Department of War or White House strategy or assessment document was published in the interval; ATA26, NSS25 and NDS26 remain current. The Department of War's January AI Strategy is a primary document this ledger does not yet carry — noted for a future sweep rather than added mid-brief without being read in full.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Sources</div>
+    <h2 class="sec">Documents touched</h2>
+    <div class="srcs">
+      <div class="src"><div class="src-tier">Primary</div><div class="src-body"><b>SC/16431 — Yemen at Risk of Entering Wider Middle East Conflict, UN Special Envoy Warns Security Council</b> — UN Meetings Coverage, 10208th Meeting, 13 August 2026. <em>verified-primary.</em> Read via GlobalSecurity.org's verbatim mirror after press.un.org returned a JavaScript challenge.<a href="https://press.un.org/en/2026/sc16431.doc.htm" target="_blank" rel="noopener">press.un.org/en/2026/sc16431.doc.htm</a></div></div>
+      <div class="src"><div class="src-tier">Primary</div><div class="src-body"><b>Operation Epic Fury — operation page</b> — U.S. Central Command, re-checked 15 August 2026 for tense and status. <em>verified-primary.</em><a href="https://www.centcom.mil/OPERATIONS-AND-EXERCISES/EPIC-FURY/" target="_blank" rel="noopener">centcom.mil</a></div></div>
+      <div class="src"><div class="src-tier">Primary</div><div class="src-body"><b>Security Council LIVE: Escalating attacks threaten peace in Yemen</b> — UN News, 13 August 2026. <em>verified-primary.</em><a href="https://news.un.org/en/story/2026/08/1168131" target="_blank" rel="noopener">news.un.org</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Trump says he will declare Strait of Hormuz a US 'territory' amid Iran war</b> — Al Jazeera, 14 August 2026. <em>attributed-claim.</em><a href="https://www.aljazeera.com/news/2026/8/14/trump-says-he-will-declare-strait-of-hormuz-a-us-territory" target="_blank" rel="noopener">aljazeera.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>US threatens 'indefinite' blockade against Iran: How long can it last?</b> — Al Jazeera, 14 August 2026. Carries the Hegseth, Bessent, PGSA, Azmaei, Blumenthal and CENTCOM statements. <em>attributed-claim / contested.</em><a href="https://www.aljazeera.com/news/2026/8/14/us-threatens-indefinite-blockade-against-iran-how-long-can-it-last" target="_blank" rel="noopener">aljazeera.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>UAE accuses Iran of attacks on two ADNOC vessels in Strait of Hormuz</b> — Al Jazeera (AFP), 14 August 2026. <em>contested.</em><a href="https://www.aljazeera.com/news/2026/8/14/uae-accuses-iran-of-attacks-on-two-adnoc-vessels-in-strait-of-hormuz" target="_blank" rel="noopener">aljazeera.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Russian ballistic attacks intensify as Kyiv claims Dnipropetrovsk advance</b> — Al Jazeera, carrying the ISW assessment and Skibitskyi interview, 14 August 2026. <em>contested.</em><a href="https://www.aljazeera.com/news/2026/8/14/ukraine-liberates-dnipropetrovsk-as-russia-intensifies-missile-attacks" target="_blank" rel="noopener">aljazeera.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Exclusive: Saudi Arabia opposed Egypt's inclusion in Mecca agreement, sources say</b> — Middle East Eye, 11 August 2026, 17:00 UTC. <em>contested; anonymous sourcing on both sides.</em><a href="https://www.middleeasteye.net/news/saudi-arabia-opposed-egypts-inclusion-mecca-agreement-sources-say" target="_blank" rel="noopener">middleeasteye.net</a></div></div>
+      <div class="src"><div class="src-tier">Analysis</div><div class="src-body"><b>Researchers observe first 'near-autonomous' AI attack on government target in Taiwan</b> — CyberScoop, quoting and linking Dream's research; first reported by the Financial Times, 12 August 2026. <em>attributed-claim.</em><a href="https://cyberscoop.com/near-autonomous-ai-attack-government-target-taiwan/" target="_blank" rel="noopener">cyberscoop.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Poland thwarts plot by Russia to kill Ukrainian-US citizen in a NATO country, PM Tusk says</b> — Euronews, 13 August 2026. <em>attributed-claim.</em><a href="https://www.euronews.com/my-europe/2026/08/13/poland-thwarts-unprecedented-plot-by-russia-to-kill-ukrainian-us-citizen-in-a-nato-country" target="_blank" rel="noopener">euronews.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Oman says oil spill from stricken tanker has reached its coast</b> — Al Jazeera, 13 August 2026. Sanctioned shadow-fleet tanker <em>Caroline Bezengi</em>, aground since 30 June; spill now ~500 sq mi with up to 40km of coastline affected, per Oman's Environment Authority. <em>attributed-claim.</em><a href="https://www.aljazeera.com/economy/2026/8/13/oman-says-oil-spill-from-stricken-tanker-has-reached-its-coast" target="_blank" rel="noopener">aljazeera.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Israeli strikes kill 11 in southern Lebanon</b> — The National / ABC News, 15 August 2026. Lebanese health ministry figures; IDF says the strikes answered a Hezbollah attack that wounded three soldiers. <em>contested.</em><a href="https://www.thenationalnews.com/news/mena/2026/08/15/israeli-strike-kills-seven-in-southern-lebanon/" target="_blank" rel="noopener">thenationalnews.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>North Korea warns of 'overwhelming' response to US–South Korea drills</b> — UPI, 14 August 2026; exercise dates and scale via UPI, 10 August 2026. <em>attributed-claim.</em><a href="https://www.upi.com/Top_News/World-News/2026/08/14/North-Korea-warns-overwhelming-force-Ulchi-Freedom-Shield-exercise/6341786690079/" target="_blank" rel="noopener">upi.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Oil prices rise as US threatens 'economic isolation' of Iran</b> — CNBC, 14 August 2026. Brent settled $88.52 (+1.7%), WTI $82.40 (+1.4%); both up more than 5% on the week. <em>attributed-claim.</em><a href="https://www.cnbc.com/2026/08/14/oil-prices-today-brent-wti-hormuz.html" target="_blank" rel="noopener">cnbc.com</a></div></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="end">
+  <div class="wrap">
+    <p class="caveat"><b>Caveats.</b> Independent, AI-assisted compilation of public open sources. Not an official government product. This brief covers a 72-hour interval because the 13 and 14 August scheduled runs did not fire — stated rather than papered over, with both late-filed items dated to when they occurred. Figures from an active conflict are contested; where a government or belligerent is the source, the claim is attributed rather than adopted. Three candidate claims were cut at the verification gate and are named above rather than omitted silently. Forward-looking items carry confidence labels. Corrections to prior briefs appear in the verification log, never in the prior brief itself.</p>
+  </div>
+</footer>
+
+<script>
+  const THREADS = [
+    {code:"IR", name:"Iran / Hormuz", i:9, dir:"volatile", line:"Trump says he will declare Hormuz \"a territory of the United States\" and Hegseth says the blockade can hold \"indefinitely\"; Iran's strait authority says the waterway stays shut until its conditions are met.", watch:"Iran–Oman joint statement · Mojtaba Khamenei's assent · US munitions resupply · Sept War Powers clock"},
+    {code:"CY", name:"Cyber / Tech", i:8, dir:"escalating", line:"An open-source agentic framework mapped 21 Taiwanese government systems in four days and reached a nuclear safety agency and seven-plus energy companies — the capability floor for a state-grade intrusion campaign just dropped.", watch:"Water-sector intrusion spread · CISA guidance · Volt/Salt Typhoon · Quantum/CRQC milestones · Agentic-AI intrusion tradecraft"},
+    {code:"EN", name:"Energy / Markets", i:8, dir:"volatile", line:"Prices are now tracking blockade duration rather than reopening odds — Brent closed at $88.52 on 14 Aug, up more than 5% on the week, on the word \"indefinitely\" and a promised, unspecified US economic package.", watch:"Brent range · Hormuz transit counts · OPEC+ output · War-risk premiums"},
+    {code:"TR", name:"Terrorism", i:8, dir:"escalating", line:"The escalation is broadening rather than deepening — Yemen, the Red Sea and southern Lebanon all moved this week, but no single front crossed a new threshold of intensity.", watch:"Post-Khamenei Shia retaliation calls · Bamako blockade · ISIS reconstitution in Syria"},
+    {code:"RU", name:"Russia / Ukraine", i:7, dir:"volatile", line:"ISW assesses Russia has net-lost 233 km² in 2026 while launching a record 198 ballistic and hypersonic missiles in July — the front and the air war are now moving in opposite directions.", watch:"Next negotiating round · Territory and security guarantees · Russian sabotage in Europe"},
+    {code:"CN", name:"China / Taiwan", i:6, dir:"escalating", line:"Carried forward. Han Kuang 42 concluded 14 Aug; no new PLA activity or primary-document change located this sweep. The Taiwan AI intrusion is filed to Cyber — the researcher made no state attribution.", watch:"Yonaguni deployment · Senkaku activity · Type 076 employment · PRC economic measures on Japan"},
+    {code:"AL", name:"Alliance architecture", i:5, dir:"holding", line:"The Mecca pact's architecture is built but its growth has stalled — Saudi sources say Riyadh, not Cairo, kept Egypt out, which contradicts the open-door framing this ledger carried a brief ago.", watch:"Mecca pact implementation or expansion · Hague 5% delivery · Indo-Pacific burden-sharing · Gulf statements on the US guarantee · Kuwaiti accession interest"},
+    {code:"EU", name:"Europe / NATO", i:5, dir:"escalating", line:"Poland says it stopped a Russian-ordered killing in Warsaw, Lithuania warns of a false-flag drone attack, and a European intelligence assessment reported by Bloomberg expects hybrid pressure on Poland and the Baltics to widen.", watch:"Hague 5% delivery · Russian sabotage incidents · European mine-clearance mission in Hormuz"},
+    {code:"KP", name:"North Korea", i:5, dir:"holding", line:"Steady state. Pyongyang calls Ulchi Freedom Shield (17–27 Aug) a rehearsal for \"aggressive war\" and promises an \"overwhelming\" response — the standing rhetoric, not a new indicator.", watch:"Nuclear test indicators · ICBM/IRBM cadence · Crypto heist attribution · DPRK response to Ulchi Freedom Shield"},
+    {code:"HL", name:"Homeland / Hemisphere", i:4, dir:"easing", line:"Carried forward. Haiti's corrected election calendar (13 Dec / 21 Feb 2027) re-checked and unchanged; no verified movement on border, fentanyl or hemispheric indicators this sweep.", watch:"Haiti elections · USMCA review · Cuba/Haiti migration surge risk"},
+  ];
+  const DIRMETA = {
+    escalating:{c:"var(--esc)", arrow:"▲", label:"Escalating"},
+    holding:{c:"var(--hold)", arrow:"■", label:"Holding"},
+    easing:{c:"var(--ease)", arrow:"▼", label:"Easing"},
+    volatile:{c:"var(--vol)", arrow:"◆", label:"Volatile"},
+  };
+  const board = document.getElementById('board');
+  THREADS.forEach((t, idx) => {
+    const m = DIRMETA[t.dir];
+    const b = document.createElement('button');
+    b.className = 'gauge';
+    b.style.setProperty('--c', m.c);
+    b.setAttribute('aria-pressed', idx === 0 ? 'true' : 'false');
+    b.setAttribute('aria-label', t.name + ', intensity ' + t.i + ' of 10, ' + m.label);
+    b.innerHTML = '<span class="arrow">' + m.arrow + '</span>' +
+      '<span class="track"><span class="fill" data-h="' + (t.i * 10) + '"></span></span>' +
+      '<span class="code">' + t.code + '</span><span class="val">' + t.i + '/10</span>';
+    b.addEventListener('click', () => select(idx));
+    board.appendChild(b);
+  });
+  function select(idx){
+    const t = THREADS[idx], m = DIRMETA[t.dir];
+    document.querySelectorAll('.gauge').forEach((g,i)=>g.setAttribute('aria-pressed', i===idx?'true':'false'));
+    const ro = document.getElementById('readout');
+    ro.style.borderColor = m.c;
+    document.getElementById('r-name').innerHTML = t.name + ' <span class="tag" style="background:' + m.c + '">' + m.label + '</span>';
+    document.getElementById('r-line').textContent = t.line;
+    document.getElementById('r-watch').textContent = 'WATCHING — ' + t.watch;
+  }
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  requestAnimationFrame(()=>{
+    document.querySelectorAll('.fill').forEach((f,i)=>{
+      const h = f.dataset.h + '%';
+      if(reduce){ f.style.transition='none'; f.style.height = h; }
+      else { setTimeout(()=>{ f.style.height = h; }, 90 + i*55); }
+    });
+  });
+</script>
+</body>
+</html>
