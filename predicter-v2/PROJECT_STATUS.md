@@ -140,6 +140,44 @@ draft status.
   check, unlike a JSON wire shape). The Open-Meteo response shape itself
   carries the same "unverified this session" caveat as the Kalshi client,
   for the same reason (network policy).
+
+## Live Kalshi verification — closed out unresolved (decision, not a fix)
+
+Multiple further attempts to reach `external-api.kalshi.com` were made across
+this thread, at every layer available from inside a session:
+
+- `.claude/settings.json`'s `sandbox.network.allowedDomains` — added
+  `external-api.kalshi.com`; no effect (this config layer doesn't reach the
+  org egress proxy).
+- The Claude Code environment-level egress allowlist — user edited it
+  directly; did not take effect in the running session.
+- The agent/egress proxy itself (`$HTTPS_PROXY`) — remained a hard 403
+  (`connect_rejected`, "gateway answered 403 to CONNECT — organization
+  policy") on every retry, including after the user reported the change as
+  "allowlisted" twice more. `__agentproxy/status`'s `recentRelayFailures`
+  confirms the rejection is unchanged and gives no visibility into what the
+  allowlist actually contains — only that the gateway keeps refusing.
+- Spawning a sibling session in a separate "trusted network access"
+  environment (Stage 12) — blocked by a legitimate human-confirmation
+  safety gate this agent has no API path to click through.
+
+**Decision (user, this thread): stop pursuing live verification for now**
+(no access to a local machine to run `scripts/verify-live-tickers.ts`
+outside this sandbox either). This is accepted as a known open item, not a
+correctness gap:
+
+- `fetchMarket`/`fetchOrderbook` already fail safe on any real-world shape
+  mismatch — `parseRawOrderbook`'s throw is caught in `client.ts` and turned
+  into `null` + `console.warn`, per the Stage 13 fix, rather than crashing
+  or silently returning wrong data.
+- `UnverifiedRawOrderbookResponse` (`data/kalshi/schema.ts`) and the
+  Open-Meteo response shape (`data/openMeteo.ts`) remain explicitly flagged
+  in their doc comments as unverified against the real API.
+- **Before enabling this app for real trading decisions**, run
+  `npm run verify:live` from `predicter-v2/` on a machine with normal
+  internet access (no proxy) and fix `schema.ts` per whatever it reports.
+  Do not skip this step permanently — it was deferred by circumstance
+  (network policy in this environment), not judged unnecessary.
   - No-lookahead discipline applied to a data range, not just an archive
     cutoff: `endYear` is always the ticker's year minus one, so a base
     rate is never computed using data from the very day/year it's meant
