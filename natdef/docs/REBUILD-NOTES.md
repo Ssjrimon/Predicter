@@ -155,10 +155,26 @@ registered. All 23 resolved to real documents. Worth noting in particular:
 - **Two entries keep Brief 012's own access disclosures**: CNN was never fetched (blocked
   by robots.txt) and CNBC returned HTTP 403 to a full fetch. The URLs are registered so the
   citations resolve; the disclosures stand for what Brief 012 knew.
-- **One item is disclosed rather than asserted.** militarnyi.com is blocked by the network
-  egress proxy in the environment this ran in, so that article was never opened; the match
-  rests on its headline agreeing with Brief 012's own Sources line. Its `note` says so, and
-  a session that can reach the domain should confirm it.
+- **One item needed a second pass, and it mattered.** militarnyi.com is blocked by the
+  network egress proxy (the gateway answers 403 to CONNECT), so that article could not be
+  opened. The site carries **two** similarly titled Engels Tu-95MS articles, and the wrong
+  one is a credible decoy: it is headlined "Satellite Images Confirm *Destruction*…" and
+  this ledger entry's own title uses the word "destroy". It is about the *first* bomber,
+  struck 16 July 2026, tail section, corroborated by Ukrainska Pravda dated 19 July. The
+  registered URL is the *second* bomber: night of Friday 28 August 2026, right wing
+  partially broken off, AviVector imagery, SSU Special Operations Center «А» drones, and
+  the article itself contrasts this aircraft with the one destroyed on 16 July.
+  28 August 2026 was in fact a Friday, and Ukrainska Pravda's same-day 28 August report
+  carries the same right-wing damage and AviVector attribution.
+
+  Seven converging factors, then — but the page still has not been opened, and every
+  corroborating outlet (pravda.com.ua, english.nv.ua, defencematters.eu, united24media.com)
+  is blocked from this environment too. That is a strong identification, not the primary
+  fetch Step 3 asks for, and the source's `note` and a `verification_log[]` entry both say
+  so. The exact publication date (28 or 29 August) is unconfirmed and immaterial to
+  identity. A session on a network that can reach the domain should open it and close this
+  out. **A backfill that had matched on headline alone would have picked the wrong
+  article** — worth remembering the next time this looks like clerical work.
 
 The 22 new `sources[]` entries carry `status: "cited"` — a dated item a brief cited, as
 distinct from a standing document (`current`) or a recurring tracker (`tracking`) — so they
@@ -199,8 +215,10 @@ Two real bugs surfaced from running the new code against the real data:
   has never seen. It needs a human on that machine. If it turns out to hold its own
   `render.py`, that is a historical curiosity now, not a recovery target — but a divergent
   *ledger* would matter a great deal.
-- **Confirming the Militarnyi URL** from an environment that can reach militarnyi.com. It
-  is the one citation registered on a headline match rather than an opened page.
+- **Opening the Militarnyi page** from a network that can reach militarnyi.com. Its
+  identity is confirmed on seven converging factors (see "The citation backfill"), but it
+  is the one citation in the ledger that has never been fetched directly, and its exact
+  publication date is unconfirmed.
 - **Item bodies.** `archive[]` entries for Briefs 001–012 carry headlines and So-whats but
   not body prose, so `natdef brief` renders those items with a visible placeholder. That is
   correct behaviour for a historical entry and is not a reason to re-render a delivered
