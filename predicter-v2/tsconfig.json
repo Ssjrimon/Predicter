@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "types": ["vite/client", "vitest/globals"],
+
+    /* Emit: none. Vite handles the build; tsc is a pure gate. */
+    "noEmit": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+
+    /* Strictness.
+     *
+     * These are deliberately tighter than `strict: true` alone. Each one
+     * exists to make a specific class of bug from the previous build a
+     * compile error rather than a runtime surprise:
+     *
+     *   noUncheckedIndexedAccess    - orderbook levels are arrays; book[0]
+     *                                 is `Level | undefined`, so an empty
+     *                                 book cannot be read as a real price.
+     *   exactOptionalPropertyTypes  - `orderBookSnapshot?: Snapshot` cannot
+     *                                 be satisfied by an explicit
+     *                                 `undefined`, forcing archive readers
+     *                                 to branch on absence rather than
+     *                                 substitute a default.
+     *   noImplicitReturns           - a settlement guard cannot fall off the
+     *                                 end of a function returning a verdict.
+     *   noFallthroughCasesInSwitch  - settlement/status switches stay total.
+     */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src", "server", "scripts", "vite.config.ts", "vitest.config.ts"]
+}
