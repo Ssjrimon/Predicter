@@ -53,7 +53,7 @@ has been shown for review. See handoff Part II, rules 2 and 4.
 | # | Stage | Status |
 |---|---|---|
 | 0 | Scaffold: Vite, strict tsconfig, Vitest, trading gate README, this file | **done** |
-| 1 | `money` + `fees` + `format` + tests | not started |
+| 1 | `money` + `fees` + `format` + tests | **done** |
 | 2 | `orderbook`: complement, ordering, depth walk, `simulateOrder` + tests | not started |
 | 3 | `probability` (fair vs executable) + `sizing` + validation + tests | not started |
 | 4 | `scoring` + `category` + `horizon` + `calibration` gating + tests | not started |
@@ -94,6 +94,44 @@ has been shown for review. See handoff Part II, rules 2 and 4.
 - Presenting maker fees as $0.00.
 - Ensemble/prediction-engine work before per-signal validation (stays last).
 - "Once it's fully built, enable auto-trading" — see `src/trading/README.md`.
+
+## Stage 1 — what shipped
+
+`src/domain/money.ts`, `fees.ts`, `format.ts` + colocated tests (15 tests,
+all passing; `scaffold.test.ts` deleted, no longer needed). `tsc --noEmit`
+clean.
+
+- `roundUpToCent`: epsilon-guarded ceiling to the next cent (handoff Part
+  III/IV). Both the historical $1.76 bug and its naive-code witness are
+  encoded as regression tests, not just a passing case.
+- `computeFee`: taker (0.07) and maker (0.0175, labeled an estimate in its
+  own doc comment) — independently recomputed and matched against both of
+  the handoff's worked examples ($1.75 @ 100×50c taker, $0.88 @ 200×49c
+  maker) rather than assuming the handoff's stated results.
+- `formatPercent`/`roundHalfUp`: fixes the exact-`.5` boundary bug via a
+  pre-round nudge; test includes the classic `2.675` IEEE-754 case as the
+  regression witness (`(2.675).toFixed(2)` returns `"2.67"` natively).
+
+## Unverified claims carried forward (handoff Part VIII — do not build on without checking)
+
+- **Rounding once per completed order** (vs. per depth-slice) is
+  *directionally* safe — the fee is provably equal or lower than per-slice
+  rounding — but whether this exactly matches Kalshi's real matching engine
+  behavior was never independently confirmed. Stage 2's `simulateOrder`
+  implements round-once-per-transaction per the handoff's own build
+  history, but this caveat must stay attached to that implementation, not
+  be silently upgraded to a confirmed fact.
+- CF Benchmarks crypto settlement ("60-second average of one-second
+  observations") — third-party, unverified. Do not build timing-sensitive
+  settlement logic on it.
+- CME 30-Day Fed Funds futures historical data access — blocked, no known
+  free source. Do not write fetch code against an assumed API.
+- Any Fed-rate backtest has a hard sample-size ceiling: likely under 30
+  testable events total (8 FOMC meetings/year, market history is short).
+
+None of Stages 1-11 as planned currently touch Fed-rate or crypto-specific
+logic, so none of the above blocks anything in this build. Recorded so a
+future stage doesn't build on them uncritically.
 
 ## Environment
 
