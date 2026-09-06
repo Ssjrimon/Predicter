@@ -62,7 +62,7 @@ has been shown for review. See handoff Part II, rules 2 and 4.
 | 7 | `data`: defensive http, Kalshi client, schema parsing, expired-market check | **done** |
 | 8 | `crypto` + Express proxy (zero `privateKey` occurrences, asserted by test) | **done** |
 | 9 | React shell, mobile-first, Sizer + Theoretical-mode warning | **done** |
-| 10 | Discovery, Archive, Calibration, Backtest, Settings | not started |
+| 10 | Discovery, Archive, Calibration, Backtest, Settings | **done** |
 | 11 | Max-entropy utility (unwired, labeled), final audit vs Part V/VI/VII | not started |
 
 ## Known open items being fixed (handoff Part V)
@@ -352,6 +352,57 @@ wrong shape; updated the Stage 5 test fixtures to match.
   `true` — a liquidity-trap partial fill shows its own warning instead of
   a Kelly number sized against an unfillable request.
 
+## Stage 10 — what shipped
+
+Five views (`Discovery.tsx`, `Archive.tsx`, `Calibration.tsx`, `Backtest.tsx`,
+`Settings.tsx`), tab navigation in `App.tsx`, plus two supporting modules
+this stage revealed were needed: `storage/credentials.ts` (plain-text
+credential storage, per the corrected Step 1 convention — no fake
+obfuscation) and `data/kalshi/settlementSync.ts` (ties the Stage 5
+settlement guard to the Stage 7 client and the archive). 25 new tests,
+162 total, all passing.
+
+- **Archive**: read-only by construction — there is no edit/delete/"mark
+  resolved" control because the underlying module exposes no such
+  function. A test explicitly asserts none of those buttons exist.
+- **Calibration**: You and Market are always two separate numbers, never
+  one blended score — a test asserts no "skill score" text appears
+  anywhere on the page (handoff Part VII), verified against real seeded
+  data in a real browser, not just the unit-level gate.
+- **Backtest**: verified against real seeded 20-record data in an actual
+  browser session — the no-lookahead weekly sweep correctly produced
+  `n=1 (insufficient data)` for the first cutoff window and `n=20` for
+  the last, exactly matching the timestamps seeded. This is Stage 6's
+  domain logic proven against realistic data end-to-end, not just its own
+  narrow unit tests.
+- **Discovery**: deliberately narrower than the original app. Could not
+  verify the `/markets?series_ticker=...` list-response envelope or the
+  candlestick response schema this session (same network block as Stage
+  7), so rather than guess at those shapes, this view takes a manual
+  ticker list and shows only spread + time-to-close — both backed by
+  confirmed market-summary fields. The required verbatim label
+  ("Discovery Aid — Sorts by real, observable metrics...") is present
+  and tested; a test also asserts no composite/volatility-score text
+  appears anywhere (handoff Part VII). Auto-discovery and a real 24h
+  range can be added once those two shapes are verified against a live
+  response — noted as a follow-up, not silently dropped.
+- **Settings**: plain-text credential storage with an honest security
+  disclosure, matching the original project's corrected Step 1
+  convention (fake XOR/base64 "encryption" was retired specifically
+  because it wasn't real security — the disclosure IS the security
+  model here, not a placeholder for one).
+- Two real bugs caught by writing tests, not by inspection: a test
+  fixture that accidentally deduped 19 of 20 "distinct" archive records
+  because it reused the same ticker+interactedAt pair (the dedupe logic
+  was correct; the fixture was wrong), and a `getByText` match against a
+  `<textarea>`'s own value colliding with a results row's text (fixed by
+  querying the specific button role instead).
+- Verified in a real browser: seeded 20 records directly via
+  `localStorage` (there is no live settlement flow to populate the
+  archive naturally without network access to Kalshi), navigated all six
+  tabs, and confirmed Archive/Calibration/Backtest render correctly
+  against that data. Screenshots sent to the user.
+
 ## Unverified claims carried forward (handoff Part VIII — do not build on without checking)
 
 - **Rounding once per completed order** (vs. per depth-slice) is
@@ -376,6 +427,12 @@ wrong shape; updated the Stage 5 test fixtures to match.
   response and correct `parseRawOrderbook` before connecting real market
   data through this client. `parseMarketSummary`'s fields are NOT in this
   caveat — those field names are directly confirmed by handoff Part III.
+- **New this session:** Discovery's original scope (auto-discover markets
+  by series ticker; a 24h range from candlestick data) is deferred, same
+  root cause — the `/markets?series_ticker=...` list-response envelope
+  and the `/markets/{ticker}/candlesticks` response schema are unverified
+  this session. Shipped instead: a manual ticker list scanning only
+  spread + time-to-close, both backed by confirmed market-summary fields.
 
 None of Stages 1-11 as planned currently touch Fed-rate or crypto-specific
 logic, so none of the above blocks anything in this build. Recorded so a

@@ -34,8 +34,8 @@ export interface TheoreticalCostEstimate {
   readonly costBasisPct: number;
 }
 
-export function useSizer() {
-  const [ticker, setTicker] = useState('');
+export function useSizer(initialTicker: string = '') {
+  const [ticker, setTicker] = useState(initialTicker);
   const [mode, setMode] = useState<SizerMode>('live');
   const [role, setRole] = useState<OrderRole>('taker');
   const [myEstimateInput, setMyEstimateInput] = useState('');

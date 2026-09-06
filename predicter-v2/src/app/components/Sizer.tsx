@@ -7,8 +7,8 @@ import { useSizer } from '../hooks/useSizer';
  * input rather than rendering nonsense") — it never shows a partial or
  * best-guess number for bad input.
  */
-export function Sizer() {
-  const sizer = useSizer();
+export function Sizer({ initialTicker }: { initialTicker?: string }) {
+  const sizer = useSizer(initialTicker);
 
   const showAnalysis = sizer.fairProbability !== null && sizer.myEstimateValidation.valid && sizer.contractsValidation.valid;
 
