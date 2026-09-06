@@ -60,7 +60,7 @@ has been shown for review. See handoff Part II, rules 2 and 4.
 | 5 | `storage`: keys, append-only archive, interactions, settlement guard + tests | **done** |
 | 6 | `backtesting` + tests | **done** |
 | 7 | `data`: defensive http, Kalshi client, schema parsing, expired-market check | **done** |
-| 8 | `crypto` + Express proxy (zero `privateKey` occurrences, asserted by test) | not started |
+| 8 | `crypto` + Express proxy (zero `privateKey` occurrences, asserted by test) | **done** |
 | 9 | React shell, mobile-first, Sizer + Theoretical-mode warning | not started |
 | 10 | Discovery, Archive, Calibration, Backtest, Settings | not started |
 | 11 | Max-entropy utility (unwired, labeled), final audit vs Part V/VI/VII | not started |
@@ -266,6 +266,45 @@ here through Stage 8 starts touching real I/O (network, disk, crypto).
   once a real response is available touches nothing in the domain layer,
   which only ever sees the already-verified `RawOrderBook` shape from
   Stage 2.
+
+## Stage 8 — what shipped
+
+`src/data/crypto.ts` (RSA-PSS signing) + `server/index.ts` (Express proxy)
++ tests (7 new tests, 127 total, all passing). Added `express`,
+`@types/express`, `tsx` as dependencies; a `server` npm script.
+
+- `signKalshiRequest` implements the PKCS#1→PKCS#8 DER conversion by hand
+  (manual ASN.1 length encoding) and signs with RSA-PSS/SHA-256/salt 32.
+  **Verified by actual execution, not just "doesn't throw":** the test
+  generates a real 2048-bit RSA key pair via Node's `crypto` module,
+  signs with our implementation, then independently imports the *public*
+  key via Web Crypto and cryptographically verifies the signature against
+  it — plus a negative control confirming a tampered message fails
+  verification, so the positive test is proven meaningful rather than
+  trivially passing.
+- Caught and fixed a real bug via `tsc`, not by inspection: TS 5.7's
+  stricter generic typed-array types made a bare `Uint8Array` annotation
+  default to `Uint8Array<ArrayBufferLike>`, which Web Crypto's
+  `BufferSource` (requiring concretely `ArrayBuffer`-backed views)
+  rejected. Fixed with explicit `Uint8Array<ArrayBuffer>` annotations.
+- **Caught and fixed a second real bug that `tsc` could NOT catch:**
+  Express 5 (installed: v5.2.1) uses path-to-regexp v8, which dropped the
+  bare `*` wildcard route syntax used by Express 4 (and by the original
+  app, per its documented `npm run dev` convention). `app.all('/api/*', ...)`
+  would have thrown at route-registration time — a runtime error no type
+  checker can see, since it's a plain string. Caught by actually booting
+  the server (`npm run server`) and confirming both the startup log line
+  and a live request round-trip, not by trusting that `tsc --noEmit`
+  passing meant the server worked.
+- `server/index.ts` never accepts, stores, or forwards a signing
+  credential — only the two header values the client already computed.
+  Verified the same way the original project verified its own
+  `server.ts`: a test scans this file's own source text for the
+  credential-identifier spelling and asserts zero occurrences (handoff
+  Part IV, Step 1). Hit the same self-referential trap as the Stage 5
+  keys-literal guard: the file's own doc comment initially quoted the
+  banned identifier while explaining why it's banned, tripping its own
+  test — fixed by rephrasing the comment.
 
 ## Unverified claims carried forward (handoff Part VIII — do not build on without checking)
 
