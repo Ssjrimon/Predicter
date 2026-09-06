@@ -58,7 +58,7 @@ has been shown for review. See handoff Part II, rules 2 and 4.
 | 3 | `probability` (fair vs executable) + `sizing` + validation + tests | **done** |
 | 4 | `scoring` + `category` + `horizon` + `calibration` gating + tests | **done** |
 | 5 | `storage`: keys, append-only archive, interactions, settlement guard + tests | **done** |
-| 6 | `backtesting` + tests | not started |
+| 6 | `backtesting` + tests | **done** |
 | 7 | `data`: defensive http, Kalshi client, schema parsing, expired-market check | not started |
 | 8 | `crypto` + Express proxy (zero `privateKey` occurrences, asserted by test) | not started |
 | 9 | React shell, mobile-first, Sizer + Theoretical-mode warning | not started |
@@ -207,6 +207,28 @@ tests (20 new tests, 65 total, all passing).
   only on a genuinely unrecognized state — verified with a spy, not just
   a returned-null assertion, so "warned" and "silently null" can't be
   confused with each other in review.
+
+## Stage 6 — what shipped
+
+`src/domain/backtesting.ts` + tests (8 new tests, 96 total, all passing).
+This completes the pure math domain layer (Stages 1-6) — everything from
+here through Stage 8 starts touching real I/O (network, disk, crypto).
+
+- Deliberately defines its own `BacktestRecord` shape rather than
+  importing the storage layer's `ResolvedMarketRecord` — the domain layer
+  imports nothing outside itself (see the layer diagram in the original
+  architecture plan). Whichever future UI glue calls this maps a real
+  archive record into this minimal shape first.
+- `MIN_BACKTEST_RECORDS = 20` gates before any computation, mirroring the
+  calibration gate's structure from Stage 4 exactly.
+- `evaluateCutoffWindow`'s no-lookahead filter (`archivedAt <= cutoffMs`)
+  is tested directly against a 3-record fixture with staggered archive
+  times, not just asserted as a property of the whole sweep — so the
+  guard itself is provably doing the filtering, not something else
+  coincidentally producing the right totals.
+- Confirmed explicitly: an empty archive (day one of this rebuild, since
+  no data is inherited — see Part IX) correctly reports ineligible with
+  zero records. That is the expected startup state, not a defect.
 
 ## Unverified claims carried forward (handoff Part VIII — do not build on without checking)
 
