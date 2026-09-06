@@ -64,6 +64,64 @@ has been shown for review. See handoff Part II, rules 2 and 4.
 | 9 | React shell, mobile-first, Sizer + Theoretical-mode warning | **done** |
 | 10 | Discovery, Archive, Calibration, Backtest, Settings | **done** |
 | 11 | Max-entropy utility (unwired, labeled), final audit vs Part V/VI/VII | **done** |
+| 12 | Post-completion: Open-Meteo historical base-rate view (deferred item) | **done** |
+
+## Stage 12 — deferred items follow-up
+
+Requested after all 11 planned stages shipped: live-verify the Kalshi API
+shapes, add the Open-Meteo weather base-rate feature, and settle the PR's
+draft status.
+
+- **Kalshi live verification: re-attempted, still blocked.** Re-ran the
+  same check against `external-api.kalshi.com` — still a 403 on the
+  CONNECT tunnel. The `recentRelayFailures` and the `curl` error text now
+  make the blocker explicit: "connect_rejected (the egress proxy denied
+  the CONNECT — organization policy)". This is a general outbound policy
+  for this sandboxed session, not a Kalshi-specific denial — confirmed by
+  also testing `archive-api.open-meteo.com`, which failed identically.
+  `data/kalshi/schema.ts`'s `UnverifiedRawOrderbookResponse` caveat
+  stands unchanged; nothing new to fix there.
+- **Weather base-rate view added**: `domain/weatherLocations.ts`,
+  `domain/baseRate.ts`, `data/openMeteo.ts`, `app/components/BaseRate.tsx`
+  + tests (14 new tests, 185 total). Deliberately narrower than the
+  original app: city is an explicit dropdown (New York / Miami / Austin),
+  not inferred from the ticker prefix — the handoff confirms `KXHIGHNY`'s
+  format but not Miami's or Austin's exact ticker prefixes, so this
+  doesn't guess at them. Coordinates/timezones are treated as ordinary
+  verified geographic facts (not the kind of claim needing a live-API
+  check, unlike a JSON wire shape). The Open-Meteo response shape itself
+  carries the same "unverified this session" caveat as the Kalshi client,
+  for the same reason (network policy).
+  - No-lookahead discipline applied to a data range, not just an archive
+    cutoff: `endYear` is always the ticker's year minus one, so a base
+    rate is never computed using data from the very day/year it's meant
+    to inform about.
+  - `null` (not a fabricated `0%`) when zero years of data are available —
+    tested explicitly, mirroring the same discipline as
+    `computeExecutableBreakeven` (Stage 3) and `summarizeCalibration`
+    (Stage 4).
+  - **Verified end-to-end in a real browser with the actual fetch
+    pipeline exercised**: since the real host is also blocked, Playwright
+    intercepted the request at the network layer (`page.route`) rather
+    than mocking `fetch` in JS — the browser's real URL construction,
+    query params, and headers all ran for real. The intercepted URL
+    confirmed correct latitude/longitude, a `2014-01-01`–`2023-12-31`
+    range (one year before the ticker's 2024), `temperature_unit=fahrenheit`,
+    and the correct timezone. The computed result (30% — 3 of 10 seeded
+    years exceeding 60°F) was independently hand-verified against the
+    seeded fixture before trusting the screenshot.
+  - Two real test-query bugs fixed along the way (not component bugs):
+    the same `getByText`-matches-textarea-value collision as Discovery's
+    Stage 10 test, and a `findByRole('alert')` collision between the
+    view's persistent disclosure banner and its transient error message
+    (both correctly use `role="alert"`, so the query needed
+    disambiguating, not the component).
+- **PR draft status**: updated the PR title/description to reflect full
+  completion, confirmed the mergeability/CI check clean (no CI configured
+  in this repo, no review comments), then marked it ready for review —
+  reasonable now that every planned stage plus the deferred follow-up is
+  done, tested, and pushed. Reversible with one click if the user wants
+  more time before it's out of draft.
 
 ## Known open items — final status (handoff Part V)
 

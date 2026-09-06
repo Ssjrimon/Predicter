@@ -5,8 +5,9 @@ import { Archive } from './components/Archive';
 import { Calibration } from './components/Calibration';
 import { Backtest } from './components/Backtest';
 import { Settings } from './components/Settings';
+import { BaseRate } from './components/BaseRate';
 
-type Tab = 'sizer' | 'discovery' | 'archive' | 'calibration' | 'backtest' | 'settings';
+type Tab = 'sizer' | 'discovery' | 'archive' | 'calibration' | 'backtest' | 'baserate' | 'settings';
 
 const TABS: ReadonlyArray<{ id: Tab; label: string }> = [
   { id: 'sizer', label: 'Sizer' },
@@ -14,6 +15,7 @@ const TABS: ReadonlyArray<{ id: Tab; label: string }> = [
   { id: 'archive', label: 'Archive' },
   { id: 'calibration', label: 'Calibration' },
   { id: 'backtest', label: 'Backtest' },
+  { id: 'baserate', label: 'Base Rate' },
   { id: 'settings', label: 'Settings' },
 ];
 
@@ -59,6 +61,7 @@ export function App() {
       {activeTab === 'archive' && <Archive />}
       {activeTab === 'calibration' && <Calibration />}
       {activeTab === 'backtest' && <Backtest />}
+      {activeTab === 'baserate' && <BaseRate />}
       {activeTab === 'settings' && <Settings />}
     </main>
   );
