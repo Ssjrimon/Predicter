@@ -59,7 +59,7 @@ has been shown for review. See handoff Part II, rules 2 and 4.
 | 4 | `scoring` + `category` + `horizon` + `calibration` gating + tests | **done** |
 | 5 | `storage`: keys, append-only archive, interactions, settlement guard + tests | **done** |
 | 6 | `backtesting` + tests | **done** |
-| 7 | `data`: defensive http, Kalshi client, schema parsing, expired-market check | not started |
+| 7 | `data`: defensive http, Kalshi client, schema parsing, expired-market check | **done** |
 | 8 | `crypto` + Express proxy (zero `privateKey` occurrences, asserted by test) | not started |
 | 9 | React shell, mobile-first, Sizer + Theoretical-mode warning | not started |
 | 10 | Discovery, Archive, Calibration, Backtest, Settings | not started |
@@ -230,6 +230,43 @@ here through Stage 8 starts touching real I/O (network, disk, crypto).
   no data is inherited — see Part IX) correctly reports ineligible with
   zero records. That is the expected startup state, not a defect.
 
+## Stage 7 — what shipped
+
+`src/domain/ticker.ts`, `expiry.ts`; `src/data/http.ts`; `src/data/kalshi/schema.ts`, `client.ts`
++ tests (24 new tests, 120 total, all passing).
+
+- `parseTicker`: parses the series/date/threshold structure and is tested
+  against the handoff's one literally verified example
+  (`KXHIGHNY-24JAN01-T60` → Jan 1 2024). Kept as a pure domain module —
+  no I/O — since it's just string parsing.
+- `checkMarketExpiry` + `formatExpiryBannerMessage`: implements Part V
+  item A directly. The banner text is a function, not a string re-typed
+  wherever it's needed, specifically so the exact quoted wording can't
+  drift by paraphrase later (the same discipline as "settlement details
+  displayed verbatim" from Part IV). Only `status === 'open'` is treated
+  as confirmed-open, because that's the one status literal the handoff
+  actually confirms (Part III cites `?status=open` as a real API
+  parameter) — anything else is treated as not-open rather than guessing
+  at a "closed" enum.
+- `data/http.ts`'s `fetchJson` is the defensive fetch pattern from Part IV
+  Phase 1, tested against all four failure modes including the exact
+  historical bug (an HTML response parsed as JSON via Vite's SPA
+  fallback) as a named regression case.
+- **A live verification attempt was made and blocked, not skipped.**
+  Tried to fetch a real response from `external-api.kalshi.com` to check
+  the market/orderbook JSON wire shape before writing the client against
+  it. This session's outbound network policy returns a 403 on the CONNECT
+  tunnel to that host (confirmed via the proxy's own status endpoint —
+  `recentRelayFailures` shows `connect_rejected` / policy denial, not a
+  timeout or DNS issue). So: `parseMarketSummary` is built with full
+  confidence from the field names Part III actually confirms
+  (`yes_bid_dollars`, `status`, `close_time`, `result`, etc.).
+  `parseRawOrderbook`'s wire shape (`UnverifiedRawOrderbookResponse`) is
+  a clearly-labeled placeholder, isolated to one function — correcting it
+  once a real response is available touches nothing in the domain layer,
+  which only ever sees the already-verified `RawOrderBook` shape from
+  Stage 2.
+
 ## Unverified claims carried forward (handoff Part VIII — do not build on without checking)
 
 - **Rounding once per completed order** (vs. per depth-slice) is
@@ -246,6 +283,14 @@ here through Stage 8 starts touching real I/O (network, disk, crypto).
   free source. Do not write fetch code against an assumed API.
 - Any Fed-rate backtest has a hard sample-size ceiling: likely under 30
   testable events total (8 FOMC meetings/year, market history is short).
+- **New this session:** `data/kalshi/schema.ts`'s
+  `UnverifiedRawOrderbookResponse` (the `/markets/{ticker}/orderbook`
+  response shape) is a placeholder, not a confirmed fact — this session's
+  network policy blocks `external-api.kalshi.com` (a real 403, confirmed
+  via the proxy status endpoint, not a guess). Verify against a live
+  response and correct `parseRawOrderbook` before connecting real market
+  data through this client. `parseMarketSummary`'s fields are NOT in this
+  caveat — those field names are directly confirmed by handoff Part III.
 
 None of Stages 1-11 as planned currently touch Fed-rate or crypto-specific
 logic, so none of the above blocks anything in this build. Recorded so a
