@@ -28,6 +28,22 @@ export interface FeeInput {
 }
 
 /**
+ * The unrounded fee formula: multiplier * rate * contracts * price * (1 -
+ * price). Exposed separately from {@link computeFee} so a multi-level order
+ * (see `orderbook.ts` `simulateBuy`) can sum raw per-level fees and round
+ * the total once, rather than rounding at every depth level and summing the
+ * rounded values — a bug the original build fixed and documented
+ * (handoff Part IV, Step 3): rounding per level overcharges, since each
+ * level's fractional cent gets rounded up independently instead of netting
+ * out across the whole order.
+ */
+export function rawFee(input: FeeInput): number {
+  const { contracts, priceDollars, role, multiplier = 1 } = input;
+  const rate = role === 'taker' ? TAKER_FEE_RATE : MAKER_FEE_RATE_ESTIMATE;
+  return multiplier * rate * contracts * priceDollars * (1 - priceDollars);
+}
+
+/**
  * fee = roundUp(multiplier * rate * contracts * price * (1 - price))
  *
  * Rounding is always UP to the next whole cent, never to nearest — so
@@ -36,8 +52,5 @@ export interface FeeInput {
  * fees.test.ts for a worked case).
  */
 export function computeFee(input: FeeInput): Dollars {
-  const { contracts, priceDollars, role, multiplier = 1 } = input;
-  const rate = role === 'taker' ? TAKER_FEE_RATE : MAKER_FEE_RATE_ESTIMATE;
-  const raw = multiplier * rate * contracts * priceDollars * (1 - priceDollars);
-  return roundUpToCent(raw);
+  return roundUpToCent(rawFee(input));
 }

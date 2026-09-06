@@ -54,7 +54,7 @@ has been shown for review. See handoff Part II, rules 2 and 4.
 |---|---|---|
 | 0 | Scaffold: Vite, strict tsconfig, Vitest, trading gate README, this file | **done** |
 | 1 | `money` + `fees` + `format` + tests | **done** |
-| 2 | `orderbook`: complement, ordering, depth walk, `simulateOrder` + tests | not started |
+| 2 | `orderbook`: complement, ordering, depth walk, `simulateOrder` + tests | **done** |
 | 3 | `probability` (fair vs executable) + `sizing` + validation + tests | not started |
 | 4 | `scoring` + `category` + `horizon` + `calibration` gating + tests | not started |
 | 5 | `storage`: keys, append-only archive, interactions, settlement guard + tests | not started |
@@ -111,6 +111,33 @@ clean.
 - `formatPercent`/`roundHalfUp`: fixes the exact-`.5` boundary bug via a
   pre-round nudge; test includes the classic `2.675` IEEE-754 case as the
   regression witness (`(2.675).toFixed(2)` returns `"2.67"` natively).
+
+## Stage 2 — what shipped
+
+`src/domain/orderbook.ts` + tests (9 new tests, 24 total, all passing).
+`fees.ts` gained an exported `rawFee` (unrounded formula) so multi-level
+orders and single orders share one formula instead of duplicating it.
+
+- `normalizeOrderBook`: derives asks as the complement of the opposite
+  side's bids, reverses ascending raw arrays to best-first — implemented
+  in the exact sequence the handoff specifies (complement first, then
+  reverse), not just an equivalent reordering, so it stays traceable
+  against the documented steps.
+- `simulateBuy`: walks book depth level by level for the exact requested
+  size. Sums *raw* per-level fees and rounds once at the end — verified
+  against a worked 3-level example where per-level rounding would have
+  overcharged by a cent ($2.11 vs the correct $2.10), encoded as its own
+  regression test rather than just asserting the correct answer.
+- Liquidity trap handling: a request the book can't fill returns
+  `fullyFilled: false` with the fields describing only the achievable
+  partial fill — never an extrapolated full-size fill (handoff Part IV:
+  "simulates walking real book depth... rather than assuming the
+  top-of-book price fills the whole order"). An empty book returns
+  `null` averages/fees rather than `0`, so "no fill happened" is never
+  mistaken for "filled at $0".
+- Caveat carried from Part VIII: this "round once per completed order"
+  behavior is directionally safe but not confirmed to exactly match
+  Kalshi's real matching engine (see the Unverified Claims section below).
 
 ## Unverified claims carried forward (handoff Part VIII — do not build on without checking)
 
