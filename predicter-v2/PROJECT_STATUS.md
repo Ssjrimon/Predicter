@@ -61,7 +61,7 @@ has been shown for review. See handoff Part II, rules 2 and 4.
 | 6 | `backtesting` + tests | **done** |
 | 7 | `data`: defensive http, Kalshi client, schema parsing, expired-market check | **done** |
 | 8 | `crypto` + Express proxy (zero `privateKey` occurrences, asserted by test) | **done** |
-| 9 | React shell, mobile-first, Sizer + Theoretical-mode warning | not started |
+| 9 | React shell, mobile-first, Sizer + Theoretical-mode warning | **done** |
 | 10 | Discovery, Archive, Calibration, Backtest, Settings | not started |
 | 11 | Max-entropy utility (unwired, labeled), final audit vs Part V/VI/VII | not started |
 
@@ -305,6 +305,52 @@ here through Stage 8 starts touching real I/O (network, disk, crypto).
   keys-literal guard: the file's own doc comment initially quoted the
   banned identifier while explaining why it's banned, tripping its own
   test — fixed by rephrasing the comment.
+
+## Stage 9 — what shipped
+
+`src/app/hooks/useSizer.ts`, `src/app/components/Sizer.tsx`, `App.tsx`,
+mobile-first CSS + tests (12 new tests, 137 total, all passing). Also
+fixed a real gap discovered while wiring the UI: `storage/types.ts` only
+stored one probability number, but the handoff's calibration feature
+needs both the user's own estimate and the market's fair probability
+scored separately ("computes the market's log loss alongside the user's").
+Split into `userEstimatePct` / `marketProbabilityPct` /
+`marketProbabilitySource` before any real UI could write data in the
+wrong shape; updated the Stage 5 test fixtures to match.
+
+- The Theoretical-mode warning (`THEORETICAL_MODE_WARNING`, verbatim
+  handoff text) lives in `domain/probability.ts` next to the `source` tag
+  it's about, following the same verbatim-constant pattern as Stage 7's
+  expiry banner.
+- The Analysis card only renders once inputs validate — confirmed both
+  in a component test (React Testing Library) and by driving a real
+  headless Chromium against the actual `npm run dev` server.
+- **A real bug was found and fixed by writing the tests, not by
+  inspection:** the ticker `<input>` was disabled in Theoretical mode
+  while `canLog` required a non-empty ticker in *both* modes — a user
+  opening Theoretical mode directly (without ever visiting Live mode)
+  could never satisfy `canLog` at all. Fixed by never disabling the
+  ticker field; only the Live-mode Load button is mode-gated. A
+  regression test locks this in.
+- **Verified in a real browser, not just jsdom:** started the actual
+  Vite dev server and drove it with a real headless Chromium (Playwright,
+  pre-installed in this environment) at a mobile viewport (390×844) —
+  screenshots sent to the user. Confirmed: the warning banner renders
+  verbatim, the Analysis card's math matches Stage 1/3's known values
+  exactly (100 contracts @ 50c → $1.75 fee → 51.75% cost basis; Kelly
+  27.5% at p=0.65), the Log button enables/fires correctly, and the
+  written `localStorage` record has the exact new schema. One console
+  message appeared (`404` on `/favicon.ico`) — confirmed via `curl` to be
+  the browser's automatic favicon probe against a route that doesn't
+  exist yet, not a functional defect.
+- Kept a hard distinction between `ExecutableBreakeven` (Stage 3, real
+  depth-tested fills) and a new `TheoreticalCostEstimate` type (this
+  stage) for the hypothetical single-price estimate Theoretical mode
+  shows — deliberately not the same type, so a hypothetical estimate can
+  never be mistaken for or handled like a real, depth-walked fill.
+- Live-mode's Kelly suggestion is only computed when `fullyFilled` is
+  `true` — a liquidity-trap partial fill shows its own warning instead of
+  a Kelly number sized against an unfillable request.
 
 ## Unverified claims carried forward (handoff Part VIII — do not build on without checking)
 

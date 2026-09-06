@@ -16,7 +16,9 @@ function interaction(overrides: Partial<TrackedInteraction> = {}): TrackedIntera
   return {
     ticker: 'KXFED-25JUN-T5',
     interactedAt: 1000,
-    predictedProbabilityPct: 55,
+    userEstimatePct: 55,
+    marketProbabilityPct: 50,
+    marketProbabilitySource: 'orderbook-midpoint',
     thesis: 'Test thesis',
     closeTimeMs: 5000,
     ...overrides,

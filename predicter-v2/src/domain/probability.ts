@@ -21,6 +21,16 @@ export function fairProbabilityFromBook(bestBidCents: number, bestAskCents: numb
   return { kind: 'fair', pct: (bestBidCents + bestAskCents) / 2, source: 'orderbook-midpoint' };
 }
 
+/**
+ * The exact handoff Part V item B warning text, verbatim, in one place —
+ * so it can't drift by paraphrase wherever the UI shows it. Predictions
+ * with `source: 'user-typed'` must show this warning and must be excluded
+ * from calibration scoring and the 30-prediction live-trading count (user
+ * decision, recorded in PROJECT_STATUS.md).
+ */
+export const THEORETICAL_MODE_WARNING =
+  'Theoretical mode logs your typed price as the market price — this is not real market data and will distort calibration scoring. Use Live Orderbook mode for predictions you intend to score.';
+
 export function fairProbabilityFromUserInput(pct: number): FairProbability {
   return { kind: 'fair', pct, source: 'user-typed' };
 }
