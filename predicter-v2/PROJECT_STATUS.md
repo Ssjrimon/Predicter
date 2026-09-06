@@ -55,7 +55,7 @@ has been shown for review. See handoff Part II, rules 2 and 4.
 | 0 | Scaffold: Vite, strict tsconfig, Vitest, trading gate README, this file | **done** |
 | 1 | `money` + `fees` + `format` + tests | **done** |
 | 2 | `orderbook`: complement, ordering, depth walk, `simulateOrder` + tests | **done** |
-| 3 | `probability` (fair vs executable) + `sizing` + validation + tests | not started |
+| 3 | `probability` (fair vs executable) + `sizing` + validation + tests | **done** |
 | 4 | `scoring` + `category` + `horizon` + `calibration` gating + tests | not started |
 | 5 | `storage`: keys, append-only archive, interactions, settlement guard + tests | not started |
 | 6 | `backtesting` + tests | not started |
@@ -138,6 +138,30 @@ orders and single orders share one formula instead of duplicating it.
 - Caveat carried from Part VIII: this "round once per completed order"
   behavior is directionally safe but not confirmed to exactly match
   Kalshi's real matching engine (see the Unverified Claims section below).
+
+## Stage 3 — what shipped
+
+`src/domain/probability.ts`, `sizing.ts`, `validation.ts` + tests (21 new
+tests, 45 total, all passing).
+
+- `FairProbability` and `ExecutableBreakeven` are disjoint types — no
+  shared shape, no function accepts both. `FairProbability` carries a
+  `source: 'orderbook-midpoint' | 'user-typed'` tag permanently, which is
+  what makes Theoretical-mode contamination (Part V item B) visible at the
+  type level rather than a silent runtime risk — every fair-probability
+  value is traceable to where it came from for the rest of its life.
+- `computeExecutableBreakeven` returns `null` when nothing filled (never a
+  fabricated 0%/100%), and reports a partial fill's real filled size
+  rather than the originally requested size.
+- `kellyFraction` uses the fee-inclusive cost basis convention the project
+  adopted after Claude reviewed a code-gen tool's version and agreed it
+  was more correct than Claude's own raw-price original — an explicit
+  case of the reviewer being wrong, preserved in the doc comment so it
+  doesn't quietly get "corrected" back by a future session.
+- `validation.ts` structurally guards the exact three impossible inputs
+  the handoff names (blank/NaN price, 0 contracts, 150% probability) —
+  Stage 9's UI must check `valid` before rendering the Analysis card, per
+  Part IV Phase 1.
 
 ## Unverified claims carried forward (handoff Part VIII — do not build on without checking)
 
