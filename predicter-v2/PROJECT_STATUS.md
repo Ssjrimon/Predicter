@@ -23,7 +23,7 @@ one — this is expected, not a bug (handoff Part VI item).
 `npm run verify` (tsc --noEmit + full test run) passes and the actual diff
 has been shown for review. See handoff Part II, rules 2 and 4.
 
-## Non-negotiables carried forward (handoff Part II–III, Part V–VII)
+## Non-negotiables carried forward (handoff Part II–III, Part V–VIII)
 
 - Fair (midpoint) and executable (depth-walked) probability are never blended.
 - Small-sample gating returns `null`, not a hidden label (min 5 for

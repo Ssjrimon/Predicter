@@ -6,6 +6,8 @@ Everything stated as verified was checked against real uploaded source code, rea
 
 **Note on scope (added when this file was committed into the `Ssjrimon/Predicter` repo):** the repository this file lives in also contains an unrelated Android/Kotlin tree (`app/`, `build.gradle.kts`, etc.) from an early, abandoned direction. That tree is **not** the app this handoff describes. The real Predicter app — the one all of the history, bugs, and verified facts below refer to — was built in Google AI Studio (React + TypeScript + Express) and lives only there, not in this repository. The clean-slate rebuild commissioned from this handoff lives in `predicter-v2/` in this repo and does not touch, port from, or inherit any data from either the Kotlin tree or the AI Studio app (different origins — `aistudio.google.com` vs `localhost` — so `localStorage` does not transfer; the archive starts empty).
 
+**Note on completeness:** this version replaces an earlier commit of this file that was reconstructed from a conversation paste truncated partway through Part IV, Phase 4. It is now complete through Part X, taken directly from the full 10,287-line source document the user provided. That source document's Part XI ("Complete Source Code") — the verbatim original React/TypeScript source, ~9,120 lines — is **deliberately not reproduced here**. The task instructions for the `predicter-v2/` rebuild explicitly call for a clean-slate implementation, not a port: "Do not copy the existing source... Treat the handoff as a requirements and lessons-learned document, not a codebase to port." Inlining the original source into this repo would sit against that instruction and invite exactly the copy-instead-of-rebuild temptation it warns about. Every verified fact, formula, bug, and convention from that source is already captured in Parts I–X below; nothing was lost by omitting Part XI.
+
 ---
 
 # PART I — PROJECT CONTEXT
@@ -232,12 +234,32 @@ What was built instead: raw separate columns (spread, 24h range from real candle
 ### The `onClick` regression (real bug, fixed)
 Symptom: typing a ticker into the Sizer and clicking Load did nothing.
 
-Root cause: Market Discovery required `handleLoadTicker` to accept an optional ticker argument, so its signature became `handleLoadTicker(targetTicker?: string)`. But the manual Load button still had `onClick={handleLoadTicker}` — passing the function directly. React passes the click event as the first argument, so `targetTicker` silently received a `SyntheticEvent` object instead of `undefined`, and the ticker-fetch logic short-circuited on a truthy-but-wrong value.
+Root cause: Market Discovery required `handleLoadTicker` to accept an optional ticker argument, so its signature became `handleLoadTicker(targetTicker?: string)`. But the manual Load button still had `onClick={handleLoadTicker}` — passing the function directly. React passes the click event as the first argument, so the call became `handleLoadTicker(clickEvent)`. Since a click event is truthy, `(targetTicker || ticker).trim()` resolved to `clickEvent.trim()`, which does not exist. That threw inside an async function, becoming a silently rejected promise — no visible error, nothing happens.
 
-*(Note: the handoff document, as received in this session, was truncated after this sentence. Parts V, VI, and VII were provided separately and are reproduced in full below. Any remaining Phase 4 items beyond the `onClick` regression, and any content of a hypothetical Part VIII or later, were not transmitted and are not represented in this document.)*
+The Discovery path was unaffected because it calls the function directly with a real string.
+
+Fix: `onClick={() => handleLoadTicker()}`. The arrow function's empty parameter list absorbs the event. Verified as a single-line diff with nothing else touched.
+
+### The expired-ticker false-bug hunt (not a bug — process failure)
+Symptom: "No active offers available to fill this order" on every attempt, plus a dash for live price.
+
+Actual cause: the ticker under test was `KXHIGHNY-24JAN01-T60` — **January 1, 2024**, roughly 20 months expired. No live orderbook exists for a settled market. Every observed symptom was correct behaviour.
+
+Time was lost investigating the click handler before checking whether the market was open. **The diagnostic sequence should check market status first.** This directly motivated Open Item A.
+
+Also confirmed correct in the same screenshots: the 0% historical rate for NYC exceeding 60°F on January 1 across 2019–2023 is real winter data, not a bug.
+
+## Phase 5 — Delivery-environment guidance
+
+**Claude Cowork setup:** Desktop → Cowork tab → Projects → + → **"Use an existing folder"** (not "Import from project," which is for a Claude.ai chat Project). Requires a real local folder, not an AI Studio hosted session.
+
+**Why a status file matters more than the setup box:** setup-box text is read at creation time only. A file on disk is re-read every session. This is why `PROJECT_STATUS.md` was recommended repeatedly — and it still does not exist in the repo (Open Item E).
+
+**Cowork runs autonomously.** Checkpoint discipline still applies; full auto-approve is what let fabricated ✅ claims through before.
+
+*(Not directly applicable to this session, which runs in Claude Code rather than Cowork — retained for completeness and because the underlying lesson, that a file on disk beats setup-box text, is exactly why `predicter-v2/PROJECT_STATUS.md` exists.)*
 
 ---
-
 # PART V — OPEN ITEMS
 
 Ranked by real risk. Each has an exact location.
@@ -328,3 +350,107 @@ Do not reintroduce.
 - **"Once it's fully built out, enable auto-trading."** Rejected as a moving target. See Working Rule 6.
 
 ---
+
+# PART VIII — UNVERIFIED CLAIMS
+
+Flagged; do not build on these without checking first.
+
+- **Rounding once per completed order matching Kalshi's matching engine exactly.** The change is directionally safe (fee equal or lower), but the engine's exact behaviour was not independently confirmed.
+- **CF Benchmarks crypto settlement using "a 60-second average of one-second observations."** From a third-party research doc. Unverified. Do not build timing-sensitive logic on it.
+- **CME 30-Day Fed Funds futures historical data access.** A Fed-rate backtest was scoped but is **blocked** on this. FRED provides historical EFFR free; the Federal Reserve publishes FOMC dates free; CME historical futures data is typically behind a paid licence. **Do not write fetch code against an assumed API.** This question must be answered first.
+- **Sample-size ceiling for any Fed backtest:** 8 FOMC meetings per year, and Kalshi's Fed markets have not existed long. Total testable history is likely under 30 events.
+
+---
+
+# PART IX — THE CURRENT BLOCKER
+
+**Zero resolved predictions have been logged.**
+
+This is not a code problem and no build task resolves it. The backtest correctly reports insufficient data because there is insufficient data.
+
+What has to happen: real predictions logged in **Live Orderbook mode only** (never Theoretical), using tickers copied directly from Kalshi's live site so expired contracts are not loaded, with a genuine probability estimate formed before looking at the market price, and a real written thesis.
+
+At roughly 5 per week, about a month before the 20-record backtest threshold is met. That waiting period is the experiment running, not dead time.
+
+*(For the `predicter-v2/` rebuild specifically: this blocker does not carry forward as-is, because — per user correction — the rebuild's archive starts empty regardless, with no data inherited from the AI Studio app. The same underlying point holds, though: the rebuild's own backtest will correctly show insufficient data until the user logs enough real predictions in it, and that is expected, not a defect to fix.)*
+
+---
+
+# PART X — STACK, BUILD, CONVENTIONS
+
+**Describes the original AI Studio app's actual stack, not a requirement for the `predicter-v2/` rebuild**, which is free to choose its own toolchain (it uses Vite + React + TypeScript + Vitest — see `predicter-v2/PROJECT_STATUS.md`). Retained here for the conventions that reflect hard-won lessons rather than arbitrary choices — the defensive fetch pattern and the mobile-first discipline in particular.
+
+## Stack
+
+React 19.0.1 · TypeScript ~5.8.2 · Vite 6.2.3 · Tailwind CSS v4.1.14 (via `@tailwindcss/vite`) · Express 4.21.2
+
+Also: `lucide-react` (icons), `recharts` (charts), `date-fns`, `clsx` + `tailwind-merge`, `motion`, `react-router-dom`, `@google/genai`.
+
+**Note:** `@google/genai` is a declared dependency. Confirm whether anything actually calls it before assuming a Gemini path is live.
+
+## Commands
+
+```
+npm run dev      # tsx server.ts — Express + Vite middleware together
+npm run build    # vite build, then esbuild bundles server.ts -> dist/server.cjs
+npm run start    # node dist/server.cjs
+npm run lint     # tsc --noEmit   <-- the ONLY validation gate
+npm run clean    # rm -rf dist server.js
+```
+
+## UI conventions
+
+- **Tailwind utility classes only.** No CSS modules, no styled-components.
+- Dark theme: `bg-slate-950` page, `bg-slate-900` cards, `border-slate-800` borders, `text-slate-100` primary, `text-slate-400`/`text-slate-500` secondary and muted.
+- Semantic accents: `text-blue-400` interactive, `text-emerald-400` positive/confirmed, `text-rose-400` error, `text-amber-*` caution.
+- Standard card: `bg-slate-900 border border-slate-800 rounded-xl p-4`
+- Disabled buttons: `bg-slate-800 text-slate-500 cursor-not-allowed`
+- Icons from `lucide-react`, typically `w-4 h-4` inline
+- **Mobile-first.** The user works almost entirely on a phone. Horizontal overflow is a real defect, not cosmetic.
+
+## Architecture
+
+- **Navigation is tab state in `App.tsx`,** not routes — `activeTab` plus a `sizerTicker` string for Discovery → Sizer prefill. `react-router-dom` is installed but the main shell does not use it.
+- **All Kalshi calls go through the Express proxy** (`/api/*` → `external-api.kalshi.com`). The frontend never hits Kalshi directly. Adding an endpoint means editing **both** `server.ts` and `src/api.ts`.
+- **Persistence is localStorage only.** No backend database. Keys: `kalshi_resolved_markets_archive_v1`, `kalshi_tracked_interactions_v1`, plus settings and prediction-log keys in `store.ts`.
+- **Defensive fetch pattern** in `api.ts`: check `response.ok`, verify `content-type` includes `application/json` before parsing, catch and `console.warn`, return `null`. This exists because a broken URL previously hit Vite's SPA fallback and returned HTML parsed as JSON. **Keep this pattern on any new fetch.**
+
+## File map
+
+```
+src/
+  App.tsx                        102   tab routing, sizerTicker state
+  main.tsx                        10
+  api.ts                         186   Kalshi fetch layer
+  store.ts                       326   localStorage, append-only archive
+  types.ts                       149   Prediction, ResolvedMarketRecord, etc.
+  settlementSync.ts              182   polls Kalshi, archives settled markets
+  PositionSizer.tsx              803   manual + live modes, logging
+  PredictionLog.tsx             1087   Brier, log loss, category/horizon
+  Scanner.tsx                    747
+  MarketDiscovery.tsx            720
+  HistoricalResolvedArchive.tsx  593
+  WalkForwardBacktest.tsx        574
+  HistoricalBaseRatePanel.tsx    361
+  Portfolio.tsx                  345
+  EvidencePanel.tsx              342
+  Settings.tsx                   226
+  Watchlist.tsx                  215
+  TradeConfirmationModal.tsx     172
+  BookCrossCheck.tsx             163
+  SettlementDetails.tsx          149
+  OBIFrictionMeter.tsx            63
+  utils/
+    math.ts                      565   fees, Kelly, Brier, log loss, max-entropy
+    weather.ts                   522
+    backtesting.ts               304
+    orderbook.ts                 122
+    crypto.ts                     92   client-side RSA-PSS signing
+server.ts                              proxy only; never sees the private key
+```
+
+~9,120 lines of TypeScript/TSX.
+
+---
+
+*(Part XI — Complete Source Code — intentionally omitted from this repository copy. See the "Note on completeness" at the top of this file.)*
