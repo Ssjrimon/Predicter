@@ -3,5 +3,12 @@
     "allow": [
       "mcp__github__pull_request_read"
     ]
+  },
+  "sandbox": {
+    "network": {
+      "allowedDomains": [
+        "external-api.kalshi.com"
+      ]
+    }
   }
 }
