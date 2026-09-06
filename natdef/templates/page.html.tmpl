@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{PAGE_TITLE}}</title>
+<meta name="description" content="{{PAGE_DESCRIPTION}}">
+<meta name="generator" content="{{GENERATOR}}">
+<meta name="natdef:brief-number" content="{{BRIEF_NUMBER}}">
+<meta name="natdef:cutoff" content="{{CUTOFF}}">
+<meta name="natdef:generated" content="{{GENERATED_AT}}">
+<meta name="natdef:counts" content="{{COUNTS_JSON}}">
+<style>
+{{CSS}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="wrap">
+    <span class="wordmark">Strategic Threat &amp; Posture</span>
+    <nav>{{NAV}}</nav>
+  </div>
+</div>
+
+{{BODY}}
+
+<footer class="wrap">
+  <p>Unclassified &mdash; open-source compilation. Not an official U.S. Government product.
+  Every page here is generated from <span class="mono">intel-ledger.json</span>; editing one
+  by hand is a defect, because the next render discards the edit silently.</p>
+  <p class="gen">{{GENERATOR}} &middot; brief {{BRIEF_NUMBER}} &middot; information cutoff {{CUTOFF}} &middot; generated {{GENERATED_AT}}</p>
+</footer>
+{{SCRIPTS}}
+</body>
+</html>

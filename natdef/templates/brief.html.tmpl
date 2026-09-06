@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strategic Threat &amp; Posture — Brief {{BRIEF_NUMBER}}, {{BRIEF_DATE}}</title>
+<meta name="natdef:brief-number" content="{{BRIEF_NUMBER}}">
+<meta name="natdef:cutoff" content="{{CUTOFF}}">
+<meta name="natdef:generated" content="{{GENERATED_AT}}">
+<style>
+{{CSS}}
+.brief{max-width:900px}
+.item{border-top:1px solid var(--hair); padding:26px 0}
+.item:first-child{border-top:0}
+.i-head{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:10px}
+.i-n{font-family:var(--mono); font-size:12px; color:var(--gold); letter-spacing:0.08em}
+.i-title{font-family:var(--serif); font-size:clamp(19px,2.4vw,25px); line-height:1.25}
+.i-body{margin-top:12px; color:var(--dim); font-size:15px; line-height:1.7}
+.i-sowhat{
+  margin-top:14px; padding:12px 16px; border-left:2px solid var(--gold);
+  background:var(--panel); font-size:14.5px;
+}
+.i-sowhat b{color:var(--gold); text-transform:uppercase; font-size:11px; letter-spacing:0.12em}
+.todo{
+  border:1px dashed var(--red); border-radius:var(--radius);
+  padding:12px 16px; color:var(--red); font-size:13.5px;
+}
+.panel ul{margin:8px 0 0; padding-left:20px; color:var(--dim); font-size:14px}
+.panel li{margin-bottom:5px}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="wrap">
+    <span class="wordmark">Strategic Threat &amp; Posture</span>
+    <nav>
+      <a href="{{ARCHIVE_LINK}}">Full archive</a>
+      <a href="../index.html">Command Center</a>
+      <a href="../strategic-threat-briefing.html">Dashboard</a>
+    </nav>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap brief">
+    <div class="eyebrow-row">
+      <span>Daily Brief {{BRIEF_NUMBER}}</span>
+      <span class="dim">Unclassified &mdash; open-source compilation</span>
+    </div>
+    <h1 class="title">{{BRIEF_WEEKDAY}}<br><span class="accent">{{BRIEF_DATE}}</span></h1>
+    <div class="byline">
+      <span><b>Information cutoff</b> {{CUTOFF}}</span>
+      <span><b>Revision</b> {{REVISION}}</span>
+    </div>
+    <div class="{{INTERVAL_CLASS}}" style="margin-top:18px">{{INTERVAL}}</div>
+  </div>
+</header>
+
+<main class="wrap brief">
+
+  <section id="bottom-line">
+    <div class="bottomline">
+      <div class="bl-label">The bottom line</div>
+      <div class="bl-text">{{BOTTOM_LINE}}</div>
+    </div>
+  </section>
+
+  <section id="board">
+    <div class="sec-head">
+      <div class="sec-eyebrow">01 &mdash; Movement board</div>
+      <h2 class="sec-title">Where the ten threads stand</h2>
+    </div>
+    {{BOARD}}
+  </section>
+
+  <section id="items">
+    <div class="sec-head">
+      <div class="sec-eyebrow">02 &mdash; What moved</div>
+      <h2 class="sec-title">Items</h2>
+      <p class="sec-desc">Ordered by consequence, late-file items first. An item earns its
+      place by changing something, not by being interesting.</p>
+    </div>
+    {{ITEMS}}
+  </section>
+
+  <section id="changed">
+    <div class="sec-head">
+      <div class="sec-eyebrow">03 &mdash; Changed on the board</div>
+      <h2 class="sec-title">What this brief altered in the standing picture</h2>
+    </div>
+    {{CHANGED}}
+  </section>
+
+  <section id="horizon">
+    <div class="sec-head">
+      <div class="sec-eyebrow">04 &mdash; Horizon</div>
+      <h2 class="sec-title">Dated things ahead</h2>
+      <p class="sec-desc">Nearest first, each tagged with its confidence. A stated goal is not
+      a prediction and a projection is not a plan.</p>
+    </div>
+    {{HORIZON}}
+  </section>
+
+  <section id="verification">
+    <div class="sec-head">
+      <div class="sec-eyebrow">05 &mdash; Verification log</div>
+      <h2 class="sec-title">What was checked, and what was cut</h2>
+      <p class="sec-desc">Every claim is walked back to its origin before it is written, not
+      after. Corrections to earlier briefs run here, never as edits to the brief that carried
+      the error.</p>
+    </div>
+    {{VERIFICATION}}
+  </section>
+
+  <section id="sources">
+    <div class="sec-head">
+      <div class="sec-eyebrow">06 &mdash; Sources</div>
+      <h2 class="sec-title">Every document behind this</h2>
+    </div>
+    {{SOURCES}}
+  </section>
+
+</main>
+
+<footer class="wrap brief">
+  <p>A government summary of its own operation is an attributed claim, never a verified
+  finding. Contested figures are attributed to whoever is claiming them. Where sources
+  conflict, both run, named.</p>
+  <p class="gen">Generated {{GENERATED_AT}} from intel-ledger.json &middot; brief
+  {{BRIEF_NUMBER}} &middot; cutoff {{CUTOFF}}</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Brief — 08 August 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E8EAE4;
+    --paper-2:#DFE2DA;
+    --paper-3:#D5D9CF;
+    --ink:#14181A;
+    --ink-2:#4C555A;
+    --ink-3:#7C858A;
+    --rule:#C2C6BD;
+    --rule-soft:#D3D7CD;
+    --petrol:#1D3A47;
+    --esc:#9E3226;
+    --hold:#8A6B1F;
+    --ease:#3F6349;
+    --vol:#6B4A7A;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:'Newsreader',Georgia,serif;font-size:17px;line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--petrol);color:var(--paper);}
+  .wrap{max-width:820px;margin:0 auto;padding:0 26px;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  h1,h2,h3,.lbl{font-family:'Archivo',system-ui,sans-serif;margin:0;}
+  a{color:var(--petrol);text-decoration-thickness:1px;text-underline-offset:2px;}
+  a:hover{color:var(--esc);}
+
+  .lbl{
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.17em;
+    text-transform:uppercase;color:var(--ink-3);
+  }
+
+  /* ---- MASTHEAD ---- */
+  header{border-bottom:2px solid var(--ink);padding:26px 0 0;}
+  .mast-top{
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;
+    padding-bottom:12px;border-bottom:1px solid var(--rule);
+  }
+  .mast-top .l{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);}
+  h1.masthead{
+    font-size:clamp(40px,8vw,74px);font-weight:800;letter-spacing:-.025em;line-height:.92;
+    padding:16px 0 6px;text-transform:uppercase;
+  }
+  .mast-sub{
+    display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;
+    padding-bottom:20px;
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);
+  }
+
+  /* ---- BOTTOM LINE ---- */
+  .bottomline{padding:38px 0 34px;border-bottom:1px solid var(--rule);}
+  .bottomline p{
+    font-size:clamp(20px,3.1vw,27px);line-height:1.4;font-weight:300;margin:14px 0 0;
+    letter-spacing:-.005em;
+  }
+  .bottomline p strong{font-weight:500;}
+  .bottomline p + p{margin-top:16px;font-size:clamp(17px,2.2vw,19px);color:var(--ink-2);line-height:1.55;}
+
+  /* ---- MOVEMENT BOARD ---- */
+  .board-sec{padding:34px 0 30px;border-bottom:1px solid var(--rule);}
+  .board-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px;}
+  .board-hint{font-family:'Newsreader',serif;font-size:14px;color:var(--ink-3);font-style:italic;}
+  .board{
+    display:grid;grid-template-columns:repeat(9,1fr);gap:7px;margin-top:20px;
+  }
+  .gauge{
+    background:none;border:none;padding:0;cursor:pointer;text-align:center;
+    display:flex;flex-direction:column;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;
+  }
+  .track{
+    width:100%;height:104px;background:var(--paper-3);position:relative;overflow:hidden;
+    border-bottom:2px solid var(--ink);
+  }
+  .fill{
+    position:absolute;left:0;right:0;bottom:0;
+    background:var(--c);
+    transition:height .7s cubic-bezier(.2,.7,.3,1);
+    height:0;
+  }
+  .fill::after{
+    content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--ink);opacity:.55;
+  }
+  .gauge .arrow{font-size:13px;font-weight:700;color:var(--c);line-height:1;}
+  .gauge .code{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--ink);}
+  .gauge .val{font-size:9.5px;color:var(--ink-3);letter-spacing:.04em;}
+  .gauge:hover .track,.gauge:focus-visible .track{outline:2px solid var(--ink);outline-offset:2px;}
+  .gauge[aria-pressed="true"] .track{outline:2px solid var(--ink);outline-offset:2px;}
+
+  .readout{
+    margin-top:18px;border-left:3px solid var(--ink);padding:12px 0 12px 15px;min-height:78px;
+  }
+  .readout .r-name{font-family:'Archivo',sans-serif;font-weight:700;font-size:17px;}
+  .readout .r-name .tag{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:2px 7px;margin-left:9px;color:var(--paper);vertical-align:2px;
+  }
+  .readout .r-line{font-size:16px;color:var(--ink-2);margin-top:5px;}
+  .readout .r-watch{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-3);margin-top:8px;letter-spacing:.03em;}
+
+  @media(max-width:720px){
+    .board{grid-template-columns:repeat(9,minmax(52px,1fr));overflow-x:auto;padding-bottom:8px;}
+    .track{height:88px;}
+  }
+
+  /* ---- ITEMS ---- */
+  .items{padding:36px 0 10px;}
+  .item{padding:26px 0;border-bottom:1px solid var(--rule-soft);}
+  .item:first-of-type{padding-top:14px;}
+  .item-top{display:flex;gap:14px;align-items:baseline;}
+  .item-num{
+    font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--ink-3);
+    flex:none;padding-top:5px;
+  }
+  .item-thread{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:2px 7px;color:var(--paper);
+  }
+  h3.item-title{
+    font-size:clamp(22px,3.2vw,29px);font-weight:700;letter-spacing:-.02em;line-height:1.14;margin:7px 0 0;
+  }
+  .item-body{padding-left:0;margin-top:12px;}
+  .item-body p{margin:0 0 13px;font-size:16.5px;}
+  .sowhat{
+    border-left:3px solid var(--petrol);padding:9px 0 9px 14px;margin-top:16px;
+    font-size:16px;color:var(--ink);background:linear-gradient(90deg,rgba(29,58,71,.055),transparent 70%);
+  }
+  .sowhat b{
+    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--petrol);display:block;margin-bottom:3px;
+  }
+  .attrib{font-size:14px;color:var(--ink-3);font-style:italic;margin-top:10px;}
+
+  /* ---- CHANGED / HORIZON ---- */
+  section.block{padding:34px 0;border-top:1px solid var(--rule);}
+  h2.sec{font-size:clamp(20px,2.8vw,26px);font-weight:700;letter-spacing:-.015em;margin-top:6px;text-transform:uppercase;}
+  .sec-note{color:var(--ink-3);font-size:15px;margin-top:6px;font-style:italic;}
+
+  .changed{margin-top:20px;}
+  .chg{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--rule-soft);align-items:flex-start;}
+  .chg:last-child{border-bottom:none;}
+  .chg-kind{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+    padding:3px 8px;border:1px solid var(--ink);flex:none;margin-top:3px;min-width:92px;text-align:center;
+  }
+  .chg-kind.rev{background:var(--ink);color:var(--paper);}
+  .chg-body{font-size:15.5px;}
+  .chg-body b{font-weight:600;}
+  .chg-body .was{color:var(--ink-3);display:block;margin-top:4px;font-size:14.5px;}
+
+  .horizon{margin-top:20px;}
+  .hz{display:grid;grid-template-columns:118px 1fr;gap:14px;padding:11px 0;border-bottom:1px solid var(--rule-soft);}
+  .hz:last-child{border-bottom:none;}
+  .hz-when{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.03em;padding-top:2px;}
+  .hz-item{font-size:15.5px;}
+  .conf{
+    font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+    border:1px solid var(--ink-3);color:var(--ink-3);padding:1px 6px;margin-left:8px;white-space:nowrap;
+  }
+  .hz-note{display:block;color:var(--ink-3);font-size:14px;margin-top:3px;}
+  @media(max-width:600px){
+    .hz{grid-template-columns:1fr;gap:3px;}
+    .chg{flex-direction:column;gap:7px;}
+  }
+
+  /* ---- SOURCES / FOOTER ---- */
+  .srcs{margin-top:18px;}
+  .src{display:grid;grid-template-columns:78px 1fr;gap:14px;padding:10px 0;border-bottom:1px solid var(--rule-soft);align-items:baseline;}
+  .src:last-child{border-bottom:none;}
+  .src-tier{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;}
+  .src-body{font-size:15px;}
+  .src-body a{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;word-break:break-all;margin-top:2px;}
+  @media(max-width:600px){.src{grid-template-columns:1fr;gap:2px;}}
+
+  footer.end{border-top:2px solid var(--ink);padding:22px 0 56px;margin-top:30px;}
+  .caveat{font-size:13.5px;color:var(--ink-3);line-height:1.55;}
+  .caveat b{color:var(--ink-2);}
+
+  @media print{
+    body{background:#fff;font-size:11pt;}
+    .gauge{cursor:default;}
+    .board-hint{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="mast-top">
+      <span class="l">Strategic Threat &amp; Posture</span>
+      <span class="l">Brief No. 001 · Rev. B · Verified</span>
+    </div>
+    <h1 class="masthead">Daily Brief</h1>
+    <div class="mast-sub">
+      <span>Saturday · 08 August 2026</span>
+      <span>Baseline established · 6 primary documents · 9 threads · 7 checks logged</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ BOTTOM LINE ============ -->
+  <section class="bottomline">
+    <div class="lbl">The bottom line</div>
+    <p><strong>The Iran war is the whole board, and the Intelligence Community changed hands five days ago.</strong> Jay Clayton was sworn in as the ninth Director of National Intelligence on 3 August, replacing Tulsi Gabbard, who presented the March threat assessment this brief is built on. The conflict itself is in its sixth month, with a Strait of Hormuz corridor repeatedly getting within hours of agreement and collapsing back into strikes.</p>
+    <p>Two things underneath that matter more than the day's headlines. First, US interceptor stocks are now the binding constraint on American options — roughly 80% of THAAD and half of Patriot inventories reported expended, with rebuild timelines in years. Second, the Iranian campaign against US water utilities is not new and not unattributed: EPA, FBI, CISA and NSA named Iranian-affiliated actors in a joint advisory on <strong>7 April</strong>, four months before the coverage peak, and have documented configuration wiping, sensor tampering and boil-water notices since.</p>
+  </section>
+
+  <!-- ============ MOVEMENT BOARD ============ -->
+  <section class="board-sec">
+    <div class="board-head">
+      <div>
+        <div class="lbl">Movement board</div>
+        <h2 class="sec" style="font-size:22px;margin-top:4px;">Where the nine threads stand</h2>
+      </div>
+      <div class="board-hint">Bar height is intensity. Color and arrow are direction. Tap a column.</div>
+    </div>
+
+    <div class="board" id="board"></div>
+    <div class="readout" id="readout" style="border-color:var(--esc)">
+      <div class="r-name" id="r-name">Iran / Hormuz <span class="tag" style="background:var(--esc)">Escalating</span></div>
+      <div class="r-line" id="r-line">Iran–Oman corridor text is close but Tehran has detached it from actually reopening the strait; US interceptor stocks are the binding constraint.</div>
+      <div class="r-watch" id="r-watch">WATCHING — Iran–Oman joint statement · Mojtaba Khamenei's assent · US munitions resupply · Sept War Powers clock</div>
+    </div>
+  </section>
+
+  <!-- ============ ITEMS ============ -->
+  <section class="items">
+    <div class="lbl">Items</div>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">01</span>
+        <div>
+          <span class="item-thread" style="background:var(--esc)">Iran / Hormuz</span>
+          <h3 class="item-title">Iran agrees the route, refuses to call the strait open</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>Iran's foreign ministry confirmed on 6 August that two months of Oman-mediated talks have produced agreement on the geographical coordinates of a commercial transit route through the Strait of Hormuz, with a joint statement covering technical, legal, security and environmental points described as in final drafting. In the same breath, spokesman Esmaeil Baghaei said the understanding cannot be taken to mean the strait has become secure for transiting vessels while the American naval blockade persists.</p>
+        <p>The shape of the proposed mechanism surfaced publicly a day earlier: a 60-day interim arrangement, extendable, routing inbound traffic through a northern lane in Iranian territorial waters and outbound through a southern lane in Omani waters, with no tolls during the interim period and median-lane demining inside 30 days. Tehran's stated conditions for reopening are an end to the blockade of its ports, a US return to the 17 June memorandum, and assurances against further breaches. A senior Gulf official put the odds of a deal by Friday at 50-50 and identified the IRGC's absence from the Iranian delegation as a complicating factor. President Trump told reporters on 7 August that the war "has got to end pretty soon."</p>
+        <div class="sowhat">
+          <b>So what</b>
+          Route agreement and strait reopening have been deliberately decoupled by Tehran. A signed technical document is therefore not the de-escalation signal it looks like — the blockade, not the coordinates, is the actual variable. Watch whether Mojtaba Khamenei's assent materializes; he has not appeared publicly since February.
+        </div>
+        <p class="attrib">Sourced from open reporting compiled by GlobalSecurity.org's daily tracker; figures and claims are attributed to the parties making them.</p>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">02</span>
+        <div>
+          <span class="item-thread" style="background:var(--esc)">Iran / Hormuz</span>
+          <h3 class="item-title">Interceptor depletion is now shaping US options</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>CNN reported on 5 August that US forces have expended nearly 80% of the THAAD interceptor inventory and roughly half of Patriot stocks since 28 February, with senior commanders describing munitions levels as dangerously low. CSIS estimates three or more years to rebuild THAAD; current deliveries run at roughly 15 Tomahawks and 20 Patriots a month. Reporting ties the deferral of a threatened multi-day escalation directly to these stocks.</p>
+        <p>The 2026 National Defense Strategy's fourth line of effort — supercharging the defense industrial base — was written before this campaign and framed as a generational project. It is now the immediate operational constraint on the first line of effort. President Trump reacted angrily on 7 August to reports of the depletion, vowing to pursue those who leaked it.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          This is the clearest real-world test yet of the NDS's central bet. A strategy premised on deterring China while allies handle other theaters assumes the US can sustain a secondary campaign without consuming the magazine it would need in the Pacific. Nine months into the strategy, one regional war has largely done exactly that.
+        </div>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">03</span>
+        <div>
+          <span class="item-thread" style="background:var(--esc)">Cyber / Tech</span>
+          <h3 class="item-title">The water-utility campaign was federally attributed in April, not August</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>EPA, the FBI, CISA and NSA issued a joint cybersecurity advisory on <strong>7 April 2026</strong> — advisory AA26-097A — warning of an urgent and ongoing Iranian-affiliated threat to US operational technology, and naming documented consequences: configuration wiping, software-based mechanical sensor tampering, and disruption of human-machine interfaces, producing operational disruption and financial loss. CISA has confirmed disruptions at victim organizations since at least March. The advisory was updated 22 July to add Schneider Electric and Siemens controllers alongside Rockwell Automation, to document project-file exfiltration for the first time, and to note that attacks have resulted in boil-water notices and sustained manual operations.</p>
+        <p>The late-July Minnesota incident — roughly 30 water systems, 26–27 July — is the visible peak of that campaign, not its beginning. Attackers changed PLC passwords and altered IP configurations to lock operators out. Press tallies have since grown from seven states to twelve as South Dakota and Georgia disclosed incidents. Federal agencies have declined to attribute those specific late-July incidents publicly, even though the advisory-level attribution to Iranian-affiliated actors has stood since April. CVE-2021-22681, a critical Rockwell Logix authentication bypass with no vendor patch, entered CISA's Known Exploited Vulnerabilities catalog in March.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          Two attribution questions are being conflated in public coverage. The campaign is officially attributed; the individual incidents are not yet. And the four-month gap between the federal warning and the operational impact is the actual story — the guidance to disconnect internet-exposed controllers predates the disruptions it was meant to prevent.
+        </div>
+        <p class="attrib">Verified against the EPA news release of 7 April 2026 and the CISA advisory record. State counts are press tallies, not a federal figure.</p>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">04</span>
+        <div>
+          <span class="item-thread" style="background:var(--esc)">China / Taiwan</span>
+          <h3 class="item-title">Japan, not Taiwan, is the sharpening edge in the Pacific</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>Japan test-fired a Tomahawk cruise missile from the destroyer <em>Chokai</em> on 29 July — a 1,600 km weapon that can reach mainland China from Japanese waters, with 400 on order. Tokyo's 2026 Defense White Paper names PRC short-of-war coercion as a major threat. In March Japan deployed upgraded Type-12 land-to-ship missiles with roughly 1,000 km range, and plans deployments on Yonaguni, about 110 km from Taiwan.</p>
+        <p>The proximate cause remains PM Takaichi's November 2025 statement that a Chinese attack on Taiwan could constitute a "survival threatening situation" for Japan — a legal formulation that could authorize SDF deployment. Beijing has responded with travel advisories, a renewed seafood ban, cancelled exchanges and February export controls on Japanese entities. The ATA expects this coercion campaign to intensify through 2026 and anticipates increased PLA and coast guard activity around the Senkakus.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          The IC's separate judgment that Beijing does not plan a 2027 Taiwan invasion does not lower Pacific risk — it relocates it. The likelier near-term flashpoint is an accident or miscalculation in the Senkakus between two increasingly armed parties in a structural, not episodic, dispute.
+        </div>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">4b</span>
+        <div>
+          <span class="item-thread" style="background:var(--hold)">Homeland / Hemisphere</span>
+          <h3 class="item-title">New Director of National Intelligence sworn in</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>Jay Clayton was sworn in on 3 August as the ninth Director of National Intelligence, following Senate confirmation on 28 July. He previously served as US Attorney for the Southern District of New York and as Chairman of the SEC from 2017 to 2020. ODNI's release notes that as US Attorney he supervised prosecutions including the indictment of Nicolás Maduro on drug-trafficking and terrorism charges, alleged IRGC and Kata'ib Hizballah figures, and members of the Sinaloa and CJNG cartels.</p>
+        <p>The practical consequence for this product: the 2026 Annual Threat Assessment — the anchor document for most of the standing picture — was presented to the Senate Select Committee on Intelligence by his predecessor in March. A change of director does not invalidate a coordinated IC assessment, but the next ATA cycle is now under different leadership, and the working assumption that the March judgments carry forward unchanged should be held loosely.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          A brief anchored to one administration's assessment documents has to track who is signing them. This was missed in the first pass and is exactly the kind of check that now runs every morning.
+        </div>
+        <p class="attrib">Verified against ODNI News Release No. 12-26, 3 August 2026.</p>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">05</span>
+        <div>
+          <span class="item-thread" style="background:var(--hold)">Russia / Ukraine</span>
+          <h3 class="item-title">The June deadline passed without a deal</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>Zelenskyy said in February that Washington wanted a peace agreement concluded by June. Three rounds of US–Ukraine–Russia talks in the UAE and Switzerland in late January and February produced no breakthrough; further rounds followed in Florida in March. Territory and security guarantees remain the unresolved core, as they have since a 28-point US plan leaked in November 2025 and was condensed to a 20-point Ukrainian draft. A 32-hour Orthodox Easter truce on 11 April was the only pause.</p>
+        <p>The 2026 ATA's judgment is blunt: Russia has maintained the upper hand and sees little reason to stop fighting so long as its forces gain ground, and Moscow remains confident it will force a settlement on its terms. The assessment also notes that a durable settlement could open a thaw in US–Russia relations — framing that sits alongside its warning about escalation risk from continued fighting, citing the November 2025 Poland railway sabotage.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          This thread is holding, not easing. Attention and munitions have both moved to the Gulf, which is the condition under which Moscow's calculus is least likely to change.
+        </div>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">06</span>
+        <div>
+          <span class="item-thread" style="background:var(--ease)">Homeland / Hemisphere</span>
+          <h3 class="item-title">The Homeland numbers are the strongest in the record — except Haiti</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>The 2026 ATA reports synthetic opioid deaths at just over 38,000 for the 12 months to September 2025, down roughly 30% year over year and down from the 52,000-plus figure in the 2025 assessment. Border fentanyl seizures by weight are down 56%; January 2026 southwest border encounters were down 83.8% against January 2025. Following the October 2025 Busan meeting, Beijing agreed to halt precursor flows to North America and imposed export licensing. Venezuela has flipped from adversary to partial partner — the ATA reports the government cooperating on economic opening and releasing political prisoners since Maduro's arrest.</p>
+        <p>Haiti is the exception and it is deteriorating. Gang members have conducted periodic gunfire attacks on the US Embassy compound in Port-au-Prince since September 2025, explicitly seeking to sow unrest ahead of the arrival of UN-authorized multinational forces and national elections planned for this month.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          Haiti's elections are scheduled for the month now underway, into an environment where armed groups are attacking the US diplomatic compound. The ATA separately warns that worsening conditions in Haiti and Cuba carry migration-surge risk — the one lever that could reverse the border trend.
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ CHANGED ON THE BOARD ============ -->
+  <section class="block">
+    <div class="lbl">Changed on the board</div>
+    <h2 class="sec">What this brief altered</h2>
+    <p class="sec-note">Baseline brief — the standing picture was built from three documents and is now reconciled against a fourth.</p>
+
+    <div class="changed">
+      <div class="chg">
+        <span class="chg-kind rev">Source added</span>
+        <div class="chg-body">
+          <b>2026 Annual Threat Assessment (ODNI, 18 March 2026)</b> joins the ledger as a current source; the 2025 ATA is marked superseded but retained.
+          <span class="was">Restructured from actor-by-actor to Homeland / Technological Challenges / Diverse Threat Vectors, explicitly following the NSS priority order. AI and quantum computing are elevated to standalone sections.</span>
+        </div>
+      </div>
+
+      <div class="chg">
+        <span class="chg-kind rev">Judgment revised</span>
+        <div class="chg-body">
+          <b>Taiwan 2027 is no longer an invasion date.</b> The IC now assesses Chinese leaders do not currently plan to execute an invasion of Taiwan in 2027 and have no fixed unification timeline.
+          <span class="was">Previously: 2027 was framed as a PLA modernization milestone and widely read as a readiness deadline. The dashboard's 2027 entry has been reframed accordingly.</span>
+        </div>
+      </div>
+
+      <div class="chg">
+        <span class="chg-kind rev">Judgment revised</span>
+        <div class="chg-body">
+          <b>"Adversary alignment" is downgraded.</b> The 2026 ATA states the China–Russia–Iran–North Korea relationships are limited and primarily bilateral, and that the alignment concept overstates the depth of cooperation currently occurring.
+          <span class="was">Previously: the 2025 ATA closed with a dedicated section treating growing cooperation as a compounding threat. Both framings are kept in the ledger.</span>
+        </div>
+      </div>
+
+      <div class="chg">
+        <span class="chg-kind">Thread moved</span>
+        <div class="chg-body">
+          <b>Iran / Hormuz raised to 9, escalating.</b> Was a degraded-adversary story in the founding documents; is now the primary active conflict, with a second maritime front in the Red Sea.
+        </div>
+      </div>
+
+      <div class="chg">
+        <span class="chg-kind">Thread moved</span>
+        <div class="chg-body">
+          <b>Cyber raised to 7, escalating</b> on the water-utility intrusion campaign. <b>Energy added at 8, volatile</b> — Brent has traded roughly $70–$100 on Hormuz signal since February. <b>Homeland lowered to 4, easing</b> on border and fentanyl metrics.
+        </div>
+      </div>
+
+      <div class="chg">
+        <span class="chg-kind">New figures</span>
+        <div class="chg-body">
+          <b>Missile threat to the Homeland projected to exceed 16,000 by 2035</b>, from more than 3,000 today. Al-Qa'ida assessed at 15,000–28,000 members, ISIS at 12,000–18,000. North Korean crypto theft at $1bn-plus annually, including a $285m attack on Drift Protocol.
+        </div>
+      </div>
+
+      <div class="chg">
+        <span class="chg-kind">Events added</span>
+        <div class="chg-body">
+          Twenty-two events folded into the timeline, including the Armenia–Azerbaijan Peace Summit and TRIPP corridor, the Busan Agreement, Takaichi's Taiwan remarks, Scarborough Reef, Pakistan's first strikes on Kabul, Operation EPIC FURY, and the Islamabad Memorandum.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HORIZON ============ -->
+  <section class="block">
+    <div class="lbl">Horizon</div>
+    <h2 class="sec">What's coming, nearest first</h2>
+    <p class="sec-note">Each item carries its confidence. A stated goal is not a prediction; a projection is not a plan.</p>
+
+    <div class="horizon">
+      <div class="hz">
+        <div class="hz-when">Days</div>
+        <div class="hz-item">Iran–Oman joint statement on the Hormuz transit route <span class="conf">Contested</span>
+          <span class="hz-note">In final drafting per Tehran. Requires Mojtaba Khamenei's assent, unconfirmed. A Gulf official put the odds at 50-50.</span></div>
+      </div>
+      <div class="hz">
+        <div class="hz-when">Aug 2026</div>
+        <div class="hz-item">Haiti national elections <span class="conf">Scheduled</span>
+          <span class="hz-note">Armed groups are actively attempting disruption; UN-authorized force arrival pending.</span></div>
+      </div>
+      <div class="hz">
+        <div class="hz-when">Sept 2026</div>
+        <div class="hz-item">War Powers Act 60-day clock on the Iran campaign <span class="conf">Statutory</span>
+          <span class="hz-note">Two Senate resolutions have already failed, 50-49 and 50-48.</span></div>
+      </div>
+      <div class="hz">
+        <div class="hz-when">2026</div>
+        <div class="hz-item">USMCA joint review <span class="conf">Scheduled</span>
+          <span class="hz-note">ATA assesses it will raise uncertainty across Latin American economies reliant on Mexico as an export route.</span></div>
+      </div>
+      <div class="hz">
+        <div class="hz-when">Through 2026</div>
+        <div class="hz-item">PRC coercive pressure on Japan intensifies <span class="conf">IC assessed</span>
+          <span class="hz-note">Further economic measures and increased Senkaku activity anticipated, with accident and miscalculation risk.</span></div>
+      </div>
+      <div class="hz">
+        <div class="hz-when">2027</div>
+        <div class="hz-item">PLA modernization milestone <span class="conf">Superseded</span>
+          <span class="hz-note">The invasion-date reading is retired. IC assesses no 2027 invasion is planned and no fixed timeline exists.</span></div>
+      </div>
+      <div class="hz">
+        <div class="hz-when">2028</div>
+        <div class="hz-item">China projected to out-build the rest of the world in legacy-chip capacity <span class="conf">Forecast</span></div>
+      </div>
+      <div class="hz">
+        <div class="hz-when">2030</div>
+        <div class="hz-item">China's target for global AI leadership <span class="conf">Stated goal</span>
+          <span class="hz-note">Restated in the 2026 ATA, which calls China the most capable competitor in the AI space.</span></div>
+      </div>
+      <div class="hz">
+        <div class="hz-when">2035</div>
+        <div class="hz-item">Missile threat to the Homeland projected above 16,000 <span class="conf">IC projection</span></div>
+      </div>
+      <div class="hz">
+        <div class="hz-when">2049</div>
+        <div class="hz-item">PRC centenary — "national rejuvenation" target <span class="conf">Stated goal</span>
+          <span class="hz-note">Beijing publicly insists unification with Taiwan is required to achieve it.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VERIFICATION LOG ============ -->
+  <section class="block">
+    <div class="lbl">Verification log</div>
+    <h2 class="sec">What was checked, and what it changed</h2>
+    <p class="sec-note">Every claim walked back to its origin before publication. Corrections to earlier drafts run here, never quietly.</p>
+
+    <div class="changed">
+      <div class="chg">
+        <span class="chg-kind rev">Corrected</span>
+        <div class="chg-body">
+          <b>Epic Fury is not concluded.</b> The Department of War's own operation page describes US and partner forces as currently striking targets, and carries CENTCOM strike footage through 20 July.
+          <span class="was">Draft said "formally declared complete, 5 May," following an encyclopedia entry and an aggregator. Both are contradicted by the issuing department's live page. The 5 May date attaches to a Pentagon press conference and a published 7 April–5 May timeline graphic, not to the operation ending.</span>
+        </div>
+      </div>
+
+      <div class="chg">
+        <span class="chg-kind rev">Corrected</span>
+        <div class="chg-body">
+          <b>Water-utility attribution dates to 7 April, not late July.</b> The joint EPA/FBI/CISA/NSA advisory naming Iranian-affiliated actors was published 7 April and updated 22 July.
+          <span class="was">Draft implied the campaign surfaced in late July and was "preliminarily attributed." Federal attribution of the campaign predates that by four months; only the specific late-July incidents remain unattributed publicly.</span>
+        </div>
+      </div>
+
+      <div class="chg">
+        <span class="chg-kind rev">Corrected</span>
+        <div class="chg-body">
+          <b>"No confirmed contamination" understated the impact.</b> CISA documents configuration wiping, sensor tampering, HMI disruption, boil-water notices and sustained manual operations.
+          <span class="was">Absence of contamination is not absence of consequence. Corrected in the item text.</span>
+        </div>
+      </div>
+
+      <div class="chg">
+        <span class="chg-kind rev">Missed</span>
+        <div class="chg-body">
+          <b>Director of National Intelligence changed on 3 August.</b> Jay Clayton sworn in as ninth DNI; not in the first pass at all. Added as an item and to the standing check list.
+        </div>
+      </div>
+
+      <div class="chg">
+        <span class="chg-kind rev">Source added</span>
+        <div class="chg-body">
+          <b>President Trump's Cyber Strategy for America, 6 March 2026</b> — a national strategy document absent from the ledger entirely. Six pillars, released with an executive order on combating cybercrime. Directly governs the Cyber thread. Found via a reference in the EPA advisory release.
+        </div>
+      </div>
+
+      <div class="chg">
+        <span class="chg-kind">Confirmed</span>
+        <div class="chg-body">
+          <b>Epic Fury start date and objectives.</b> 28 February 2026 commencement and the four stated objectives confirmed against the Department of War's own page and Secretary Hegseth's quoted mission statement. CENTCOM commander is Adm. Brad Cooper.
+        </div>
+      </div>
+
+      <div class="chg">
+        <span class="chg-kind">Unresolved</span>
+        <div class="chg-body">
+          <b>Interceptor depletion figures remain single-source.</b> The ~80% THAAD / ~50% Patriot numbers trace to CNN reporting relayed through an aggregator, with no primary confirmation found. Retained because of consequence, flagged as single-source. Do not treat as established.
+          <span class="was">Also unresolved: state count for water intrusions (press tallies range seven to twelve, no federal figure); Iranian casualty totals (sources differ by roughly 2.5x); ATA 2026 text extraction skipped pages 20–21, 24, 29 and 32, so claims from those regional sections are absent rather than verified.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SOURCES ============ -->
+  <section class="block">
+    <div class="lbl">Sources</div>
+    <h2 class="sec">Documents touched</h2>
+    <div class="srcs">
+      <div class="src">
+        <div class="src-tier">Primary<br>New</div>
+        <div class="src-body"><b>2026 Annual Threat Assessment of the U.S. Intelligence Community</b> — ODNI, published 18 March 2026, information cutoff 14 March 2026.
+          <a href="https://archive.dni.gov/files/ODNI/documents/assessments/ATA-2026-Unclassified-Report.pdf" target="_blank" rel="noopener">archive.dni.gov/files/ODNI/documents/assessments/ATA-2026-Unclassified-Report.pdf</a></div>
+      </div>
+      <div class="src">
+        <div class="src-tier">Primary</div>
+        <div class="src-body"><b>2026 National Defense Strategy</b> — U.S. Department of War, 23 January 2026.
+          <a href="https://media.defense.gov/2026/Jan/23/2003864773/-1/-1/0/2026-NATIONAL-DEFENSE-STRATEGY.PDF" target="_blank" rel="noopener">media.defense.gov/2026/Jan/23/2003864773/-1/-1/0/2026-NATIONAL-DEFENSE-STRATEGY.PDF</a></div>
+      </div>
+      <div class="src">
+        <div class="src-tier">Primary</div>
+        <div class="src-body"><b>National Security Strategy of the United States</b> — The White House, November 2025.
+          <a href="https://www.whitehouse.gov/wp-content/uploads/2025/12/2025-National-Security-Strategy.pdf" target="_blank" rel="noopener">whitehouse.gov/wp-content/uploads/2025/12/2025-National-Security-Strategy.pdf</a></div>
+      </div>
+      <div class="src">
+        <div class="src-tier">Primary<br>Superseded</div>
+        <div class="src-body"><b>2025 Annual Threat Assessment</b> — ODNI, March 2025. Retained as baseline for measuring revised judgments.
+          <a href="https://archive.dni.gov/files/ODNI/documents/assessments/ATA-2025-Unclassified-Report.pdf" target="_blank" rel="noopener">archive.dni.gov/files/ODNI/documents/assessments/ATA-2025-Unclassified-Report.pdf</a></div>
+      </div>
+      <div class="src">
+        <div class="src-tier">Primary<br>New</div>
+        <div class="src-body"><b>President Trump's Cyber Strategy for America</b> — The White House, 6 March 2026. Six pillars, released with an executive order on combating cybercrime. Congressional Research Service summary: IN12667.
+          <a href="https://www.congress.gov/crs-product/IN12667" target="_blank" rel="noopener">congress.gov/crs-product/IN12667</a></div>
+      </div>
+      <div class="src">
+        <div class="src-tier">Primary<br>New</div>
+        <div class="src-body"><b>Joint Cybersecurity Advisory AA26-097A</b> — EPA, FBI, CISA, NSA, 7 April 2026, updated 22 July 2026. Iranian-affiliated cyber actors exploiting programmable logic controllers across US critical infrastructure.
+          <a href="https://www.epa.gov/newsreleases/epa-fbi-cisa-nsa-issue-joint-cybersecurity-advisory-water-system-regarding-iranian" target="_blank" rel="noopener">epa.gov — joint advisory release</a></div>
+      </div>
+      <div class="src">
+        <div class="src-tier">Primary<br>New</div>
+        <div class="src-body"><b>ODNI News Release No. 12-26</b> — Jay Clayton sworn in as Director of National Intelligence, 3 August 2026.
+          <a href="https://www.odni.gov/14064/pr-12-26/" target="_blank" rel="noopener">odni.gov/14064/pr-12-26/</a></div>
+      </div>
+      <div class="src">
+        <div class="src-tier">Primary</div>
+        <div class="src-body"><b>Operation Epic Fury</b> — U.S. Department of War operation page.
+          <a href="https://www.war.gov/Spotlights/Operation-Epic-Fury/" target="_blank" rel="noopener">war.gov/Spotlights/Operation-Epic-Fury/</a></div>
+      </div>
+      <div class="src">
+        <div class="src-tier">Aggregator</div>
+        <div class="src-body"><b>Iran War 2026 — Daily Update</b> — GlobalSecurity.org. Daily open-source tracker; figures in an active conflict are contested and attributed to the claiming party.
+          <a href="https://www.globalsecurity.org/military/ops/iran-war-update.htm" target="_blank" rel="noopener">globalsecurity.org/military/ops/iran-war-update.htm</a></div>
+      </div>
+      <div class="src">
+        <div class="src-tier">Analytic</div>
+        <div class="src-body"><b>China &amp; Taiwan Update</b> — Institute for the Study of War / American Enterprise Institute, 7 August 2026.
+          <a href="https://www.aei.org/commentary/china-taiwan-update-august-7-2026/" target="_blank" rel="noopener">aei.org/commentary/china-taiwan-update-august-7-2026/</a></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="end">
+  <div class="wrap">
+    <p class="caveat"><b>Caveats.</b> This is an independent, AI-assisted compilation of public open sources. It is not an official government product and has not been reviewed by any agency. Casualty, damage and inventory figures from an active conflict are contested; where a government or belligerent is the source, the claim is attributed rather than adopted. Government strategy documents present an administration's own account of its record — reported here as what those documents say, not as established fact. Every forward-looking item carries a confidence label. Where a newer assessment contradicts an older one, both are retained in the ledger.</p>
+    <p class="caveat" style="margin-top:12px;"><b>Next brief</b> updates <span class="mono">intel-ledger.json</span> first, then this file. See <span class="mono">BRIEFING-PROTOCOL.md</span>.</p>
+  </div>
+</footer>
+
+<script>
+  const THREADS = [
+    {code:"IR", name:"Iran / Hormuz", i:9, dir:"escalating", line:"Iran–Oman corridor text is close but Tehran has detached it from actually reopening the strait; US interceptor stocks are the binding constraint.", watch:"Iran–Oman joint statement · Mojtaba Khamenei's assent · US munitions resupply · Sept War Powers clock"},
+    {code:"EN", name:"Energy / Markets", i:8, dir:"volatile", line:"Oil is trading almost purely on Hormuz signal, and the IEA's emergency lever — a record 400 million barrel release — has already been pulled.", watch:"Brent range · Hormuz transit counts · OPEC+ output · War-risk premiums"},
+    {code:"CY", name:"Cyber / Tech", i:7, dir:"escalating", line:"The Iran war has produced the most significant Iranian cyber campaign against US critical infrastructure to date, now spanning twelve states' water systems.", watch:"Water-sector spread · CISA guidance · Volt/Salt Typhoon · Quantum milestones"},
+    {code:"CN", name:"China / Taiwan", i:6, dir:"escalating", line:"The Japan front is now the sharper edge — Tokyo is fielding strike weapons that reach the mainland while Beijing runs sustained coercion.", watch:"Yonaguni deployment · Senkaku activity · Type 076 Sichuan · PRC economic measures on Japan"},
+    {code:"RU", name:"Russia / Ukraine", i:6, dir:"holding", line:"Moscow retains the battlefield upper hand and sees little reason to stop; the US-set June deadline for a deal passed without one.", watch:"Next negotiating round · Territory and security guarantees · Russian sabotage in Europe"},
+    {code:"KP", name:"North Korea", i:5, dir:"holding", line:"Steady-state buildup funded by $1bn-plus in annual crypto theft; the IC still assesses Pyongyang is probably prepared to conduct a nuclear test.", watch:"Nuclear test indicators · ICBM/IRBM cadence · Crypto heist attribution"},
+    {code:"TR", name:"Terrorism", i:5, dir:"holding", line:"Al-Qa'ida and ISIS are far below peak but growing in the Sahel and Somalia, and post-Khamenei retaliation calls are an open variable.", watch:"Shia retaliation calls · Bamako blockade · ISIS reconstitution in Syria"},
+    {code:"HL", name:"Homeland / Hemisphere", i:4, dir:"easing", line:"Border and fentanyl metrics are the strongest on record and Venezuela has flipped to partial cooperation — but Haiti is deteriorating into its election.", watch:"Haiti elections · USMCA review · Cuba and Haiti migration surge risk"},
+    {code:"EU", name:"Europe / NATO", i:4, dir:"holding", line:"Allies are spending more, but the ATA flags debt, demographics and migration as limits on how much capability that actually buys.", watch:"Hague 5% delivery · Russian sabotage · European mine-clearance mission"},
+  ];
+
+  const DIRMETA = {
+    escalating:{c:"var(--esc)", arrow:"▲", label:"Escalating"},
+    holding:{c:"var(--hold)", arrow:"■", label:"Holding"},
+    easing:{c:"var(--ease)", arrow:"▼", label:"Easing"},
+    volatile:{c:"var(--vol)", arrow:"◆", label:"Volatile"},
+  };
+
+  const board = document.getElementById('board');
+  THREADS.forEach((t, idx) => {
+    const m = DIRMETA[t.dir];
+    const b = document.createElement('button');
+    b.className = 'gauge';
+    b.style.setProperty('--c', m.c);
+    b.setAttribute('aria-pressed', idx === 0 ? 'true' : 'false');
+    b.setAttribute('aria-label', t.name + ', intensity ' + t.i + ' of 10, ' + m.label);
+    b.innerHTML =
+      '<span class="arrow">' + m.arrow + '</span>' +
+      '<span class="track"><span class="fill" data-h="' + (t.i * 10) + '"></span></span>' +
+      '<span class="code">' + t.code + '</span>' +
+      '<span class="val">' + t.i + '/10</span>';
+    b.addEventListener('click', () => select(idx));
+    board.appendChild(b);
+  });
+
+  function select(idx){
+    const t = THREADS[idx], m = DIRMETA[t.dir];
+    document.querySelectorAll('.gauge').forEach((g,i)=>g.setAttribute('aria-pressed', i===idx?'true':'false'));
+    const ro = document.getElementById('readout');
+    ro.style.borderColor = m.c;
+    document.getElementById('r-name').innerHTML = t.name + ' <span class="tag" style="background:' + m.c + '">' + m.label + '</span>';
+    document.getElementById('r-line').textContent = t.line;
+    document.getElementById('r-watch').textContent = 'WATCHING — ' + t.watch;
+  }
+
+  // animate bars in
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  requestAnimationFrame(()=>{
+    document.querySelectorAll('.fill').forEach((f,i)=>{
+      const h = f.dataset.h + '%';
+      if(reduce){ f.style.transition='none'; f.style.height = h; }
+      else { setTimeout(()=>{ f.style.height = h; }, 90 + i*55); }
+    });
+  });
+</script>
+
+</body>
+</html>

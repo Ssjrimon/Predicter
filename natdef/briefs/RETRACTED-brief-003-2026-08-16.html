@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strategic Threat &amp; Posture Brief 003 — 16 August 2026</title>
+<style>
+  :root{
+    --ink:#12161c; --ink-2:#3b4552; --ink-3:#6b7684;
+    --rule:#d9dee5; --rule-2:#eef1f5; --paper:#fbfcfd; --card:#ffffff;
+    --esc:#b3261e; --hold:#4a5b74; --ease:#2f6b45; --vol:#7a4bb5;
+    --late:#8a4b00; --gap:#6b4bb5;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.62 "Iowan Old Style","Charter","Georgia",serif;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:900px;margin:0 auto;padding:40px 26px 80px}
+  .sans{font-family:"Inter","Helvetica Neue",Arial,sans-serif}
+
+  /* masthead */
+  header{border-bottom:3px double var(--ink);padding-bottom:16px;margin-bottom:8px}
+  .kicker{font-family:"Inter","Helvetica Neue",Arial,sans-serif;font-size:11px;
+    letter-spacing:.19em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px}
+  h1{font-size:33px;line-height:1.16;margin:0 0 12px;letter-spacing:-.01em;font-weight:600}
+  .meta{font-family:"Inter","Helvetica Neue",Arial,sans-serif;font-size:12.5px;
+    color:var(--ink-2);display:flex;flex-wrap:wrap;gap:6px 20px}
+  .meta b{color:var(--ink);font-weight:600}
+  .cutoff{background:#12161c;color:#fff;padding:2px 8px;border-radius:3px;font-weight:600}
+
+  .notice{border:1px solid #e4c58a;background:#fdf7ea;border-left:4px solid #b8860b;
+    padding:13px 16px;margin:18px 0 0;font-size:14.5px;color:#5c4410;border-radius:0 3px 3px 0}
+  .notice b{color:#3d2c05}
+
+  h2{font-family:"Inter","Helvetica Neue",Arial,sans-serif;font-size:11.5px;letter-spacing:.17em;
+    text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid var(--rule);
+    padding-bottom:7px;margin:44px 0 18px;font-weight:600}
+
+  /* bottom line */
+  .bottomline{font-size:20.5px;line-height:1.52;margin:26px 0 0;color:var(--ink)}
+  .bottomline p{margin:0 0 14px}
+  .bottomline p:last-child{margin-bottom:0}
+
+  /* movement board */
+  .board{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;
+    background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:18px 12px 12px}
+  .col{display:flex;flex-direction:column;align-items:center;gap:5px}
+  .bars{height:112px;display:flex;align-items:flex-end;width:100%;justify-content:center}
+  .bar{width:70%;min-width:16px;border-radius:2px 2px 0 0;position:relative}
+  .bar span{position:absolute;top:-17px;left:0;right:0;text-align:center;
+    font-family:"Inter",Arial,sans-serif;font-size:11px;font-weight:700;color:var(--ink-2)}
+  .code{font-family:"Inter",Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:.05em}
+  .arr{font-size:13px;line-height:1}
+  .lbl{font-family:"Inter",Arial,sans-serif;font-size:9.5px;color:var(--ink-3);
+    text-align:center;line-height:1.25;min-height:24px}
+  .delta{font-family:"Inter",Arial,sans-serif;font-size:9px;font-weight:600;
+    padding:1px 4px;border-radius:2px;background:#f0f2f5;color:var(--ink-3)}
+  .delta.moved{background:#fdecea;color:var(--esc)}
+  .delta.new{background:#efe7fb;color:var(--gap)}
+  .esc{color:var(--esc)} .hold{color:var(--hold)} .ease{color:var(--ease)} .vol{color:var(--vol)}
+  .b-esc{background:var(--esc)} .b-hold{background:var(--hold)}
+  .b-ease{background:var(--ease)} .b-vol{background:var(--vol)}
+  .legend{font-family:"Inter",Arial,sans-serif;font-size:11px;color:var(--ink-3);
+    margin-top:10px;display:flex;gap:16px;flex-wrap:wrap}
+  .legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px}
+
+  /* items */
+  .item{border-top:1px solid var(--rule-2);padding:24px 0 4px}
+  .item:first-of-type{border-top:none}
+  .num{font-family:"Inter",Arial,sans-serif;font-size:11px;font-weight:700;
+    color:var(--ink-3);letter-spacing:.1em}
+  .tags{display:inline-flex;gap:6px;margin-left:9px;vertical-align:1px}
+  .tag{font-family:"Inter",Arial,sans-serif;font-size:9.5px;font-weight:700;letter-spacing:.09em;
+    text-transform:uppercase;padding:2px 6px;border-radius:2px;background:#eef1f5;color:var(--ink-2)}
+  .tag.late{background:#fff1de;color:var(--late)}
+  .tag.gapfill{background:#efe7fb;color:var(--gap)}
+  .tag.vp{background:#e6f2ea;color:var(--ease)}
+  .tag.ac{background:#eef1f5;color:var(--hold)}
+  .tag.cont{background:#fdecea;color:var(--esc)}
+  h3{font-size:20px;line-height:1.34;margin:7px 0 10px;font-weight:600;letter-spacing:-.005em}
+  .item p{margin:0 0 11px;color:var(--ink-2)}
+  .sowhat{border-left:3px solid var(--ink);padding:2px 0 2px 13px;margin-top:13px;
+    font-size:15.5px;color:var(--ink)}
+  .sowhat b{font-family:"Inter",Arial,sans-serif;font-size:10.5px;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:3px;font-weight:700}
+
+  /* generic tables */
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  th{font-family:"Inter",Arial,sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-3);text-align:left;padding:0 10px 7px 0;border-bottom:1px solid var(--rule);font-weight:700}
+  td{padding:10px 10px 10px 0;border-bottom:1px solid var(--rule-2);
+    vertical-align:top;color:var(--ink-2)}
+  td.w{color:var(--ink);font-weight:600;white-space:nowrap}
+  ul.plain{margin:0;padding-left:19px}
+  ul.plain li{margin-bottom:9px;color:var(--ink-2)}
+
+  .conf{font-family:"Inter",Arial,sans-serif;font-size:9.5px;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;padding:2px 6px;border-radius:2px;background:#eef1f5;color:var(--ink-2)}
+  .res{font-family:"Inter",Arial,sans-serif;font-size:9.5px;font-weight:700;letter-spacing:.06em;
+    padding:2px 6px;border-radius:2px;white-space:nowrap}
+  .r-cut{background:#fdecea;color:var(--esc)}
+  .r-ok{background:#e6f2ea;color:var(--ease)}
+  .r-gap{background:#fff1de;color:var(--late)}
+  .r-fix{background:#efe7fb;color:var(--gap)}
+
+  footer{margin-top:52px;border-top:3px double var(--ink);padding-top:15px;
+    font-family:"Inter",Arial,sans-serif;font-size:12px;color:var(--ink-3);line-height:1.7}
+  a{color:#12161c;text-decoration:underline;text-underline-offset:2px;text-decoration-color:#b9c2cd}
+  a:hover{text-decoration-color:#12161c}
+  @media(max-width:720px){
+    .board{grid-template-columns:repeat(5,1fr);row-gap:16px}
+    h1{font-size:26px} .bottomline{font-size:18px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div style="border:2px solid #b3261e;background:#fdecea;color:#5c1410;border-radius:4px;padding:18px 20px;margin-bottom:28px;font-family:Georgia,serif;">
+  <div style="font-family:'Inter','Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#b3261e;margin-bottom:8px;">Retracted — do not treat this as the record of 16 August 2026</div>
+  <p style="margin:0 0 10px;font-size:15px;line-height:1.6;">
+  This brief was produced by a cloud-scheduled task that fired against a stale, thin copy of
+  <code>intel-ledger.json</code> that had lived in this project since roughly Brief 002 and had
+  never been resynced with the canonical working-folder ledger. It self-numbered <b>"Brief
+  003"</b> — that number and the "173 hours, six missed runs" gap it describes are both artifacts
+  of the stale copy, not of reality. The canonical ledger was at <b>Brief 006</b> (15 Aug cutoff)
+  when this ran, one normal cycle behind, and a separately-running, correctly-suspicious
+  working-folder session produced the real <b>Brief 007</b> within the same hour.
+  </p>
+  <p style="margin:0 0 10px;font-size:15px;line-height:1.6;">
+  This file is kept, not deleted, exactly as originally delivered below. It contains real,
+  individually-verified reporting — two findings from it (the EIA/IEA quantification of the
+  Hormuz closure, and the FBI's federal floor on the water-sector campaign) were independently
+  confirmed and merged into the canonical ledger as gap-fills. The rest of its content —
+  including every thread reading, delta and "Changed on the board" claim below — reflects the
+  <i>stale</i> ledger it was built from and should not be read as this project's assessment of
+  16 August. Read <b><code>briefs/daily-brief-2026-08-16.html</code></b> for that.
+  </p>
+  <p style="margin:0;font-size:14px;line-height:1.6;color:#7a3520;">
+  Full account of what happened and how this was reconciled:
+  <code>intel-ledger.json</code> → <code>verification_log[]</code>, entry dated 2026-08-16,
+  claim "CONTINUITY — reconciliation of a second forked briefing run." See also
+  <code>briefs/INDEX.md</code> and <code>BRIEFING-PROTOCOL.md</code> Rule 0.
+  </p>
+</div>
+
+<header>
+  <div class="kicker">Strategic Threat &amp; Posture — Daily Brief</div>
+  <h1>Both sides say they can hold Hormuz indefinitely.<br>The inventory data says someone is wrong.</h1>
+  <div class="meta">
+    <span><b>Brief 003</b></span>
+    <span>Sunday, 16 August 2026</span>
+    <span>Information cutoff <span class="cutoff">2026-08-16 1700Z</span></span>
+    <span>Interval covered <b>2026-08-09 1200Z → 2026-08-16 1700Z</b> (7d 5h)</span>
+    <span>Revision C — post-verification</span>
+    <span><a href="brief-archive.html">Full archive →</a></span>
+  </div>
+</header>
+
+<div class="notice">
+  <b>Multi-day catch-up, and missed runs disclosed.</b> The sweep interval is 173 hours against a
+  stated daily cadence. Six scheduled fires between 10 and 15 August produced no brief. The whole
+  interval has been swept rather than the last 24 hours; items that broke after the previous cutoff
+  run first under a <b>LATE FILE</b> tag, and two items that predate the previous cutoff and were
+  missed in Brief 002 are tagged <b>GAP-FILL</b> — those are corrections to the board, not new news.
+  <br><br>
+  <b>Two further disclosures.</b> A fork between <i>BRIEFING-PROTOCOL.md</i> and the ledger was found
+  and reconciled this run: the protocol recorded the <b>AL — Alliance architecture</b> thread as opened
+  on 9 August, but the ledger never received it. AL is opened here, and both defence pacts are
+  reclassified out of Iran/Hormuz. Separately, <b>Step 6 did not run</b> — this session was started by
+  a cloud-scheduled task with no bridge to the working folder, so <code>render.py</code>,
+  <code>build_app.py</code> and <code>validate.py</code> could not execute. The dashboard, archive,
+  node map and console are stale against this ledger write until the next run that can reach the
+  folder. This brief was delivered without passing the validation gate because the gate was
+  unreachable, not because it failed.
+</div>
+
+<h2>The bottom line</h2>
+<div class="bottomline">
+  <p>The Hormuz file stopped being a negotiation this week and became a siege that each side
+  publicly claims it can sustain. The Secretary of War said on 14 August that the Navy can hold the
+  blockade of Iranian ports "indefinitely"; Iran's newly appointed national security secretary said
+  two days earlier that the strait does not open until American behaviour changes; and the President
+  said he intends to declare the strait American territory once Iran is defeated. As stated, these
+  positions have no overlap, which removes the premise the Iran–Oman transit statement was resting
+  on — that statement is now eleven days overdue and is this board's second consecutive forecast miss.</p>
+
+  <p>Underneath the rhetoric, two official bodies put numbers on the cost within twenty-four hours
+  of each other, and they agree. The EIA on 11 August and the IEA on 12 August both quantify a
+  closure that has cut crude transit through the strait by roughly three-quarters and shut in
+  something between five and eight million barrels a day of Gulf output. The more consequential
+  figure is the one the IEA added: 410 million barrels of cumulative global stock draws since
+  late February, with inventories falling below 7.9 billion barrels for the first time since
+  April 2025.</p>
+
+  <p>That changes which indicator matters. Brent has been range-bound near $88 all week, which
+  reads as calm and is not. The buffer that has absorbed six months of this is finite, both agencies
+  now say so in public, and the EIA's own forecast assumes flows begin recovering in September —
+  an assumption nothing in this interval supports. Price is no longer the informative variable on
+  the Energy thread. Inventory is, and that clock is now visible to everyone holding a cargo.</p>
+</div>
+
+<h2>Movement board</h2>
+<div class="board">
+
+  <div class="col">
+    <div class="bars"><div class="bar b-esc" style="height:90%"><span>9</span></div></div>
+    <div class="code">IR</div><div class="arr esc">▲</div>
+    <div class="lbl">Iran /<br>Hormuz</div><div class="delta moved">vol→esc</div>
+  </div>
+  <div class="col">
+    <div class="bars"><div class="bar b-hold" style="height:60%"><span>6</span></div></div>
+    <div class="code">RU</div><div class="arr hold">▬</div>
+    <div class="lbl">Russia /<br>Ukraine</div><div class="delta">—</div>
+  </div>
+  <div class="col">
+    <div class="bars"><div class="bar b-esc" style="height:60%"><span>6</span></div></div>
+    <div class="code">CN</div><div class="arr esc">▲</div>
+    <div class="lbl">China /<br>Taiwan</div><div class="delta">—</div>
+  </div>
+  <div class="col">
+    <div class="bars"><div class="bar b-hold" style="height:50%"><span>5</span></div></div>
+    <div class="code">KP</div><div class="arr hold">▬</div>
+    <div class="lbl">North<br>Korea</div><div class="delta">—</div>
+  </div>
+  <div class="col">
+    <div class="bars"><div class="bar b-ease" style="height:40%"><span>4</span></div></div>
+    <div class="code">HL</div><div class="arr ease">▼</div>
+    <div class="lbl">Homeland /<br>Hemisphere</div><div class="delta">—</div>
+  </div>
+  <div class="col">
+    <div class="bars"><div class="bar b-hold" style="height:50%"><span>5</span></div></div>
+    <div class="code">TR</div><div class="arr hold">▬</div>
+    <div class="lbl">Terrorism</div><div class="delta moved">esc→hold</div>
+  </div>
+  <div class="col">
+    <div class="bars"><div class="bar b-esc" style="height:50%"><span>5</span></div></div>
+    <div class="code">EU</div><div class="arr esc">▲</div>
+    <div class="lbl">Europe /<br>NATO</div><div class="delta moved">4→5 ▲</div>
+  </div>
+  <div class="col">
+    <div class="bars"><div class="bar b-hold" style="height:70%"><span>7</span></div></div>
+    <div class="code">CY</div><div class="arr hold">▬</div>
+    <div class="lbl">Cyber /<br>Tech</div><div class="delta moved">esc→hold</div>
+  </div>
+  <div class="col">
+    <div class="bars"><div class="bar b-esc" style="height:80%"><span>8</span></div></div>
+    <div class="code">EN</div><div class="arr esc">▲</div>
+    <div class="lbl">Energy /<br>Markets</div><div class="delta moved">vol→esc</div>
+  </div>
+  <div class="col">
+    <div class="bars"><div class="bar b-esc" style="height:50%"><span>5</span></div></div>
+    <div class="code">AL</div><div class="arr esc">▲</div>
+    <div class="lbl">Alliance<br>architecture</div><div class="delta new">NEW</div>
+  </div>
+
+</div>
+<div class="legend">
+  <span><i class="b-esc"></i>escalating</span>
+  <span><i class="b-hold"></i>holding</span>
+  <span><i class="b-ease"></i>easing</span>
+  <span><i class="b-vol"></i>volatile</span>
+  <span>Bar height = intensity 1–10. Arrow = direction.</span>
+</div>
+<p style="font-size:13.5px;color:#6b7684;margin-top:12px" class="sans">
+  On <b>AL</b>, direction denotes rate of structural change rather than threat level:
+  escalating means rapid realignment, holding means stable architecture, easing means consolidation
+  toward existing structures. Thread intensities and directions are analyst judgment, not findings.
+</p>
+
+<h2>Items</h2>
+
+<div class="item">
+  <div class="num">01 <span class="tags"><span class="tag late">Late file · 9 Aug</span><span class="tag ac">Attributed claim</span></span></div>
+  <h3>Pakistan says the Mecca defence pact is open to other members</h3>
+  <p>On Sunday 9 August, two days after the trilateral agreement was signed in Mecca by Mohammed
+  bin Salman, Recep Tayyip Erdogan and Shehbaz Sharif, Pakistani Foreign Minister Ishaq Dar wrote on
+  X that the accord is "purely defensive in nature" and "open to other nations in the region." He
+  said further states could join if they commit to its principles and settle their differences
+  peacefully, and that the agreement does not abrogate or replace existing bilateral or multilateral
+  arrangements. Turkish Foreign Minister Hakan Fidan separately said the deal was not aimed at Iran
+  or any other country.</p>
+  <p>Two limits belong on this. The accession clause is an assertion by one signatory's foreign
+  minister, made in a social-media post; no treaty text has been located, and there is no trilateral
+  instrument confirming it. And the timing sits on the boundary — the post is dated to the same day
+  as the previous brief's 1200Z cutoff, and the hour could not be established, so it is filed as a
+  late file rather than a miss.</p>
+  <div class="sowhat"><b>So what</b>
+  An accession clause converts a trilateral pact into a framework, and this is the second
+  collective-defence commitment in eleven months among the same states — after the Saudi–Pakistan
+  agreement of September 2025 — none of which routes through Washington. That is what opened the
+  AL thread. What it is not, on the evidence, is a NATO analogue: there is no integrated command,
+  no treaty organisation and no standing force, which is the Atlantic Council objection this board
+  carried on 9 August and still carries.</div>
+</div>
+
+<div class="item">
+  <div class="num">02 <span class="tags"><span class="tag gapfill">Gap-fill · 4 Aug</span><span class="tag cont">Contested</span></span></div>
+  <h3>An explosive drone struck a Ukrainian cargo aircraft at Leipzig</h3>
+  <p>On 4 August a quadcopter carrying plastic explosives struck a Ukrainian cargo aircraft at
+  Leipzig/Halle airport in Germany. The charge failed to detonate. DNA recovered from the device was
+  linked to a July 2024 firebomb attack at the same airport. US intelligence is reported to assess
+  Russian responsibility; German officials have pointedly not named Russia. Moscow has dismissed the
+  broader body of such claims as scare stories.</p>
+  <p>This one is a correction as much as a report: it happened five days before the previous brief's
+  cutoff and was missed in Brief 002. It is filed now because the category matters. The European
+  gray-zone campaign this board has been tracking as arson, parcel devices and rail sabotage has
+  moved to an explosive charge delivered by air against an aircraft on the apron of a NATO
+  country — a different act, whoever placed it.</p>
+  <div class="sowhat"><b>So what</b>
+  Europe/NATO moves 4 → 5 and holding → escalating, on method rather than tempo. The attribution
+  gap is the thing to watch: reporting places US intelligence at Russian responsibility while the
+  host government declines to say so, and a German attribution decision would change the political
+  consequences considerably more than the incident itself did.</div>
+</div>
+
+<div class="item">
+  <div class="num">03 <span class="tags"><span class="tag vp">Verified primary</span></span></div>
+  <h3>The EIA and the IEA put numbers on the closure a day apart, and they agree</h3>
+  <p>The US Energy Information Administration's Short-Term Energy Outlook of 11 August reports that
+  crude oil transit through the Strait of Hormuz averaged 4.9 million barrels a day in the second
+  quarter of 2026, against 21.6 million b/d in the fourth quarter of 2025 before the conflict, with
+  production shut-ins averaging 5.5 million b/d in July. It forecasts Brent averaging $85 in Q3,
+  $78 in Q4 and $69 across 2027 — on the stated assumption that shipments stay severely constrained
+  through August and increase slowly from September.</p>
+  <p>The IEA's Oil Market Report of 12 August, on a different methodology, projects 2026 supply
+  falling 4.3 million b/d to 102 million b/d with 8.3 million b/d of Gulf output shut in, and cuts
+  its second-half demand forecast by roughly 550,000 b/d. Its distinctive contribution is the
+  inventory series: cumulative stock draws of 410 million barrels between end-February and end-July,
+  averaging 2.7 million b/d, with observed global inventories falling 69 million barrels in July
+  alone and dropping below 7.9 billion barrels for the first time since April 2025. The report states
+  that the urgency of reopening the strait has increased as those buffers deplete.</p>
+  <div class="sowhat"><b>So what</b>
+  The Energy thread comes off aggregator and press estimates and onto two primary sources that
+  corroborate each other independently — the single largest sourcing upgrade this board has made.
+  It also changes the indicator: with Brent range-bound near $88, price is no longer telling you
+  much, and the inventory line is. The EIA's September recovery assumption is now the most testable
+  near-dated forecast on the board, and nothing in this week's diplomacy supports it.</div>
+</div>
+
+<div class="item">
+  <div class="num">04 <span class="tags"><span class="tag ac">Attributed claim</span></span></div>
+  <h3>Both capitals declare their position indefinitely sustainable</h3>
+  <p>Speaking in Panama on 14 August, Secretary of War Pete Hegseth said: "Indefinitely, the United
+  States Navy can maintain a blockade like that because we'll rotate ships in and out, as we have,
+  and we'll continue to." The same day Iran's Persian Gulf Strait Authority stated that the strait
+  remains blocked until Iran's conditions are accepted, and IRGC Navy Rear Admiral Ali Azmaei
+  asserted Tehran retains "complete and decisive control" of the waterway. Two days earlier Mohsen
+  Rezaei — newly appointed secretary of Iran's Supreme National Security Council, and himself a new
+  name on this board — told China's ambassador, via the semi-official Tasnim agency, that "as long
+  as America does not change its behaviour and does not accept Iran's conditions, the Strait of
+  Hormuz will not be opened."</p>
+  <p>Enforcement is now reaching third parties: US forces attacked and disabled a Panama-flagged
+  cargo vessel attempting to breach the blockade of Iranian ports on 12 August. Foreign Minister
+  Abbas Araghchi had described the Oman talks as being in "final stages" the week of 3 August; no
+  joint statement has appeared. Separately, Treasury Secretary Scott Bessent told Newsmax on 13
+  August that Washington would apply "measures like have never been seen in the history of economic
+  isolation on a country," framed as a "one-two punch" with the blockade, with reporting pointing to
+  a rollout the following week. The administration's figure of roughly $4.8bn in lost Iranian oil
+  revenue over April–June is a government self-assessment, not an independent finding, and the
+  analyst suggestions that the package might reach Chinese banks and yuan-settled payment rails are
+  speculation, not stated policy.</p>
+  <div class="sowhat"><b>So what</b>
+  Iran/Hormuz moves off volatile to escalating, because for the first time in weeks the movement was
+  all one way. The Iran–Oman statement was premised on a transit arrangement both sides wanted;
+  Tehran now conditions opening on the blockade ending and Washington says the blockade is
+  indefinite. Those positions do not intersect as stated, which is why the forecast keeps missing.
+  Watch what the Treasury package actually touches: incremental measures against Iranian entities
+  change little, whereas secondary sanctions on Chinese financial institutions would be a different
+  kind of escalation and would carry costs beyond this theatre.</div>
+</div>
+
+<div class="item">
+  <div class="num">05 <span class="tags"><span class="tag ac">Attributed claim</span><span class="tag cont">Legal reading contested</span></span></div>
+  <h3>Trump says he will declare the Strait of Hormuz US territory</h3>
+  <p>At a police academy in New York on 14 August the President said that "after we finish defeating
+  Iran, pretty soon I'll be declaring the Hormuz Strait a territory," adding that the United States
+  already effectively controls it through the blockade. Two days earlier, at Joint Base Andrews, he
+  had said: "We totally control the Strait of Hormuz. We have control over it; nobody else, only
+  us."</p>
+  <p>Nothing has been enacted. No executive order, proclamation or statutory step has been located,
+  and this is reported here as a stated intention rather than an action. Two legal specialists
+  quoted in coverage assess that it could not be done as described: Bruce Fein, a former associate
+  deputy attorney general, says annexing territory constitutionally requires a Senate-ratified treaty
+  or a statute; Natalie Klein of the University of New South Wales says any claim would need
+  effective military occupation of Iran's coastal areas to have standing in international law. Both
+  conclude it would breach international law. Iran's judiciary head called the remarks "nonsense,"
+  and deputy foreign minister Kazem Gharibabadi said the strait "cannot be seized by tweet, nor by
+  aircraft carrier."</p>
+  <div class="sowhat"><b>So what</b>
+  The significance is not legal, since on the assessments above the declaration has nowhere to go.
+  It is that the stated American objective has drifted from reopening the strait to holding it, and
+  that hands Tehran the argument it has been making since April — that the blockade was never about
+  restoring transit. It also sharpens the September War Powers question: an operation described by
+  its own Secretary as indefinite invites the question of what authority covers it, and two Senate
+  resolutions have already failed narrowly, 50-49 and 50-48.</div>
+</div>
+
+<div class="item">
+  <div class="num">06 <span class="tags"><span class="tag ac">Attributed claim · one hop</span></span></div>
+  <h3>The FBI puts a federal floor of seven states on the water-sector campaign</h3>
+  <p>This board logged the twelve-state figure as unresolved on 8 August: press tallies ranged from
+  "at least seven" to twelve and no federal count existed. There is now a federal floor. The FBI has
+  confirmed at least seven states suffered attacks on water and wastewater facilities. Twelve remains
+  a press tally, carried by CBS and Foreign Policy, and is not federally confirmed. The specific
+  incidents driving August's coverage are dated 26–28 July, in Minnesota communities including
+  Braham and Maple Plain.</p>
+  <p>Two caveats. The federal figure was reached one hop from origin — cisa.gov returned HTTP 403 to
+  direct fetch throughout this run, so the FBI confirmation is carried via NPR's reporting of it and
+  should be re-verified against a CISA or FBI page next cycle. And the floor may not be the ceiling
+  in a different sense: Rob Lee of Dragos reports victims outside the water sector, and a state IT
+  official raised transport and energy. Both are unconfirmed. The campaign itself was federally
+  attributed to Iranian-affiliated actors on 7 April, in advisory AA26-097A — four months before the
+  coverage peak.</p>
+  <div class="sowhat"><b>So what</b>
+  Cyber steps down from escalating to holding, which looks like good news and is mostly bookkeeping:
+  what improved this week was disclosure, not the threat. Direction on this board describes the
+  campaign, not the reporting about it, and the underlying incidents are three weeks old. The live
+  question is whether the seven-state federal floor rises, and whether the Dragos claim of
+  out-of-sector victims is confirmed — that would be a genuine expansion.</div>
+</div>
+
+<h2>Changed on the board</h2>
+<table>
+  <tr><th style="width:26%">Change</th><th>Detail</th></tr>
+  <tr><td class="w">AL opened — 5, escalating</td>
+    <td><b>Fork reconciled.</b> <i>BRIEFING-PROTOCOL.md</i> records the Alliance architecture thread
+    as opened on 9 August at the two-item threshold, with both defence pacts reclassified out of
+    Iran/Hormuz. The ledger never received that change and still carried it as an unexecuted proposal
+    in <code>schema_notes</code> — the protocol and the ledger had diverged, which Rule 0 treats as a
+    correctness bug. AL is opened here with the protocol's direction semantics recorded on the thread
+    object; the September 2025 Saudi–Pakistan and August 2026 Mecca agreements are reclassified from
+    <code>iran</code> to <code>alliance</code>. The opening date of record stays 9 August; the ledger
+    write is 16 August. Not backdated silently.</td></tr>
+  <tr><td class="w">IR — volatile → escalating</td>
+    <td>Intensity held at 9. Volatile denotes large movement without consistent direction; this
+    interval hardened consistently on both sides with no offsetting step. 10 stays reserved for
+    resumed major combat.</td></tr>
+  <tr><td class="w">EN — volatile → escalating</td>
+    <td>Intensity held at 8. Moved off volatile <i>despite</i> a calmer price, which is the point:
+    the deterioration is in the physical balance, not the tape. Not raised to 9 because Brent sits
+    below its earlier range — raising on inventory alone would double-count until a price or
+    allocation event follows.</td></tr>
+  <tr><td class="w">EU — 4 → 5, holding → escalating</td>
+    <td>On the Leipzig gap-fill. Method escalation, not tempo. Note this movement rests on an
+    incident that predates the last cutoff and was missed.</td></tr>
+  <tr><td class="w">CY — escalating → holding</td>
+    <td>Intensity held at 7. Better knowledge of an existing campaign, not evidence of new tempo.</td></tr>
+  <tr><td class="w">TR — escalating → holding</td>
+    <td>Intensity held at 5. One further maritime strike in an ongoing campaign is continuation, not
+    escalation, and the Sahel picture did not move. <b>Low confidence</b> — one week's evidence,
+    to be revisited next brief.</td></tr>
+  <tr><td class="w">KP — deliberately unmoved</td>
+    <td>Two ballistic launches (6 and 12 August) ahead of an allied exercise is the established
+    pattern. Treating it as escalation would manufacture movement. What would move it: a different
+    class of system, or a nuclear test indicator.</td></tr>
+  <tr><td class="w">RU, HL, CN — unmoved</td>
+    <td>Russia: nothing located that moves it, and the week's loudest candidate headline was cut
+    (below). Homeland: nothing in the interval on Venezuela, the border series or Caribbean
+    migration. China: three assertion events and the rare-earth series, none individually large
+    enough to move intensity off 6.</td></tr>
+  <tr><td class="w">Sources — two added</td>
+    <td>EIA Short-Term Energy Outlook (11 Aug) and IEA Oil Market Report (12 Aug), both
+    <i>verified-primary</i>. Fourteen documents now tracked. No existing document superseded; no new
+    strategy or assessment document published in the interval.</td></tr>
+  <tr><td class="w">Revisions — two added</td>
+    <td>Hormuz closure scale (qualitative → quantified by two agencies); water-sector scope
+    (unresolved → federal floor of seven).</td></tr>
+  <tr><td class="w">Ledger structure</td>
+    <td><code>archive[]</code> initialised — required by <code>render.py</code> and previously absent
+    entirely. Entries 1 and 2 are stubs preserving sequential numbering; the HTML for Briefs 001 and
+    002 exists only in its originating threads. <code>map_nodes</code>, <code>node_topics</code>,
+    <code>node_history</code> and <code>node_edges</code> remain absent and are recorded in
+    <code>ledger_meta.open_defects</code> — they cannot be reconstructed from memory and the working
+    folder was unreachable.</td></tr>
+</table>
+
+<h2>Horizon</h2>
+<table>
+  <tr><th style="width:15%">When</th><th style="width:9%">Thread</th><th>Item</th><th style="width:15%">Confidence</th></tr>
+  <tr><td class="w">Overdue</td><td class="w">IR</td>
+    <td><b>Iran–Oman joint statement on the Hormuz transit route.</b> Second consecutive forecast
+    miss. Flagged in Brief 001 as due "within days" at 50-50; now eleven days past the President's
+    stated 48-hour window. Tehran conditions it on the blockade ending, which Washington says is
+    indefinite — as stated, the two positions are incompatible.</td>
+    <td><span class="conf">Contested</span></td></tr>
+  <tr><td class="w">17–27 Aug</td><td class="w">KP</td>
+    <td><b>Ulchi Freedom Shield.</b> 11-day US–ROK exercise beginning tomorrow, 18,000 South Korean
+    troops. Two DPRK launches preceded it. A response during the window is the pattern; the question
+    is class of system, not whether.</td>
+    <td><span class="conf">Scheduled</span></td></tr>
+  <tr><td class="w">w/c 17 Aug</td><td class="w">IR</td>
+    <td><b>US Treasury "economic isolation" package.</b> Trailed by Bessent 13 August; contents
+    unstated. Whether it reaches Chinese financial institutions is what would make it materially new.</td>
+    <td><span class="conf">Trailed</span></td></tr>
+  <tr><td class="w">30 Aug</td><td class="w">HL</td>
+    <td><b>Haiti first-round elections.</b> CEP calendar holds 30 August, second round 6 December.
+    The prime minister said in May that security conditions are not met. Fourteen days out; both
+    positions stand.</td>
+    <td><span class="conf">Contested</span></td></tr>
+  <tr><td class="w">Sept 2026</td><td class="w">EN</td>
+    <td><b>EIA assumption that Hormuz flows begin rising.</b> The 11 August STEO assumes severe
+    constraint through August and slow increases from September. Nothing in this interval supports
+    it. The most testable near-dated forecast on the board.</td>
+    <td><span class="conf">Agency projection</span></td></tr>
+  <tr><td class="w">Sept 2026</td><td class="w">IR</td>
+    <td><b>War Powers Act 60-day clock.</b> Two Senate resolutions already failed, 50-49 and 50-48.
+    A blockade asserted as indefinite sharpens the authority question.</td>
+    <td><span class="conf">Statutory</span></td></tr>
+  <tr><td class="w">2026</td><td class="w">CN</td>
+    <td><b>PRC coercive pressure on Japan intensifies.</b> ATA 2026 expects intensification through
+    the year. H1 rare-earth data — exports to Japan down 51% against a 16% overall decline — is
+    consistent with it.</td>
+    <td><span class="conf">Assessed</span></td></tr>
+  <tr><td class="w">Early 2027</td><td class="w">EN</td>
+    <td><b>Oil production and trade patterns return to pre-conflict status</b> (EIA STEO).</td>
+    <td><span class="conf">Agency projection</span></td></tr>
+  <tr><td class="w">2027</td><td class="w">CN</td>
+    <td><b>PLA modernization milestone.</b> The IC now assesses no invasion is planned for 2027 and
+    no fixed unification timeline exists. The old "2027 deadline" framing remains superseded.</td>
+    <td><span class="conf">Revised</span></td></tr>
+</table>
+
+<h2>Verification log</h2>
+<p style="font-size:14.5px;color:#3b4552;margin-top:-4px">
+Twelve checks this run. Everything below was walked back toward origin before it was written,
+including the checks that passed and the one that killed the week's loudest headline.
+</p>
+<table>
+  <tr><th style="width:13%">Result</th><th style="width:29%">Claim</th><th>Finding and action</th></tr>
+
+  <tr><td><span class="res r-cut">CUT</span></td>
+    <td><b>"Russia could attack NATO within weeks, US intelligence warns"</b></td>
+    <td>Walked back through LBC and Yahoo to origin. The chain is anonymous US officials to the
+    <i>Wall Street Journal</i>, plus anonymous Polish sources to the outlet Onet, relayed onward by
+    aggregation — three or more hops with no named official anywhere in it. The underlying assertion
+    describes a testing window running from autumn 2024 to 2029, so the material is not new and
+    "within weeks" is an artefact of recirculation. NATO's named spokesman gave only a generic
+    readiness statement. <b>Not run, and not entered on the Russia thread.</b> This is the
+    aggregator re-dating failure mode, and it would have been this brief's loudest item.</td></tr>
+
+  <tr><td><span class="res r-fix">FORK</span></td>
+    <td><b>The AL thread exists</b></td>
+    <td>The protocol's ten-thread table and AL filing rule were compared against the ledger's
+    <code>threads[]</code>, which held nine and no AL object. The protocol states AL was opened on
+    9 August and that its direction redefinition is "carried on the thread object in the ledger" —
+    it was not. Reconciled: AL opened, semantics recorded on the object, both pacts reclassified,
+    opening date of record kept at 9 August. Logged rather than backdated.</td></tr>
+
+  <tr><td><span class="res r-ok">UPGRADED</span></td>
+    <td><b>Hormuz transit and shut-in volumes</b></td>
+    <td>EIA STEO and IEA OMR fetched directly. Two official bodies, one federal and one
+    intergovernmental, published 24 hours apart on different methodologies and agreeing on direction
+    and rough magnitude. Energy thread figures moved off aggregator estimates onto primary sources;
+    both documents added to <code>sources[]</code>.</td></tr>
+
+  <tr><td><span class="res r-ok">RESOLVED<br>in part</span></td>
+    <td><b>Water-sector campaign spans twelve states</b> (open since 8 Aug)</td>
+    <td>FBI confirms at least seven states — a federal floor where none existed. Twelve remains a
+    press tally and is not federally confirmed. Reached one hop from origin because cisa.gov returned
+    403 to direct fetch throughout; stated as such in the item and flagged for direct re-verification
+    next cycle.</td></tr>
+
+  <tr><td><span class="res r-ok">CONFIRMED</span></td>
+    <td><b>Trump will declare the strait US territory</b></td>
+    <td>Confirmed as <i>stated intent</i>, not as action: 14 August, police academy in New York,
+    wording verified. No executive order, proclamation or statutory step located. Legal assessments
+    attributed to the named specialists rather than adopted. The brief does not report an annexation.</td></tr>
+
+  <tr><td><span class="res r-ok">CONFIRMED</span></td>
+    <td><b>Standing check — office holders and named operations</b></td>
+    <td>ODNI newsroom fetched 16 August: Jay Clayton remains DNI; PDDNI Aaron Lukas at DoDIIS on
+    12 August is the only newsroom item in the interval. Hegseth remains Secretary of War, speaking
+    in that capacity on 14 August; Bessent remains at Treasury. New on the Iranian side: Mohsen
+    Rezaei is now SNSC secretary — added to the ledger and the watch list.</td></tr>
+
+  <tr><td><span class="res r-ok">CONFIRMED<br>negative</span></td>
+    <td><b>Any new primary strategy or assessment document</b></td>
+    <td>None published between 9 and 16 August. The six tracked strategy documents remain current and
+    none is superseded. Recorded so the negative is on the record rather than assumed.</td></tr>
+
+  <tr><td><span class="res r-gap">CONTESTED</span></td>
+    <td><b>Hormuz transit counts</b></td>
+    <td>Three figures on different bases for overlapping periods: Windward counted 10 vessels
+    transiting on Monday 10 August against roughly 130 daily pre-war; the US Energy Secretary cited a
+    seven-day average near 9 mb/d; Commodity Context put the peak near 7 mb/d. The EIA's 4.9 mb/d is
+    a quarterly average and is not comparable to a seven-day figure. All carried with the basis and
+    claimant named; <b>not harmonised into a single number.</b></td></tr>
+
+  <tr><td><span class="res r-gap">CONTESTED</span></td>
+    <td><b>Leipzig incident attribution</b></td>
+    <td>Cross-checked across Euronews and Al Jazeera, with a reference-work entry used only as a
+    pointer. US intelligence reported to assess Russian responsibility; German officials have not
+    named Russia. Run with the attribution gap stated. Dated 4 August — a gap-fill, disclosed as a
+    miss in Brief 002, not laundered as new.</td></tr>
+
+  <tr><td><span class="res r-gap">CHECKED —<br>no change</span></td>
+    <td><b>JNIM blockade of Bamako; Venezuela and the border series</b></td>
+    <td>Nothing dated in the sweep interval located for either. The Mali analysis found is dated
+    4 June and sits outside the window; the Venezuela material was retrospective. Threads left
+    unmoved and reported as quiet. Recorded so these read as checked negatives rather than unswept
+    gaps.</td></tr>
+
+  <tr><td><span class="res r-cut">MISS</span></td>
+    <td><b>Iran–Oman joint statement "within days"</b></td>
+    <td>Second consecutive forecast miss on this board. Logged as a miss and left overdue rather
+    than re-dated.</td></tr>
+
+  <tr><td><span class="res r-gap">GAP</span></td>
+    <td><b>Step 6 — render.py, build_app.py, validate.py</b></td>
+    <td>Not run. This session was started by a cloud-scheduled task; no device-bridge tools are
+    present, so the working folder is unreachable. A standing property of cloud-scheduled runs, not
+    an outage — retrying would not help. The dashboard, archive, node map, landing page and console
+    are stale against this ledger write and heal on the next run that can reach the folder. Project
+    filing under Step 7 completed in full; writing outputs back to the working folder did not.
+    <b>This brief was delivered without passing the validation gate because the gate was unreachable,
+    not because it failed.</b> Pre-disclosed for the next run: validate.py is expected to flag
+    archive entries 1 and 2 as pointing at files not on disk, and to flag the missing node-map keys.
+    Both are known; neither should be resolved by deleting archive entries, which would create a
+    numbering gap.</td></tr>
+
+  <tr><td><span class="res r-gap">STILL<br>OPEN</span></td>
+    <td><b>Carried forward from earlier briefs</b></td>
+    <td>ATA 2026 pages 20–21, 24, 29 and 32 remain un-extracted — claims sourced to it still cover
+    roughly 85% of the document, and were not re-pulled this run. The US blockade date range remains
+    unresolved: no primary CENTCOM statement was located this cycle either. The THAAD/Patriot
+    expenditure figures remain single-source and are not treated as established.</td></tr>
+</table>
+
+<h2>Sources</h2>
+<table>
+  <tr><th style="width:34%">Document</th><th style="width:17%">Tier</th><th>Attribution class and use</th></tr>
+  <tr><td class="w"><a href="https://www.eia.gov/outlooks/steo/report/global_oil.php">EIA Short-Term Energy Outlook — Global oil markets</a>, 11 Aug 2026</td>
+    <td>Primary (US federal)</td><td><i>verified-primary</i> — transit, shut-in and Brent forecast figures in item 03. <b>New this brief.</b></td></tr>
+  <tr><td class="w"><a href="https://www.iea.org/reports/oil-market-report-august-2026">IEA Oil Market Report — August 2026</a>, 12 Aug 2026</td>
+    <td>Primary (intergovernmental)</td><td><i>verified-primary</i> — supply, demand and inventory series in item 03. <b>New this brief.</b></td></tr>
+  <tr><td class="w"><a href="https://www.odni.gov/newsroom/">ODNI Newsroom</a></td>
+    <td>Primary</td><td><i>verified-primary</i> — standing office-holder and new-document check, fetched 16 Aug.</td></tr>
+  <tr><td class="w"><a href="https://www.epa.gov/newsreleases/epa-fbi-cisa-nsa-issue-joint-cybersecurity-advisory-water-system-regarding-iranian">Joint advisory AA26-097A</a> (EPA/FBI/CISA/NSA), 7 Apr 2026, updated 22 Jul</td>
+    <td>Primary</td><td><i>verified-primary</i> for the campaign attribution. The seven-state figure is one hop — cisa.gov returned 403 this run.</td></tr>
+  <tr><td class="w"><a href="https://www.npr.org/2026/08/12/nx-s1-5927437/cyberattack-water-iran-war">NPR — Cyberattacks on the US water sector</a>, 12 Aug 2026</td>
+    <td>Secondary</td><td><i>attributed-claim</i> — carries the FBI's seven-state confirmation and the Dragos out-of-sector claim (item 06).</td></tr>
+  <tr><td class="w"><a href="https://www.aljazeera.com/news/2026/8/14/us-threatens-indefinite-blockade-against-iran-how-long-can-it-last">Al Jazeera — US threatens indefinite blockade</a>, 14 Aug 2026</td>
+    <td>Secondary</td><td><i>attributed-claim</i> — Hegseth quotation, Iranian Strait Authority and IRGC responses (item 04).</td></tr>
+  <tr><td class="w"><a href="https://www.aljazeera.com/news/2026/8/16/trump-threatens-to-make-the-strait-of-hormuz-a-us-territory-can-he">Al Jazeera — Can Trump make the strait US territory?</a>, 16 Aug 2026</td>
+    <td>Secondary</td><td><i>attributed-claim</i> + <i>analyst-judgment</i> — the 14 Aug remark, and the Fein and Klein legal assessments (item 05).</td></tr>
+  <tr><td class="w"><a href="https://www.aljazeera.com/news/2026/8/12/iran-refutes-trumps-claim-to-control-hormuz-whats-the-latest-in-talks">Al Jazeera — Iran rejects Trump's claim to control Hormuz</a>, 12 Aug 2026</td>
+    <td>Secondary</td><td><i>attributed-claim</i> — the Joint Base Andrews remark and Rezaei's response via Tasnim (items 04, 05).</td></tr>
+  <tr><td class="w"><a href="https://www.aljazeera.com/economy/2026/8/12/oil-prices-rise-as-attacks-dent-hopes-for-strait-of-hormuz-reopening">Al Jazeera — Oil prices rise as attacks dent reopening hopes</a>, 12 Aug 2026</td>
+    <td>Secondary</td><td><i>contested</i> — Brent level, the Windward transit count, the Bab al-Mandeb strike and the Panama-flagged vessel.</td></tr>
+  <tr><td class="w"><a href="https://www.pbs.org/newshour/world/pakistan-says-new-defense-pact-with-saudi-arabia-and-turkey-is-purely-defensive-and-open-to-others">PBS NewsHour — Pakistan on the Mecca pact</a>, 9 Aug 2026</td>
+    <td>Secondary</td><td><i>attributed-claim</i> — Dar's accession assertion and Fidan's remark (item 01). Single signatory; no treaty text located.</td></tr>
+  <tr><td class="w"><a href="https://www.aei.org/commentary/china-taiwan-update-august-14-2026/">AEI/ISW — China &amp; Taiwan Update</a>, 14 Aug 2026</td>
+    <td>Secondary-analytic</td><td><i>analyst-judgment</i> — Han Kuang, Guangdong MSA traffic controls, the PRC–Indonesia exercise, rare-earth export figures.</td></tr>
+  <tr><td class="w"><a href="https://www.aljazeera.com/news/2026/8/12/n-korea-launches-ballistic-missile-as-s-korea-us-plan-military-drills">Al Jazeera — DPRK launch ahead of drills</a>, 12 Aug 2026</td>
+    <td>Secondary</td><td><i>attributed-claim</i> — ROK JCS and Japan MoD reporting; Ulchi Freedom Shield dates and scale.</td></tr>
+  <tr><td class="w"><a href="https://www.euronews.com/my-europe/2026/08/11/explosive-drone-at-leipzig-airport-whose-dna-trail-is-it">Euronews — Explosive drone at Leipzig airport</a>, 11 Aug 2026</td>
+    <td>Secondary</td><td><i>contested</i> — the 4 Aug incident and the DNA link (item 02). Attribution reported, not official.</td></tr>
+  <tr><td class="w"><a href="https://www.globalsecurity.org/wmd/library/news/iran/2026/08/iran-260815-rferl01.htm">RFE/RL via GlobalSecurity — US "economic isolation" plan</a>, 15 Aug 2026</td>
+    <td>Secondary-aggregator</td><td><i>attributed-claim</i> — the Bessent quotation and the $4.8bn administration figure; analyst escalation options carried as speculation.</td></tr>
+  <tr><td class="w"><a href="https://www.globalsecurity.org/military/ops/iran-war-update.htm">GlobalSecurity.org — Iran War 2026 Daily Update</a></td>
+    <td>Secondary-aggregator</td><td><i>tracking</i> — the index page failed a provenance check this run; individual article pages fetched successfully.</td></tr>
+  <tr><td class="w">ATA 2026 · NSS 2025 · NDS 2026 · Cyber Strategy 2026 · Joint statement on Hormuz (20 governments) · DoW Epic Fury spotlight</td>
+    <td>Primary (standing)</td><td>Baseline documents. All re-checked as current this run; none superseded. ATA 2026 coverage remains ~85% pending re-extraction of pages 20–21, 24, 29 and 32.</td></tr>
+</table>
+
+<footer>
+  <b>Strategic Threat &amp; Posture Brief 003</b> · information cutoff 2026-08-16 1700Z ·
+  interval 2026-08-09 1200Z → 2026-08-16 1700Z (173 hours) · six scheduled runs missed 10–15 Aug ·
+  revision C, post-verification.<br>
+  Generated from <code>intel-ledger.json</code> per <code>BRIEFING-PROTOCOL.md</code>.
+  Thread intensities and directions are analyst judgment. Government statements about their own
+  operations are attributed claims, never findings. Where sources conflict, both are carried.
+  Briefs are never edited after delivery — corrections appear in the next brief's verification log.<br>
+  <a href="brief-archive.html">Full archive</a> ·
+  <a href="strategic-threat-briefing.html">Standing picture</a> ·
+  <a href="node-map.html">Node map</a> ·
+  <a href="index.html">Command center</a>
+  <span style="color:#a8b1bc"> — these four are derived artifacts and are stale against this brief;
+  they rebuild on the next run with working-folder access.</span>
+</footer>
+
+</div>
+</body>
+</html>

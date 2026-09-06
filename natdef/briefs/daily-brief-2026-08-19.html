@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Brief — 19 August 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E8EAE4;
+    --paper-2:#DFE2DA;
+    --paper-3:#D5D9CF;
+    --ink:#14181A;
+    --ink-2:#4C555A;
+    --ink-3:#7C858A;
+    --rule:#C2C6BD;
+    --rule-soft:#D3D7CD;
+    --petrol:#1D3A47;
+    --esc:#9E3226;
+    --hold:#8A6B1F;
+    --ease:#3F6349;
+    --vol:#6B4A7A;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:'Newsreader',Georgia,serif;font-size:17px;line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--petrol);color:var(--paper);}
+  .wrap{max-width:820px;margin:0 auto;padding:0 26px;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  h1,h2,h3,.lbl{font-family:'Archivo',system-ui,sans-serif;margin:0;}
+  a{color:var(--petrol);text-decoration-thickness:1px;text-underline-offset:2px;}
+  a:hover{color:var(--esc);}
+
+  .lbl{
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.17em;
+    text-transform:uppercase;color:var(--ink-3);
+  }
+
+  /* ---- MASTHEAD ---- */
+  header{border-bottom:2px solid var(--ink);padding:26px 0 0;}
+  .mast-top{
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;
+    padding-bottom:12px;border-bottom:1px solid var(--rule);
+  }
+  .mast-top .l{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);}
+  h1.masthead{
+    font-size:clamp(40px,8vw,74px);font-weight:800;letter-spacing:-.025em;line-height:.92;
+    padding:16px 0 6px;text-transform:uppercase;
+  }
+  .mast-sub{
+    display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;
+    padding-bottom:20px;
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);
+  }
+  .archlink{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;}
+
+  /* ---- BOTTOM LINE ---- */
+  .bottomline{padding:38px 0 34px;border-bottom:1px solid var(--rule);}
+  .bottomline p{
+    font-size:clamp(20px,3.1vw,27px);line-height:1.4;font-weight:300;margin:14px 0 0;
+    letter-spacing:-.005em;
+  }
+  .bottomline p strong{font-weight:500;}
+  .bottomline p + p{margin-top:16px;font-size:clamp(17px,2.2vw,19px);color:var(--ink-2);line-height:1.55;}
+
+  /* ---- MOVEMENT BOARD ---- */
+  .board-sec{padding:34px 0 30px;border-bottom:1px solid var(--rule);}
+  .board-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px;}
+  .board-hint{font-family:'Newsreader',serif;font-size:14px;color:var(--ink-3);font-style:italic;}
+  .board{
+    display:grid;grid-template-columns:repeat(10,1fr);gap:7px;margin-top:20px;
+  }
+  .gauge{
+    background:none;border:none;padding:0;cursor:pointer;text-align:center;
+    display:flex;flex-direction:column;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;
+  }
+  .track{
+    width:100%;height:104px;background:var(--paper-3);position:relative;overflow:hidden;
+    border-bottom:2px solid var(--ink);
+  }
+  .fill{
+    position:absolute;left:0;right:0;bottom:0;
+    background:var(--c);
+    transition:height .7s cubic-bezier(.2,.7,.3,1);
+    height:0;
+  }
+  .fill::after{
+    content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--ink);opacity:.55;
+  }
+  .gauge .arrow{font-size:13px;font-weight:700;color:var(--c);line-height:1;}
+  .gauge .code{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--ink);}
+  .gauge .val{font-size:9.5px;color:var(--ink-3);letter-spacing:.04em;}
+  .gauge:hover .track,.gauge:focus-visible .track{outline:2px solid var(--ink);outline-offset:2px;}
+  .gauge[aria-pressed="true"] .track{outline:2px solid var(--ink);outline-offset:2px;}
+
+  .readout{
+    margin-top:18px;border-left:3px solid var(--ink);padding:12px 0 12px 15px;min-height:78px;
+  }
+  .readout .r-name{font-family:'Archivo',sans-serif;font-weight:700;font-size:17px;}
+  .readout .r-name .tag{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:2px 7px;margin-left:9px;color:var(--paper);vertical-align:2px;
+  }
+  .readout .r-line{font-size:16px;color:var(--ink-2);margin-top:5px;}
+  .readout .r-watch{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-3);margin-top:8px;letter-spacing:.03em;}
+
+  @media(max-width:720px){
+    .board{grid-template-columns:repeat(10,minmax(52px,1fr));overflow-x:auto;padding-bottom:8px;}
+    .track{height:88px;}
+  }
+
+  /* ---- ITEMS ---- */
+  .items{padding:36px 0 10px;}
+  .item{padding:26px 0;border-bottom:1px solid var(--rule-soft);}
+  .item:first-of-type{padding-top:14px;}
+  .item-top{display:flex;gap:14px;align-items:baseline;}
+  .item-num{
+    font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--ink-3);
+    flex:none;padding-top:5px;
+  }
+  .item-thread{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:2px 7px;color:var(--paper);
+  }
+  .latefile{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+    padding:2px 7px;background:var(--ink);color:var(--paper);margin-left:6px;
+  }
+  h3.item-title{
+    font-size:clamp(22px,3.2vw,29px);font-weight:700;letter-spacing:-.02em;line-height:1.14;margin:7px 0 0;
+  }
+  .item-body{padding-left:0;margin-top:12px;}
+  .item-body p{margin:0 0 13px;font-size:16.5px;}
+  .sowhat{
+    border-left:3px solid var(--petrol);padding:9px 0 9px 14px;margin-top:16px;
+    font-size:16px;color:var(--ink);background:linear-gradient(90deg,rgba(29,58,71,.055),transparent 70%);
+  }
+  .sowhat > b:first-child{
+    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--petrol);display:block;margin-bottom:3px;
+  }
+  .attrib{font-size:14px;color:var(--ink-3);font-style:italic;margin-top:10px;}
+
+  /* ---- CHANGED / HORIZON ---- */
+  section.block{padding:34px 0;border-top:1px solid var(--rule);}
+  h2.sec{font-size:clamp(20px,2.8vw,26px);font-weight:700;letter-spacing:-.015em;margin-top:6px;text-transform:uppercase;}
+  .sec-note{color:var(--ink-3);font-size:15px;margin-top:6px;font-style:italic;}
+
+  .changed{margin-top:20px;}
+  .chg{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--rule-soft);align-items:flex-start;}
+  .chg:last-child{border-bottom:none;}
+  .chg-kind{
+    font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+    padding:3px 8px;border:1px solid var(--ink);flex:none;margin-top:3px;min-width:92px;text-align:center;
+  }
+  .chg-kind.rev{background:var(--ink);color:var(--paper);}
+  .chg-body{font-size:15.5px;}
+  .chg-body b{font-weight:600;}
+  .chg-body .was{color:var(--ink-3);display:block;margin-top:4px;font-size:14.5px;}
+
+  .horizon{margin-top:20px;}
+  .hz{display:grid;grid-template-columns:118px 1fr;gap:14px;padding:11px 0;border-bottom:1px solid var(--rule-soft);}
+  .hz:last-child{border-bottom:none;}
+  .hz-when{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.03em;padding-top:2px;}
+  .hz-item{font-size:15.5px;}
+  .conf{
+    font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+    border:1px solid var(--ink-3);color:var(--ink-3);padding:1px 6px;margin-left:8px;white-space:nowrap;
+  }
+  .hz-note{display:block;color:var(--ink-3);font-size:14px;margin-top:3px;}
+  @media(max-width:600px){
+    .hz{grid-template-columns:1fr;gap:3px;}
+    .chg{flex-direction:column;gap:7px;}
+  }
+
+  /* ---- SOURCES / FOOTER ---- */
+  .srcs{margin-top:18px;}
+  .src{display:grid;grid-template-columns:78px 1fr;gap:14px;padding:10px 0;border-bottom:1px solid var(--rule-soft);align-items:baseline;}
+  .src:last-child{border-bottom:none;}
+  .src-tier{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding-top:3px;}
+  .src-body{font-size:15px;}
+  .src-body a{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;word-break:break-all;margin-top:2px;}
+  @media(max-width:600px){.src{grid-template-columns:1fr;gap:2px;}}
+
+  footer.end{border-top:2px solid var(--ink);padding:22px 0 56px;margin-top:30px;}
+  .caveat{font-size:13.5px;color:var(--ink-3);line-height:1.55;}
+  .caveat b{color:var(--ink-2);}
+
+  .cloudnote{
+    margin-top:20px;border:1px solid var(--ink);padding:16px 18px;background:var(--paper-2);
+    font-size:14.5px;color:var(--ink-2);line-height:1.6;
+  }
+  .cloudnote b{color:var(--ink);}
+
+  @media print{
+    body{background:#fff;font-size:11pt;}
+    .gauge{cursor:default;}
+    .board-hint{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="mast-top">
+      <span class="l">Strategic Threat &amp; Posture</span>
+      <span class="l">Brief No. 010 · Verified</span>
+    </div>
+    <h1 class="masthead">Daily Brief</h1>
+    <div class="mast-sub">
+      <span>Wednesday · 19 August 2026</span>
+      <span>Information cutoff 19 Aug 2026, 21:00Z · interval covered 18 Aug 21:00Z → 19 Aug 21:00Z</span>
+    </div>
+    <div class="mast-sub" style="padding-top:0;">
+      <span>1 late-file item today</span>
+      <span>10 threads · verification log below</span>
+    </div>
+    <div class="mast-sub" style="padding-top:0;">
+      <span style="color:var(--petrol)">Produced from an interactive cloud session — no device-bridge access this run</span>
+      <span>Working folder now three briefs behind — see Changed on the board</span>
+    </div>
+    <div class="mast-sub" style="padding-top:0;padding-bottom:16px;">
+      <span class="archlink"><a href="brief-archive.html">↑ Every brief, by date — Brief Archive</a></span>
+      <span class="archlink"><a href="strategic-threat-briefing.html">Strategic Threat &amp; Posture Briefing ↗</a></span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="bottomline">
+    <div class="lbl">The bottom line</div>
+    <p><strong>The UAE's Ministry of Foreign Affairs suspended all trade, commercial exchange and financial transactions with Iran "until further notice,"</strong> citing Monday's missile alert — the first Gulf-state economic break with Iran of this war. Iran's Foreign Ministry spokesman rejected the underlying missile claim outright, calling it a "false flag operation"; this ledger carries both governments' accounts rather than adjudicating between them. The trade suspension itself is not in dispute — eight independent outlets confirm it happened. IR holds at 9, deliberately: a real, concrete escalation, but a diplomatic one, not a kinetic hit.</p>
+    <p>Russian drone strikes on Kherson and Zaporizhzhia killed at least six and wounded twelve — in line with the thread's recent pattern, not a new threshold. On an entirely different axis, a late-filed item shows Ukraine's own dismissed defence minister, Mykhailo Fedorov, publicly demanding wartime elections in a video posted two days ago — missed by yesterday's sweep, filed here dated to when it actually happened. Bessent's promised detailed sanctions package, checked again, still has not materialized within this brief's window; the substantive rhetoric traces to a Thursday appearance and a press conference now pushed to 24 August, correctly excluded here rather than misdated a third time.</p>
+    <p>The production note from the last two days applies once more, for the third and final time in this backfilled sequence. This brief was again produced by an interactive cloud session with no device-bridge access — the same authorized, disclosed arrangement as Briefs 008 and 009. The working-folder ledger on the user's own device has not been reachable across any of the three runs and is now three briefs behind, still at Brief 007. This closes the user-authorized 17–19 August backfill; the next brief should either read from the working-folder ledger directly, if the device is reachable, or explicitly re-confirm continued cloud-only production before a fourth consecutive unattended cloud brief is produced.</p>
+  </section>
+
+  <section class="board-sec">
+    <div class="board-head">
+      <div>
+        <div class="lbl">Movement board</div>
+        <h2 class="sec" style="font-size:22px;margin-top:4px;">Where the ten threads stand</h2>
+      </div>
+      <div class="board-hint">Bar height is intensity. Color and arrow are direction. Tap a column.</div>
+    </div>
+    <div class="board" id="board"></div>
+    <div class="readout" id="readout" style="border-color:var(--esc)">
+      <div class="r-name" id="r-name">Iran / Hormuz <span class="tag" style="background:var(--esc)">Escalating</span></div>
+      <div class="r-line" id="r-line">The UAE cut all trade with Iran over Monday's missile alert; Iran's Foreign Ministry calls the underlying claim a false flag. Rhetoric on both sides, but the trade suspension itself is real and concrete — IR holds at 9, deliberately, pending an actual hit.</div>
+      <div class="r-watch" id="r-watch">WATCHING — Whether the UAE trade suspension holds or is reciprocated · Whether Oman responds publicly · Bessent's rescheduled 24 Aug press conference · Iran–Oman route status · Sept War Powers clock</div>
+    </div>
+  </section>
+
+  <section class="items">
+    <div class="lbl">Items</div>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">LF1</span>
+        <div>
+          <span class="item-thread" style="background:var(--vol)">Russia / Ukraine</span><span class="latefile">Late file</span>
+          <h3 class="item-title">Ukraine's dismissed defence minister Fedorov publicly calls for wartime elections</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>Mykhailo Fedorov, 35, dismissed as defence minister in July amid friction with military leadership, posted a nine-minute video on 18 August demanding Ukraine "restore a full democratic process even amid a prolonged war." As of Wednesday afternoon Zelenskyy had not directly responded, though he has previously said he would be open to elections if security could be guaranteed, asking the United States and European partners for help securing a vote. The call lands against a backdrop of a separate, new corruption probe and days of protest following Fedorov's dismissal.</p>
+        <p>Experts note major practical obstacles regardless of political will: Russia occupies roughly 19% of Ukraine, home to an estimated 4.5 million adults, and millions more Ukrainians are internally displaced; any vote would need a ceasefire guarantee Kyiv does not currently trust Moscow to honour.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          A former cabinet minister publicly challenging Zelenskyy's wartime mandate, against a backdrop of protest and a new corruption probe, is a governance-stability story this ledger tracks separately from the war's kinetic intensity. <b>RU holds at 8, volatile</b> — this doesn't move that gauge, because it isn't what that gauge measures, not because it doesn't matter.
+        </div>
+        <p class="attrib">LATE FILE: posted 18 August, inside Brief 009's window, but missed by that sweep — caught this round via Time (fetched in full), Bloomberg, CNN, CNBC, NBC and CBC, all independently corroborating the video and its date. Filed dated to 18 August, per protocol, not to when it was found. <em>attributed-claim.</em></p>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">01</span>
+        <div>
+          <span class="item-thread" style="background:var(--esc)">Iran / Hormuz</span>
+          <h3 class="item-title">UAE suspends all trade with Iran over the 18 Aug missile alert; Iran calls the claim a false flag</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>The UAE's Ministry of Foreign Affairs announced that "all trade, commercial exchanges and financial transactions with Iran have been halted until further notice," citing "escalations that undermine peace and security in the region" — a direct reference to the two ballistic missiles the UAE Ministry of Defence said targeted its waters on 18 August. It is the first Gulf-state economic break with Iran since the war began.</p>
+        <p>Iran's Foreign Ministry spokesman Esmaeil Baghaei rejected the accusation as baseless, calling it a "false flag operation" that contradicts the two countries' neighbourly relations, and urged regional parties to avoid unfounded allegations. This directly opposes the UAE Ministry of Defence's own account, already carried in Brief 009 as attributed-claim, not verified-primary. Neither government's account is independently verified by a third party in this sweep; this ledger carries both rather than adjudicating.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          The first Gulf-state economic break with Iran this war is real and concrete regardless of who is right about the missiles — rhetoric and a real diplomatic act now point the same direction. <b>IR holds at 9, escalating</b> — deliberately: 10 remains reserved for an actual hit against the US, the UAE or Iran, and a trade suspension, however serious, is not yet that.
+        </div>
+        <p class="attrib">UAE Ministry of Foreign Affairs statement via Al Jazeera (fetched in full, 03:34 UTC 19 August), cross-checked against CNN, Bloomberg, Euronews, The Washington Post, Breitbart, EgyptToday and The National — the suspension itself is <em>attributed-claim</em>, well-corroborated. Iran's denial via the same Al Jazeera report. The underlying missile-launch claim is <em>contested</em> between the two governments.</p>
+      </div>
+    </article>
+
+    <article class="item">
+      <div class="item-top">
+        <span class="item-num">02</span>
+        <div>
+          <span class="item-thread" style="background:var(--vol)">Russia / Ukraine</span>
+          <h3 class="item-title">Kherson and Zaporizhzhia drone strikes kill at least six, wound twelve</h3>
+        </div>
+      </div>
+      <div class="item-body">
+        <p>A Russian first-person-view drone hit a minibus in Kherson at roughly 8:50am local time (05:50 GMT), killing at least four and wounding four more; a separate drone strike hit a car in the same city, killing one and wounding one. Kherson Governor Oleksandr Prokudin, who reported both strikes, described a broader pattern of Russian attacks on civilians in the city. A separate Russian drone strike on Zaporizhzhia, reported by regional governor Ivan Fedorov — no relation to Mykhailo Fedorov, the dismissed defence minister in the item above — killed one and injured seven. Russia's Defence Ministry said it downed 453 Ukrainian drones overnight across various regions.</p>
+        <div class="sowhat">
+          <b>So what</b>
+          In line with the thread's recent pattern rather than a new escalation — which is why <b>RU holds at 8, volatile</b> for the second straight brief despite a real and rising civilian toll.
+        </div>
+        <p class="attrib">Kherson Governor Oleksandr Prokudin and Zaporizhzhia Governor Ivan Fedorov, via Al Jazeera Staff/AFP/Reuters (fetched in full, 09:34 UTC 19 August) and UPI. <em>attributed-claim</em> — regional officials' own accounts of strikes on their territory, not independently verified by a third party. The headline toll was revised upward from an earlier count of five during reporting.</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Changed on the board</div>
+    <h2 class="sec">What this brief altered</h2>
+    <div class="changed">
+      <div class="chg">
+        <span class="chg-kind rev">Produced cloud-only — third and final backfill day</span>
+        <div class="chg-body">
+          <b>The device bridge was not re-attempted this brief.</b> The user's prior explicit direction — a full independent cloud sweep for all three of 17–19 Aug — already covers this run, and this brief closes that sequence.
+          <span class="was">This brief's starting ledger is Brief 009's state, filed to the project moments earlier in the same session — continuous within this session. But the working-folder ledger on the user's own device has not been touched by any of the three cloud-only runs and is now <b>three</b> briefs behind, still at Brief 007. A future session with device access has a three-brief gap to close, and should also check whether the desktop-bound scheduler independently produced its own content for 17–19 Aug in the meantime — reconcile the way Brief 003 was, don't discard either side silently.</span>
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Lines updated</span>
+        <div class="chg-body">
+          <b>IR, RU and EN one-liners rewritten.</b> China/Taiwan, North Korea, Homeland/Hemisphere, Terrorism, Europe/NATO, Cyber/Tech and Alliance architecture are unchanged in intensity, direction and line — no verified qualifying development dated within this brief's window was found for those seven threads. A North Korean projectile launch turned up in this sweep's search results but is dated 20 Aug, outside this window, and was deliberately not pulled forward — it belongs to the next brief.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Held deliberately</span>
+        <div class="chg-body">
+          <b>IR held at 9</b> against a real but diplomatic escalation — the UAE trade suspension is concrete and unprecedented this war, but it is not a kinetic hit, and 10 stays reserved for that. <b>RU held at 8</b> — Kherson and Zaporizhzhia's toll is consistent with the thread's recent pattern, and the Fedorov election story runs on a different axis entirely from war intensity.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Late file</span>
+        <div class="chg-body">
+          <b>Fedorov's wartime-election call, posted 18 Aug, was missed by Brief 009's sweep</b> — likely because that sweep's search terms were weighted toward kinetic/missile developments rather than Ukrainian domestic politics. Filed here dated to 18 Aug, with 19 Aug's continuing coverage folded into the same entry.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Claim not adopted</span>
+        <div class="chg-body">
+          <b>Bessent's "toughest sanctions in history" rhetoric and the blockade-plus-sanctions framing</b> traces to a Thursday (20 Aug) CNBC appearance despite one mirror carrying a "19 Aug" date stamp — checked twice, both fetches converged on 20–21 Aug, with an itemized package now promised at a press conference pushed to 24 Aug. Adopting it here would have misdated it the same way the FDD/Mythos claim was caught and cut in Brief 008. Excluded; belongs to whichever brief covers 20 Aug.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Horizon updated</span>
+        <div class="chg-body">
+          <b>One new horizon item</b> (durability of the UAE trade suspension — will it hold, be reciprocated by other Gulf states, or be reversed). <b>Four re-noted on re-check:</b> Oman's public silence continues; the Iran-Oman route question is unresolved but overtaken in urgency by the trade suspension; Ulchi Freedom Shield's scope is still unspecified; the UAE-missile-alert item is partially addressed — not by a recurrence or formal attribution, but by the trade suspension itself. The existing Bessent-sanctions horizon item was re-noted with the 24 Aug reschedule rather than duplicated — a draft duplicate was caught and merged before filing; see the verification log.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">No sources or revisions added</span>
+        <div class="chg-body">
+          UANI's 19 Aug update and Al Jazeera's strike reporting used existing citation conventions; no new named sources[] entries or revisions[] corrections this brief.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Horizon</div>
+    <h2 class="sec">What's coming, nearest first</h2>
+    <div class="horizon">
+      <div class="hz"><div class="hz-when">Days</div><div class="hz-item">Whether the UAE's trade suspension holds, is reciprocated by other Gulf states, or is reversed <span class="conf">Open</span><span class="hz-note">New this brief. First Gulf-state economic break with Iran since the war began; no indication yet whether Saudi Arabia, Bahrain or others follow, or whether it is time-limited in practice despite the "until further notice" language.</span></div></div>
+      <div class="hz"><div class="hz-when">Days</div><div class="hz-item">Whether the 18 Aug UAE missile alert is formally attributed beyond the UAE MoD's own statement <span class="conf">Open</span><span class="hz-note">Partially addressed 19 Aug, though not as anticipated: the UAE responded with a concrete economic action rather than a CENTCOM/UN attribution, while Iran's Foreign Ministry explicitly denied the launch as a "false flag." The formal-attribution question remains open.</span></div></div>
+      <div class="hz"><div class="hz-when">Days</div><div class="hz-item">Whether Oman responds publicly to Trump's repeated bombing threats <span class="conf">Open</span><span class="hz-note">Re-checked 19 Aug: still no Omani government statement located.</span></div></div>
+      <div class="hz"><div class="hz-when">Days</div><div class="hz-item">Status of the Iran-Oman Hormuz shipping-route agreement <span class="conf">Contested</span><span class="hz-note">Re-checked 19 Aug: no new signing located, still just the 5 Aug "agreement in principle." Overtaken in urgency, not resolved, by the UAE-Iran trade suspension above.</span></div></div>
+      <div class="hz"><div class="hz-when">This week</div><div class="hz-item">New US economic measures against Iran, promised by Treasury Secretary Bessent <span class="conf">Stated goal</span><span class="hz-note">Re-checked 19 Aug: still no published instrument within this window. Substantive rhetoric traces to a Thursday (20 Aug) appearance; a detailed press conference is now reported pushed to 24 Aug. Missed "coming Monday" (17 Aug) and now this window too — watch the 24 Aug date directly.</span></div></div>
+      <div class="hz"><div class="hz-when">27 Aug 2026</div><div class="hz-item">Ulchi Freedom Shield 2026 concludes <span class="conf">Scheduled</span><span class="hz-note">No new information located 19 Aug; still expected to conclude 27 Aug with the reduction Trump ordered on 18 Aug still unspecified in scope.</span></div></div>
+      <div class="hz"><div class="hz-when">By 24 Aug 2026</div><div class="hz-item">Possible mass Russian strike on Kyiv before Ukraine's Independence Day <span class="conf">Forecast</span><span class="hz-note">Ukraine's Center for Strategic Communications — a belligerent's forecast about its adversary.</span></div></div>
+      <div class="hz"><div class="hz-when">Weeks</div><div class="hz-item">Accession of a fourth state to the Mecca pact <span class="conf">Contested</span><span class="hz-note">Unchanged this sweep.</span></div></div>
+      <div class="hz"><div class="hz-when">Sept 2026</div><div class="hz-item">War Powers Act 60-day clock on the Iran campaign <span class="conf">Statutory</span><span class="hz-note">Two Senate resolutions have already failed (50-49, 50-48).</span></div></div>
+      <div class="hz"><div class="hz-when">13 Dec 2026</div><div class="hz-item">Haiti first-round elections, runoff 21 Feb 2027 <span class="conf">Scheduled</span></div></div>
+      <div class="hz"><div class="hz-when">2026</div><div class="hz-item">USMCA joint review <span class="conf">Scheduled</span></div></div>
+      <div class="hz"><div class="hz-when">2027</div><div class="hz-item">PLA modernization milestone <span class="conf">Superseded</span><span class="hz-note">IC assesses no 2027 invasion planned and no fixed unification timeline.</span></div></div>
+      <div class="hz"><div class="hz-when">2049</div><div class="hz-item">PRC "national rejuvenation" centenary target <span class="conf">Stated goal</span></div></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Verification log</div>
+    <h2 class="sec">What was checked, and what it changed</h2>
+    <div class="changed">
+      <div class="chg">
+        <span class="chg-kind">Confirmed</span>
+        <div class="chg-body">
+          <b>UAE suspended all trade and financial transactions with Iran.</b> Al Jazeera's report, fetched in full, carrying the UAE Ministry of Foreign Affairs' own statement language; cross-checked against CNN, Bloomberg, Euronews, The Washington Post, Breitbart, EgyptToday and The National — eight independent outlets corroborate the fact of the suspension itself. What triggered it is a separate, contested question.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Contested</span>
+        <div class="chg-body">
+          <b>Iran's Foreign Ministry spokesman Baghaei denies the 18 Aug missile launch, calls it a "false flag."</b> Directly opposes the UAE Ministry of Defence's own account, already carried as attributed-claim in Brief 009. Neither government's account is independently verified by a third party this sweep; both are carried, neither adjudicated.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Judgment held, deliberately</span>
+        <div class="chg-body">
+          <b>Whether the UAE trade suspension should raise IR above 9.</b> A real, concrete diplomatic-economic escalation — the first of its kind this war — but not a kinetic hit on the US, the UAE or Iran. Held at 9, escalating, consistent with the reasoning logged 18 Aug.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Late-filed</span>
+        <div class="chg-body">
+          <b>Mykhailo Fedorov's wartime-election call, posted 18 Aug, was missed by Brief 009's sweep.</b> Surfaced this sweep via Time, Bloomberg, CNN, CNBC, NBC and CBC, all independently corroborating the video's existence, date and substance. Predates Brief 009's cutoff by several hours; filed dated to 18 Aug per the late-file rule, with 19 Aug's continuing coverage folded into the same entry.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Confirmed as each governor's own account</span>
+        <div class="chg-body">
+          <b>Kherson and Zaporizhzhia drone strikes killed at least six, wounded twelve.</b> Al Jazeera Staff/AFP/Reuters, fetched in full, carrying governors Prokudin's and Fedorov's respective accounts; UPI's separate report corroborates the Kherson toll and its attribution to Russia. Not independently verified by a third party. The headline toll was a revision upward from an earlier five — noted so it isn't mistaken for a second event.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Not adopted</span>
+        <div class="chg-body">
+          <b>Bessent's detailed Iran sanctions package, expected "this week" per Brief 008's horizon note.</b> Two independent fetches (an RFE/RL wire item and an Arab News report) both converged on Bessent's substantive quotes being from a Thursday CNBC appearance — 20 Aug — with an itemized package now promised at a press conference pushed to 24 Aug. Both the rhetoric and the reschedule are dated after this brief's cutoff; adopting them would misdate them the same way the FDD/Mythos claim was caught and cut in Brief 008. Excluded from this brief's confirmed items.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Confirmed</span>
+        <div class="chg-body">
+          <b>UANI's 19 Aug shipping update and Brent's 19 Aug price.</b> UANI's own published update, fetched in full: 811 transits, 1,010 US-facilitated, still zero Iranian-crude departures since 12 July, with a first published enforcement tally (64 redirected, 3 disabled, 2 boarded). Vantage Markets' report, fetched in full, for the $92.36 Brent figure. UANI's counts are its own tally, advocacy-oriented and already disclosed; carried as single-source.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Re-verified, unchanged</span>
+        <div class="chg-body">
+          <b>Whether China/Taiwan, North Korea, Homeland/Hemisphere, Terrorism, Europe/NATO, Cyber/Tech or Alliance architecture had a qualifying development dated within this window.</b> Roughly two dozen searches and a dozen full fetches this sweep, at the upper end of the protocol's range for an active day. A North Korean projectile launch was located but dated 20 Aug, outside this window, and deliberately not pulled forward; a CENTCOM "Strait remains open" statement was located but dated 5 Aug, not new. Seven of ten threads returning nothing dated within-window is a genuine finding of this sweep's depth, disclosed rather than papered over.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind rev">Internal QA</span>
+        <div class="chg-body">
+          <b>A draft ledger script appended a duplicate Bessent-sanctions horizon item instead of re-noting the existing one.</b> Caught on review before this brief was filed: the script's text-matching logic didn't recognize the original item's older wording, so it appended a second, overlapping entry rather than updating the first. Merged — the original item's note was updated in place with the 19 Aug re-check and 24 Aug reschedule, and the duplicate was removed. Horizon count corrected from 21 to 20 before filing. Disclosed here rather than silently corrected, per the same standard applied to every other claim in this ledger.
+        </div>
+      </div>
+      <div class="chg">
+        <span class="chg-kind">Continuity</span>
+        <div class="chg-body">
+          <b>CONTINUITY — Brief 010 remains cloud-only, closing the 17–19 Aug backfill.</b> The device bridge was not re-attempted; the user's prior explicit direction already authorized this third and final brief in the sequence. This brief's own ledger is continuous within the session (built forward from Brief 009's state, filed to the project moments earlier), but the working-folder ledger on the user's device remains at Brief 007, now three briefs behind. The next brief should either read from the working-folder ledger directly, if reachable, or explicitly re-confirm continued cloud-only production before a fourth consecutive unattended cloud brief is produced — and reconcile any content the desktop-bound scheduler may have independently produced for 17–19 Aug, the way Brief 003 was reconciled.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="lbl">Sources</div>
+    <h2 class="sec">Documents touched</h2>
+    <div class="srcs">
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>UAE imposes indefinite trade embargo on Iran over alleged missile attacks</b> — Al Jazeera, 19 August 2026, 03:34 UTC, citing the UAE Ministry of Foreign Affairs and Iran's Foreign Ministry spokesman Esmaeil Baghaei. <em>attributed-claim / contested.</em><a href="https://www.aljazeera.com/news/2026/8/19/uae-imposes-indefinite-trade-embargo-on-iran-over-alleged-missile-attacks" target="_blank" rel="noopener">aljazeera.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>At least six killed in Russian air attacks on Ukraine</b> — Al Jazeera Staff/AFP/Reuters, 19 August 2026, 09:34 UTC. <em>attributed-claim.</em><a href="https://www.aljazeera.com/news/2026/8/19/at-least-five-killed-in-russian-air-attacks-on-ukraine" target="_blank" rel="noopener">aljazeera.com</a></div></div>
+      <div class="src"><div class="src-tier">Press</div><div class="src-body"><b>Ukraine-Kherson deadly minibus strike</b> — UPI, 19 August 2026. <em>attributed-claim.</em><a href="https://www.upi.com/Top_News/World-News/2026/08/19/Ukraine-Kherson-deadly-minibus-strike/8801787131764/" target="_blank" rel="noopener">upi.com</a></div></div>
+      <div class="src"><div class="src-tier">Analysis</div><div class="src-body"><b>Zelenskyy Faces Pressure to Hold Elections. What Stands in the Way?</b> — Time, 19 August 2026. Source for the Fedorov late-file. <em>attributed-claim.</em><a href="https://time.com/article/2026/08/19/zelenskyy-faces-pressure-to-hold-elections-what-stands-in-the-way-/" target="_blank" rel="noopener">time.com</a></div></div>
+      <div class="src"><div class="src-tier">Analysis</div><div class="src-body"><b>Iran Shipping Update – August 19, 2026</b> — UANI, 19 August 2026. Advocacy-oriented, disclosed. <em>single-source.</em><a href="https://www.unitedagainstnucleariran.com/analysis/iran-shipping-update-august-19-2026" target="_blank" rel="noopener">unitedagainstnucleariran.com</a></div></div>
+      <div class="src"><div class="src-tier">Market</div><div class="src-body"><b>Brent Crude Oil Tops $92 as Hormuz Standoff Drags On</b> — Vantage Markets, 19 August 2026, 11:30 GMT+8. Source for the Brent figure ($92.36). <em>attributed-claim.</em><a href="https://www.vantagemarkets.com/en/market-analysis/crude-oil-price-today-brent-wti-august-19-2026/" target="_blank" rel="noopener">vantagemarkets.com</a></div></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="end">
+  <div class="wrap">
+    <p class="caveat"><b>Caveats.</b> Independent, AI-assisted compilation of public open sources. Not an official government product. This brief covers exactly 24 hours, from the previous cutoff to 19 August 21:00Z, plus one late-filed item dated 18 August. Figures reported by a belligerent or a party to a dispute — the UAE's and Iran's dueling accounts, the Kherson/Zaporizhzhia tolls — are attributed rather than adopted. One candidate claim (Bessent's detailed sanctions package) did not clear the gate as an in-window fact and is named above rather than silently dropped. Forward-looking items carry confidence labels.</p>
+    <div class="cloudnote">
+      <b>Production note.</b> This brief was again produced by an interactive cloud session with no device-bridge access to the working folder this project's toolchain normally runs from — the same authorized, disclosed arrangement as Briefs 008 and 009, and the third and final brief in that user-authorized 17–19 August backfill (see the bottom line and verification log). The project's ledger was read and updated normally, and every claim above cleared the same Step 3 verification gate as any other brief. The working-folder ledger on the user's device has not been reachable across any of the three cloud-only runs and is now three briefs behind, still at Brief 007. The canonical <code>render.py</code>/<code>validate.py</code> toolchain does not exist in this session's cloud sandbox; a narrower manual structural check was substituted, as with Briefs 008 and 009. A future session with both project and device access should complete the sync and check all three of these briefs against anything the desktop-bound scheduler may have independently produced for the same dates — reconciling any divergence the deliberate way Brief 003 was, not by discarding either side silently.
+    </div>
+  </div>
+</footer>
+
+<script>
+  const THREADS = [
+    {code:"IR", name:"Iran / Hormuz", i:9, dir:"escalating", line:"The UAE cut all trade with Iran over Monday's missile alert; Iran's Foreign Ministry calls the underlying claim a false flag. Rhetoric on both sides, but the trade suspension itself is real and concrete — IR holds at 9, deliberately, pending an actual hit.", watch:"Whether the UAE trade suspension holds or is reciprocated · Whether Oman responds publicly · Bessent's rescheduled 24 Aug press conference · Iran–Oman route status · Sept War Powers clock"},
+    {code:"RU", name:"Russia / Ukraine", i:8, dir:"volatile", line:"Kherson and Zaporizhzhia strikes killed at least six, wounded twelve — in line with the thread's recent pattern, not a new threshold. Separately, and on a different axis entirely, Kyiv's own former defence minister is now publicly demanding wartime elections, a governance-pressure story that holds RU through at 8, volatile, unmoved.", watch:"Deep-strike target sets · Whether Zelenskyy responds to Fedorov · Russian strike tempo before 24 Aug · Any resumption of negotiations"},
+    {code:"TR", name:"Terrorism", i:8, dir:"escalating", line:"Carried forward. No verified qualifying development located this sweep.", watch:"Post-Khamenei Shia retaliation calls · Bamako blockade · ISIS reconstitution in Syria"},
+    {code:"CY", name:"Cyber / Tech", i:8, dir:"escalating", line:"Carried forward. No qualifying new intrusion, advisory or attribution located this sweep.", watch:"Water-sector intrusion spread · CISA guidance · Volt/Salt Typhoon · Quantum/CRQC milestones · Agentic-AI intrusion tradecraft"},
+    {code:"EN", name:"Energy / Markets", i:8, dir:"volatile", line:"UANI's 19 Aug tally adds a first enforcement count — 64 redirected, three disabled, two boarded since 14 July — while still showing zero Iranian crude clearing the blockade since 12 July. Brent held near $92.36, essentially flat against the recent climb.", watch:"Brent range · Hormuz transit counts · OPEC+ output · War-risk premiums · Kharg and North Larak throughput"},
+    {code:"CN", name:"China / Taiwan", i:6, dir:"escalating", line:"Carried forward. No new PLA activity or primary-document change located this sweep.", watch:"Yonaguni deployment · Senkaku activity · Type 076 employment · PRC economic measures on Japan"},
+    {code:"AL", name:"Alliance architecture", i:5, dir:"holding", line:"Carried forward. No change to the Mecca pact's contested-expansion status located this sweep.", watch:"Mecca pact implementation or expansion · Gulf statements on the US security guarantee and basing · Hague 5% delivery · Indo-Pacific burden-sharing"},
+    {code:"EU", name:"Europe / NATO", i:5, dir:"escalating", line:"Carried forward. No new incident located this sweep.", watch:"Hague 5% delivery · Russian sabotage incidents · Airspace incursions on the eastern flank · European mine-clearance mission in Hormuz"},
+    {code:"KP", name:"North Korea", i:5, dir:"holding", line:"Carried forward. No development dated within this brief's window located this sweep — a projectile launch surfaced in search results but is dated 20 Aug, outside this window, and is deliberately held for the next brief.", watch:"Nuclear test indicators · ICBM/IRBM cadence · Crypto heist attribution · DPRK conduct during a scaled-back Ulchi Freedom Shield"},
+    {code:"HL", name:"Homeland / Hemisphere", i:4, dir:"easing", line:"Carried forward. No verified qualifying development located this sweep.", watch:"Haiti elections and security · USMCA review · Cuba/Haiti migration surge risk"},
+  ];
+  const DIRMETA = {
+    escalating:{c:"var(--esc)", arrow:"▲", label:"Escalating"},
+    holding:{c:"var(--hold)", arrow:"■", label:"Holding"},
+    easing:{c:"var(--ease)", arrow:"▼", label:"Easing"},
+    volatile:{c:"var(--vol)", arrow:"◆", label:"Volatile"},
+  };
+  const board = document.getElementById('board');
+  THREADS.forEach((t, idx) => {
+    const m = DIRMETA[t.dir];
+    const b = document.createElement('button');
+    b.className = 'gauge';
+    b.style.setProperty('--c', m.c);
+    b.setAttribute('aria-pressed', idx === 0 ? 'true' : 'false');
+    b.setAttribute('aria-label', t.name + ', intensity ' + t.i + ' of 10, ' + m.label);
+    b.innerHTML = '<span class="arrow">' + m.arrow + '</span>' +
+      '<span class="track"><span class="fill" data-h="' + (t.i * 10) + '"></span></span>' +
+      '<span class="code">' + t.code + '</span><span class="val">' + t.i + '/10</span>';
+    b.addEventListener('click', () => select(idx));
+    board.appendChild(b);
+  });
+  function select(idx){
+    const t = THREADS[idx], m = DIRMETA[t.dir];
+    document.querySelectorAll('.gauge').forEach((g,i)=>g.setAttribute('aria-pressed', i===idx?'true':'false'));
+    const ro = document.getElementById('readout');
+    ro.style.borderColor = m.c;
+    document.getElementById('r-name').innerHTML = t.name + ' <span class="tag" style="background:' + m.c + '">' + m.label + '</span>';
+    document.getElementById('r-line').textContent = t.line;
+    document.getElementById('r-watch').textContent = 'WATCHING — ' + t.watch;
+  }
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  requestAnimationFrame(()=>{
+    document.querySelectorAll('.fill').forEach((f,i)=>{
+      const h = f.dataset.h + '%';
+      if(reduce){ f.style.transition='none'; f.style.height = h; }
+      else { setTimeout(()=>{ f.style.height = h; }, 90 + i*55); }
+    });
+  });
+</script>
+</body>
+</html>
