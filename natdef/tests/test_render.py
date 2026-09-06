@@ -158,6 +158,22 @@ class TestBrief(RenderCase):
             brief.build_brief(self.ledger, 99)
         self.assertIn("Step 4", str(ctx.exception))
 
+    def test_a_catch_up_with_no_late_file_says_so(self) -> None:
+        """Promising a late file that isn't there sends the reader looking for nothing."""
+        data = with_defect(
+            lambda d: (
+                d["archive"][1].__setitem__("cutoff", "2026-08-14T15:00Z"),
+                d["archive"][1].__setitem__(
+                    "items",
+                    [i for i in d["archive"][1]["items"] if not str(i["n"]).startswith("LF")],
+                ),
+            )
+        )
+        ledger = Ledger.load(write_ledger(self.root, data))
+        html = brief.build_brief(ledger, 2)
+        self.assertIn("there is no late file", html)
+        self.assertNotIn("Late-file items run first", html)
+
     def test_multi_day_interval_is_stated_on_the_masthead(self) -> None:
         data = with_defect(
             lambda d: (

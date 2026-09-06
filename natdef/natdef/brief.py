@@ -76,15 +76,20 @@ def _interval_note(entry: ArchiveEntry, previous: ArchiveEntry | None) -> str:
     if before is None:
         return f"Prior cutoff {previous.cutoff} does not parse; interval cannot be computed."
     hours = (now - before).total_seconds() / 3600
-    if hours > 48:
-        return (
-            f"Covers {hours:.0f} hours since brief {previous.number:03d}'s cutoff "
-            f"({previous.cutoff}) — a multi-day catch-up, not a daily. "
-            "Late-file items run first."
-        )
-    return (
+    covers = (
         f"Covers {hours:.0f} hours since brief {previous.number:03d}'s cutoff "
-        f"({previous.cutoff})."
+        f"({previous.cutoff})"
+    )
+    if hours <= 48:
+        return f"{covers}."
+    # Only promise a late file when there is one. Saying "late-file items run first" on a
+    # brief that has none tells the reader to look for something that is not there, and on a
+    # catch-up brief that is exactly the wrong thing to be vague about.
+    if any(item.is_late_file for item in entry.items):
+        return f"{covers} — a multi-day catch-up, not a daily. Late-file items run first."
+    return (
+        f"{covers} — a multi-day catch-up, not a daily. Nothing in this window broke before "
+        f"brief {previous.number:03d}'s cutoff, so there is no late file."
     )
 
 

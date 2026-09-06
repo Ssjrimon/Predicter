@@ -5,10 +5,10 @@
     "purpose": "Single source of truth for the dashboard artifact and the daily briefs. Every update edits this file first; downstream artifacts are regenerated from it.",
     "created": "2026-08-08",
     "last_updated": "2026-09-06",
-    "brief_number": 12,
+    "brief_number": 13,
     "update_rule": "The ledger is the ONLY source of truth. timeline[], map_nodes[], briefings[], threads[], sources[] and horizon[] are rendered into strategic-threat-briefing.html by render.py — never hand-edit that file. Nothing enters without clearing the Step 3 verification gate; log every check in verification_log[].",
     "revision": "D — canonical; renderer-backed",
-    "last_cutoff": "2026-08-29T2200Z",
+    "last_cutoff": "2026-09-06T19:30Z",
     "cadence": "Scheduled task fires 15:00 local; sweep interval runs from last_cutoff to now, never a fixed 24h window. Cutoffs are stamped in true UTC from Brief 007 onward (see verification_log, 16 Aug).",
     "triggering": "External only. Claude has no background process and cannot self-trigger. Unattended operation runs via a Cowork scheduled task (create_scheduled_task), fired daily at 15:00 local. Corrected 10 Aug 2026: the 9 Aug note claiming cloud execution independent of the app being open did not clear the verification gate against the actual tool used — create_scheduled_task's own description states scheduled tasks run while the app is open, and run on next launch if it was closed when due. That is the authoritative constraint; see verification_log[]. notifyOnCompletion (default true) pushes a completion notification, including to the phone if app notifications are enabled there. NOT to be confused with Claude Code Desktop scheduled tasks, a different product with its own (similar but not identical) constraints.",
     "archive_rule": "Every brief gets an archive[] entry written at the same time as the brief itself, in Step 5. The entry carries the bottom line, the full thread snapshot, every item's headline and So-what, what changed, and the verification tally. brief-archive.html is rendered from this — never hand-maintained. An entry is written even for a quiet day; a gap in numbering is a defect, not a quiet day."
@@ -561,6 +561,370 @@
         "UN News 28 Aug 2026"
       ],
       "registered_on": "2026-09-06"
+    },
+    {
+      "id": "AJ-USIRAN-0901",
+      "title": "Iran claims attacks on Bahrain, Jordan, Iraq after US strikes kill 11",
+      "publisher": "Al Jazeera",
+      "published": "2026-09-01",
+      "url": "https://www.aljazeera.com/news/2026/9/1/us-military-says-launching-new-attacks-on-iran",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "Casualty figure is Iran's. Runs as a claim.",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "CNN-IRAN-0901",
+      "title": "Iran retaliates after US strikes, defying Trump's warning it could be hit 'much harder'",
+      "publisher": "CNN",
+      "published": "2026-09-01",
+      "url": "https://www.cnn.com/2026/09/01/middleeast/us-military-strikes-iran",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "CENTCOM-0901",
+      "title": "CENTCOM account of the 1 September strike package",
+      "publisher": "US Central Command, via Washington Examiner",
+      "published": "2026-09-01",
+      "url": "https://www.washingtonexaminer.com/policy/defense/4708992/iran-us-wedding-strike-centcom/",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "CENTCOM lists the target set (air defence sites, radar, maritime assets, mine-laying capability, comms) and spokesman Tim Hawkins states US forces never target civilians. A command's account of its own operation is an attributed claim, not a finding.",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "AJ-SIRIK-0902",
+      "title": "Iran says US bombed a wedding party in Sirik",
+      "publisher": "Al Jazeera",
+      "published": "2026-09-02",
+      "url": "https://www.aljazeera.com/news/2026/9/2/iran-says-us-strikes-hit-a-wedding-party-in-sirik-killing-five",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "contested",
+      "note": "Iranian account. Casualty figures differ across outlets; see RFERL-SIRIK-0902.",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "RFERL-SIRIK-0902",
+      "title": "What We Know About Iran's Claims Of US Strike Hitting Wedding Party",
+      "publisher": "RFE/RL",
+      "published": "2026-09-02",
+      "url": "https://www.rferl.org/a/iran-us-strike-minab/33845617.html",
+      "status": "cited",
+      "tier": "secondary-analytic",
+      "attribution_class": "contested",
+      "note": "The explicit what-is-and-is-not-established treatment of the Sirik claim. Location is reported as both Sirik and Kuhestak across sources.",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "NBC-SIRIK-0902",
+      "title": "Iran says U.S. strike on wedding party killed at least 4 and injured dozens",
+      "publisher": "NBC News",
+      "published": "2026-09-02",
+      "url": "https://www.nbcnews.com/world/iran/iran-us-strike-wedding-party-rcna595661",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "contested",
+      "note": "Gives 'at least 4' where other outlets carry 5. Both figures run, named.",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "CBS-VANCE-0902",
+      "title": "Vance 'extremely skeptical' U.S. strike hit Iran wedding party, says he wouldn't call conflict a war",
+      "publisher": "CBS News",
+      "published": "2026-09-02",
+      "url": "https://www.cbsnews.com/live-updates/us-iran-war-trump-dismisses-diplomacy-tehran-says-wedding-hit-in-strike/",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "The US rebuttal to the Sirik claim, and separately Vance's characterisation of the conflict as not a war.",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "CT-IRAN-0903",
+      "title": "Iran Update, September 3, 2026",
+      "publisher": "Institute for the Study of War / Critical Threats Project",
+      "published": "2026-09-03",
+      "url": "https://www.criticalthreats.org/analysis/iran-update-september-3-2026",
+      "status": "cited",
+      "tier": "secondary-analytic",
+      "attribution_class": "analyst-judgment",
+      "note": "Names the specific bases struck: Ahmad al-Jaber (Kuwait) and al-Minhad (UAE), and assesses the Artesh conducted the attack to raise the cost of the US campaign.",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "WAPO-KUWAIT-0903",
+      "title": "Iran fires missiles and drones at Kuwait as strikes resume in U.S. war",
+      "publisher": "The Washington Post",
+      "published": "2026-09-03",
+      "url": "https://www.washingtonpost.com/world/2026/09/03/iran-fires-missiles-drones-kuwait-strikes-resume-us-war/",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "GULFNEWS-0903",
+      "title": "US Strikes Kill 11 in Iran as Tehran Retaliates With Missile and Drone Attacks on Kuwait, Bahrain and Jordan",
+      "publisher": "Gulf News",
+      "published": "2026-09-03",
+      "url": "https://gulfnews.com/world/mena/us-strikes-iran-tehran-retaliates-with-missile-and-drone-attacks-in-kuwait-bahrain-and-jordan-1.500660148",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "Names Ali Al Salem (Kuwait) and Sheikh Isa (Bahrain) among the targets.",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "AJ-HORMUZDATA-0903",
+      "title": "How much oil is going through Hormuz? Why data doesn't match US claims",
+      "publisher": "Al Jazeera",
+      "published": "2026-09-03",
+      "url": "https://www.aljazeera.com/news/2026/9/3/how-much-oil-is-going-through-hormuz-how-data-doesnt-match-us-claims",
+      "status": "cited",
+      "tier": "secondary-analytic",
+      "attribution_class": "verified-primary",
+      "note": "The side-by-side of US official transit claims against Lloyd's List Intelligence counts and the JMIC 1 September advisory. Carries the JMIC 'far below baseline' language and the Lloyd's 17-23 August figure of about 14 non-Iranian-linked ships a day.",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "CNBC-WRIGHT-0902",
+      "title": "Energy Secretary Chris Wright tells CNBC more than 17 million barrels of oil transited Hormuz on Monday",
+      "publisher": "CNBC",
+      "published": "2026-09-02",
+      "url": "https://www.cnbc.com/2026/09/02/energy-secretary-chris-wright-tells-cnbc-that-more-than-17-million-barrels-of-oil-transited-hormuz-on-monday.html",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "A cabinet secretary's figure for his own department's area of responsibility. Attributed, not adopted.",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "CNN-HORMUZ-0902",
+      "title": "60 targets struck, 18M barrels of oil protected: The US military's record day in the Strait of Hormuz",
+      "publisher": "CNN",
+      "published": "2026-09-02",
+      "url": "https://edition.cnn.com/2026/09/02/politics/latest-us-strikes-against-iran-marked-a-shift-in-strategy",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "The 40-vessel, 18-million-barrel escort figure originates with the US military.",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "NATIONAL-BESSENT-0902",
+      "title": "Scott Bessent says the Strait of Hormuz will be 'worthless' in two years. Analysts disagree",
+      "publisher": "The National",
+      "published": "2026-09-02",
+      "url": "https://www.thenationalnews.com/business/energy/2026/09/02/why-new-pipelines-cannot-make-strait-of-hormuz-worthless/",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "contested",
+      "note": "Carries both the Treasury Secretary's forecast and the analyst rebuttal that pipeline capacity cannot replace Hormuz.",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "USNI-HORMUZ-0904",
+      "title": "U.S., Iran Trade Strikes in Strait of Hormuz as Both Battle on Social Media",
+      "publisher": "US Naval Institute News",
+      "published": "2026-09-04",
+      "url": "https://news.usni.org/2026/09/04/u-s-iran-trade-strikes-in-strait-of-hormuz-as-both-battle-on-social-media",
+      "status": "cited",
+      "tier": "secondary-analytic",
+      "attribution_class": "attributed-claim",
+      "note": "",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "NPR-TANKERS-0905",
+      "title": "U.S. strikes Iranian oil tankers after Navy ships targeted",
+      "publisher": "NPR",
+      "published": "2026-09-05",
+      "url": "https://www.npr.org/2026/09/05/nx-s1-5959159/us-iran-warships-targeted",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "CNBC-BRENT-0903",
+      "title": "Brent oil price above $96 per barrel after Iran fires missiles at Kuwait",
+      "publisher": "CNBC",
+      "published": "2026-09-03",
+      "url": "https://www.cnbc.com/2026/09/03/oil-price-today-iran-war-strait-hormuz.html",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "AJ-KYIVTALKS-0905",
+      "title": "US envoys arrive in Kyiv for Ukraine war talks after meeting Putin",
+      "publisher": "Al Jazeera",
+      "published": "2026-09-05",
+      "url": "https://www.aljazeera.com/news/2026/9/5/russias-putin-meets-us-envoys-to-discuss-trump-proposal-to-end-ukraine-war",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "KI-PAUSE-0905",
+      "title": "Russia, Ukraine agree to halt aerial strikes on each other's capitals during US envoys' visits",
+      "publisher": "The Kyiv Independent",
+      "published": "2026-09-05",
+      "url": "https://kyivindependent.com/breaking-putin-orders-3-day-halt-to-strikes-on-kyiv-during-u-s-envoys-visit-kremlin-says/",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "Both halts are announced, not verified: neither side's compliance can be confirmed from open sources at this cutoff.",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "PBS-PAUSE-0905",
+      "title": "Putin orders a 72-hour pause in strikes on Kyiv as U.S. envoys visit Russia and Ukraine",
+      "publisher": "PBS NewsHour",
+      "published": "2026-09-05",
+      "url": "https://www.pbs.org/newshour/world/putin-orders-a-72-hour-pause-in-strikes-on-kyiv-as-u-s-envoys-visit-russia-and-ukraine",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "CNBC-KREMLIN-0906",
+      "title": "Kremlin says Ukraine talks with U.S. envoys were useful; no sign of breakthrough",
+      "publisher": "CNBC",
+      "published": "2026-09-06",
+      "url": "https://www.cnbc.com/2026/09/06/kremlin-says-ukraine-talks-with-us-envoys-were-useful.html",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "The Kremlin's own characterisation, alongside Peskov's 'no talk of new ideas'.",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "DN-LEIPZIG-0902",
+      "title": "German government blames Russia for Leipzig airport drone attack with explosives",
+      "publisher": "Defense News",
+      "published": "2026-09-02",
+      "url": "https://www.defensenews.com/global/europe/2026/09/02/german-government-blames-russia-for-leipzig-airport-drone-attack-with-explosives/",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "AJ-LEIPZIG-0901",
+      "title": "Germany accuses Russia of failed drone attack on Leipzig airport in August",
+      "publisher": "Al Jazeera",
+      "published": "2026-09-01",
+      "url": "https://www.aljazeera.com/news/2026/9/1/germany-accuses-russia-of-drone-attack-on-leipzig-airport",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "AJ-LEIPZIGQA-0902",
+      "title": "What to know about Germany's drone attack accusations against Russia",
+      "publisher": "Al Jazeera",
+      "published": "2026-09-02",
+      "url": "https://www.aljazeera.com/news/2026/9/2/what-to-know-about-germanys-drone-attack-accusations-against-russia",
+      "status": "cited",
+      "tier": "secondary-analytic",
+      "attribution_class": "contested",
+      "note": "Carries Russia's denial and Putin's counter-accusation that Germany planted the evidence, against the German attribution.",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "NPR-LEIPZIG-0902",
+      "title": "Germany blames Russia for last month's attempted drone attack at Leipzig airport",
+      "publisher": "NPR",
+      "published": "2026-09-02",
+      "url": "https://www.npr.org/2026/09/02/g-s1-141502/germany-russia-attempted-drone-attack",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "Carries the response measures: Bonn consulate general closed by 18 September, Russian House Berlin leases terminated, tighter visa scrutiny.",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "AJ-HAITI-0904",
+      "title": "Haitian government calls for renewal of international anti-gang task force",
+      "publisher": "Al Jazeera",
+      "published": "2026-09-04",
+      "url": "https://www.aljazeera.com/news/2026/9/4/haitian-government-calls-for-renewal-of-international-anti-gang-task-force",
+      "status": "cited",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "SCR-HAITI-0926",
+      "title": "Haiti, September 2026 Monthly Forecast",
+      "publisher": "Security Council Report",
+      "published": "2026-09-01",
+      "url": "https://www.securitycouncilreport.org/monthly-forecast/2026-09/haiti-36.php",
+      "status": "cited",
+      "tier": "secondary-analytic",
+      "attribution_class": "analyst-judgment",
+      "note": "Gang Suppression Force mandate expires 30 September; the US and Panama, the Haiti penholders, are expected to seek re-authorisation.",
+      "registered_on": "2026-09-06",
+      "cited_as": []
+    },
+    {
+      "id": "AEI-CN-0904",
+      "title": "China & Taiwan Update, September 4, 2026",
+      "publisher": "Institute for the Study of War / American Enterprise Institute",
+      "published": "2026-09-04",
+      "url": "https://www.aei.org/commentary/china-taiwan-update-september-4-2026/",
+      "status": "cited",
+      "tier": "secondary-analytic",
+      "attribution_class": "analyst-judgment",
+      "note": "Records the PRC MFA's 2 September invocation of the UN Charter 'enemy state' clause against Japan, and intensified PRC drone activity over the Senkakus and the Ryukyus.",
+      "registered_on": "2026-09-06",
+      "cited_as": []
     }
   ],
   "threads": [
@@ -568,10 +932,10 @@
       "id": "iran",
       "label": "Iran / Hormuz",
       "code": "IR",
-      "intensity": 9,
-      "direction": "volatile",
-      "status": "Two things moved in opposite directions in the same window. Qatar's PM ran the first structured Hormuz mediation found since the Islamabad memorandum lapsed on 16 Aug -- a temporary corridor, possible joint mine-clearing, and Tehran agreeing to draw up conditions -- while Rezai set a sequencing demand (US practical steps first) and Trump said he was 'not in a hurry'. Against that, UKMTO warning 121-26 records a tanker struck by an unknown projectile in the strait, and the JMIC advisory of 27 Aug holds the Strait of Hormuz at SEVERE, assessing deliberate hostile action as highly likely under current conditions.",
-      "one_line": "A real mediation channel and a fresh tanker strike inside the same five days. Held at 9 and moved from escalating to volatile -- large movement in both directions at once, which is what volatile is reserved for.",
+      "intensity": 10,
+      "direction": "escalating",
+      "status": "The war restarted. The US struck Iran on 1 September for the first time in about a month, citing a failed Iranian attempt to mine the strait and hit a US base in Jordan; CENTCOM's target set was air defence, radar, maritime assets, mine-laying capability and communications. Iran retaliated on 1-3 September against US facilities in Kuwait, Bahrain, the UAE, Jordan and Iraq. The US struck Iranian oil tankers on 5 September after Navy ships were targeted. Iran alleges a US strike killed civilians at a wedding in Sirik; Vance is 'extremely skeptical' and CENTCOM says it does not target civilians, and the figures differ between outlets — the claim runs unresolved. The Qatari mediation channel that opened Brief 012's window is dead: Vance says there will be no talks unless Iran stops attacking commercial shipping.",
+      "one_line": "The mediation track is gone and the exchange is back, now reaching five countries that host US facilities. Moved to 10 and escalating.",
       "watch": [
         "Bessent sanctions package, promised this week",
         "Iran-Oman joint statement",
@@ -586,7 +950,7 @@
       "code": "RU",
       "intensity": 8,
       "direction": "volatile",
-      "status": "The window's substance was diplomatic and strategic rather than territorial. CIA Director Ratcliffe made an unannounced 25 Aug Moscow visit -- denied by Peskov the same day, later confirmed by the Kremlin, which said Putin was briefed. NYT reporting says he told FSB chief Bortnikov Russia's position worsens without serious talks. Russia test-launched a mobile ICBM on 28 Aug. Ukraine destroyed a second Tu-95MS at Engels-2 in six weeks and Zelenskyy set a 1,000-drone-a-day goal. ISW assesses Russian budgetary strain is producing concrete operational problems and that the MoD is expanding access to personal and medical data ahead of anticipated involuntary reserve mobilisation after the 20 Sept Duma elections.",
+      "status": "The window's substance was diplomatic and strategic rather than territorial. CIA Director Ratcliffe made an unannounced 25 Aug Moscow visit -- denied by Peskov the same day, later confirmed by the Kremlin, which said Putin was briefed. NYT reporting says he told FSB chief Bortnikov Russia's position worsens without serious talks. Russia test-launched a mobile ICBM on 28 Aug. Ukraine destroyed a second Tu-95MS at Engels-2 in six weeks and Zelenskyy set a 1,000-drone-a-day goal. ISW assesses Russian budgetary strain is producing concrete operational problems and that the MoD is expanding access to personal and medical data ahead of anticipated involuntary reserve mobilisation after the 20 Sept Duma elections. | 6 Sept: a real negotiating round and the first reciprocal restraint of the war, against no announced framework and Zelenskyy saying he expects the war to continue. Held at 8/volatile — large movement in both directions at once, which is what volatile is reserved for.",
       "one_line": "A denied-then-confirmed CIA channel into Moscow, an ICBM test three days later, and another irreplaceable bomber lost at Engels -- movement on every axis except the front line. Held at 8, volatile.",
       "watch": [
         "Deep-strike target sets, including space and satellite industry",
@@ -601,7 +965,7 @@
       "code": "CN",
       "intensity": 6,
       "direction": "escalating",
-      "status": "Structural deterioration with Japan; steady PLA pressure on Taiwan; no invasion assessed as planned. | 29 Aug: no dated China/Taiwan/Japan event was found in the 25-29 Aug window; Taiwan MND's PLA activity page could not be fetched (robots.txt). Held unchanged and the gap is stated rather than filled.",
+      "status": "Structural deterioration with Japan; steady PLA pressure on Taiwan; no invasion assessed as planned. | 29 Aug: no dated China/Taiwan/Japan event was found in the 25-29 Aug window; Taiwan MND's PLA activity page could not be fetched (robots.txt). Held unchanged and the gap is stated rather than filled. | 6 Sept: the PRC foreign ministry invoked the UN Charter 'enemy state' clause against Japan on 2 September and drone activity over the Senkakus and Ryukyus intensified. Rhetorical and gray-zone, not a change in force posture. Held.",
       "one_line": "The Japan front is now the sharper edge — Tokyo is fielding strike weapons that reach the mainland while Beijing runs sustained coercion.",
       "watch": [
         "Yonaguni missile deployment",
@@ -616,7 +980,7 @@
       "code": "KP",
       "intensity": 6,
       "direction": "volatile",
-      "status": "Unchanged this window -- no new DPRK launch or summit development was found between 25 and 29 Aug. Intensity and direction are corrected here to 6/volatile, the values Brief 011 reasoned to and recorded in its archive snapshot but never wrote into threads[]; the live thread object had remained at 5/holding.",
+      "status": "Unchanged this window -- no new DPRK launch or summit development was found between 25 and 29 Aug. Intensity and direction are corrected here to 6/volatile, the values Brief 011 reasoned to and recorded in its archive snapshot but never wrote into threads[]; the live thread object had remained at 5/holding. | 6 Sept: nothing verified moved in this window. The most recent confirmed activity remains the 20 August launch during the US-ROK drills. Held.",
       "one_line": "Quiet window. The 6/volatile reading dates from Brief 011's 19-20 Aug summit-overture-plus-missile-barrage sequence and is only now correctly reflected in the live thread object.",
       "watch": [
         "Nuclear test indicators",
@@ -631,7 +995,7 @@
       "code": "HL",
       "intensity": 5,
       "direction": "escalating",
-      "status": "The 23 Aug Kenscoff attack is now established at 47 killed, 22 injured and more than 52 abducted, per the UN Integrated Office in Haiti -- corrected upward from the '~30 on 24 Aug' Brief 011 carried. More than 50 hostages remain held under an explicit execution threat from the gang leader, and the UN Security Council called an emergency meeting for 28 Aug. Intensity is held at 5, not raised: the revised toll sharpens an event this ledger already counted rather than adding a new one. 5/escalating are also the values Brief 011 reasoned to but never wrote into threads[], which had remained at 4/easing.",
+      "status": "The 23 Aug Kenscoff attack is now established at 47 killed, 22 injured and more than 52 abducted, per the UN Integrated Office in Haiti -- corrected upward from the '~30 on 24 Aug' Brief 011 carried. More than 50 hostages remain held under an explicit execution threat from the gang leader, and the UN Security Council called an emergency meeting for 28 Aug. Intensity is held at 5, not raised: the revised toll sharpens an event this ledger already counted rather than adding a new one. 5/escalating are also the values Brief 011 reasoned to but never wrote into threads[], which had remained at 4/easing. | 6 Sept: the Gang Suppression Force mandate expires 30 September and Haiti has asked for renewal; nothing has yet been decided. Held pending the Council vote.",
       "one_line": "Haiti's 23 Aug Kenscoff attack is worse than first logged -- 47 dead, 52 taken, hostages under an execution threat, and an emergency Security Council session. Held at 5 escalating: a corrected toll on a counted event is not a second escalation.",
       "watch": [
         "Haiti elections",
@@ -645,7 +1009,7 @@
       "code": "TR",
       "intensity": 8,
       "direction": "escalating",
-      "status": "The UN's own envoy says Yemen is closer to full-scale war than at any point since 2022; the Lebanon front reopened on 15 Aug with the deadliest day since the June truce. | 29 Aug: the 24 Aug Houthi missile strike on the Saudi tanker Amzan off Yanbu is late-filed this brief; no dated Yemen or Lebanon event was found between 25 and 29 Aug. Held unchanged.",
+      "status": "The UN's own envoy says Yemen is closer to full-scale war than at any point since 2022; the Lebanon front reopened on 15 Aug with the deadliest day since the June truce. | 29 Aug: the 24 Aug Houthi missile strike on the Saudi tanker Amzan off Yanbu is late-filed this brief; no dated Yemen or Lebanon event was found between 25 and 29 Aug. Held unchanged. | 6 Sept: nothing verified moved in this window against this thread's own watch items. Held.",
       "one_line": "The escalation is broadening rather than deepening — Yemen, the Red Sea and southern Lebanon all moved this week, but no single front crossed a new threshold of intensity.",
       "watch": [
         "Post-Khamenei Shia retaliation calls",
@@ -657,10 +1021,10 @@
       "id": "europe",
       "label": "Europe / NATO",
       "code": "EU",
-      "intensity": 5,
+      "intensity": 6,
       "direction": "escalating",
-      "status": "Russian-linked gray-zone pressure continues; a NATO fighter downed a drone inside Romanian airspace on 16 Aug, the fourth Romania has shot down this year. | 29 Aug: no new NATO airspace incident was found in the window; the Latvian kamikaze-drone shootdown is 14 Aug and predates the last cutoff. Held unchanged.",
-      "one_line": "A Spanish F-18 on NATO air policing shot down a drone over Romania on Sunday morning — the fourth this year, which makes it tempo rather than a new threshold, and the thread holds at 5.",
+      "status": "Germany formally blamed Russia on 1 September for an attempted explosive drone attack on Leipzig/Halle airport in early August, near a Ukrainian cargo aircraft, and announced it will close Russia's consulate general in Bonn by 18 September, terminate the Russian House Berlin leases and tighten visa scrutiny. Russia denies it; Putin accuses Germany of planting evidence. US officials characterise the attempt as aimed at Ukraine's supply line inside NATO territory.",
+      "one_line": "A NATO member has now publicly attributed an attempted attack on its own territory, against a supply line into Ukraine, and expelled diplomatic presence over it. Moved 5 to 6, still escalating.",
       "watch": [
         "Hague 5% delivery",
         "Russian sabotage incidents",
@@ -673,7 +1037,7 @@
       "code": "CY",
       "intensity": 8,
       "direction": "escalating",
-      "status": "Iran-attributed intrusions into US water systems continue; a multi-agent AI framework has now compromised a foreign government end-to-end with minimal human steering. | 29 Aug: no new joint advisory was found in the window; the CISA/FBI/EPA update expanding the PLC target set to Schneider Modicon M340 and Siemens S7-1200 is dated 23 July 2026 and predates this sweep. Held unchanged.",
+      "status": "Iran-attributed intrusions into US water systems continue; a multi-agent AI framework has now compromised a foreign government end-to-end with minimal human steering. | 29 Aug: no new joint advisory was found in the window; the CISA/FBI/EPA update expanding the PLC target set to Schneider Modicon M340 and Siemens S7-1200 is dated 23 July 2026 and predates this sweep. Held unchanged. | 6 Sept: no new joint advisory located in this window; the Iranian water-sector campaign reporting remains as recorded in August. Held.",
       "one_line": "An open-source agentic framework mapped 21 Taiwanese government systems in four days and reached a nuclear safety agency and seven-plus energy companies — the capability floor for a state-grade intrusion campaign just dropped.",
       "watch": [
         "Water-sector intrusion spread",
@@ -688,9 +1052,9 @@
       "label": "Energy / Markets",
       "code": "EN",
       "intensity": 8,
-      "direction": "volatile",
-      "status": "Brent settled at $89.31 on 28 Aug, down more than 5% on the week, with WTI down more than 4%; Trading Economics separately quoted Brent at $88.29 the same day. The market fell through the week in which the largest sanctions package of the war took effect, with analysts citing Hormuz-deal rumours and Fed policy. This closes the price gap Brief 011 could not confirm.",
-      "one_line": "The biggest sanctions package of the war landed on 24 Aug and Brent fell more than 5% that week -- the market is pricing the mediation, not the sanctions. Held at 8, volatile.",
+      "direction": "escalating",
+      "status": "Brent closed the week of 4 September near $96, up about 9%, its strongest week since mid-July, on the resumed exchange and the strikes on Kuwait. The more consequential development is that the headline throughput number is itself now contested: US officials cite 10 to 18 million barrels a day while Lloyd's List Intelligence counts about 14 non-Iranian-linked ships a day and JMIC calls traffic far below baseline. Bessent separately forecast the strait would be 'worthless' within two years; analysts dispute that pipelines can substitute for it.",
+      "one_line": "Held at 8, moved from volatile to escalating: the week's move was consistently upward and war-driven, not two-way.",
       "watch": [
         "Brent range",
         "Hormuz transit counts",
@@ -704,7 +1068,7 @@
       "code": "AL",
       "intensity": 5,
       "direction": "holding",
-      "status": "Two collective-defence pacts formed outside US auspices in 11 months; expansion of the newer one is now contested rather than imminent; NATO ramping to the Hague 5% standard. | 29 Aug: no change in defence obligations found. CNN reports Ratcliffe warned Russia against attacking NATO -- a US signal, not a change in who is obligated to defend whom, so it files to RU, not AL. Held unchanged.",
+      "status": "Two collective-defence pacts formed outside US auspices in 11 months; expansion of the newer one is now contested rather than imminent; NATO ramping to the Hague 5% standard. | 29 Aug: no change in defence obligations found. CNN reports Ratcliffe warned Russia against attacking NATO -- a US signal, not a change in who is obligated to defend whom, so it files to RU, not AL. Held unchanged. | 6 Sept: Iran struck US facilities in five host countries, which pressures the US guarantee but does not change who is obligated to defend whom — under this thread's own filing rule those are events in theatres and file to IR. No change in defence obligations found. Held.",
       "one_line": "Architecture unchanged, but the pressure is now on the US guarantee rather than on the pact — the Washington Post reports Gulf states questioning the value of hosting American installations, which Washington rejects.",
       "watch": [
         "Mecca pact implementation or expansion",
@@ -883,6 +1247,16 @@
       "revision": "IR direction moves to 'volatile'; intensity held at 9.",
       "basis": "Qatari mediation in Tehran on 27 Aug with a concrete framework (temporary corridor, joint mine-clearing) and Iran agreeing to draw up conditions, against UKMTO warning 121-26 (tanker struck in the strait) and JMIC holding Hormuz at SEVERE on 27 Aug.",
       "why_it_changed": "'Escalating' no longer describes a window containing the first structured mediation since the Islamabad MoU lapsed. 'Volatile' is used in its reserved sense -- large movement without a consistent direction -- not as a hedge.",
+      "attribution_class": "analyst-judgment"
+    },
+    {
+      "date": "2026-09-06",
+      "brief": 13,
+      "thread": "iran",
+      "supersedes": "IR 9/volatile, set in Brief 012 on the basis of a live mediation channel running alongside escalation",
+      "revision": "IR moves to 10/escalating.",
+      "basis": "The mediation channel is gone (Vance: no talks unless Iran stops attacking commercial shipping), the direct exchange resumed on 1 September after about a month, and Iranian retaliation reached five countries hosting US facilities in a single window.",
+      "why_it_changed": "'Volatile' described a window containing movement in both directions at once. This window has movement in one direction only. 10 records that this is materially worse than any prior window in this ledger, not that the ceiling has been reached.",
       "attribution_class": "analyst-judgment"
     }
   ],
@@ -1795,6 +2169,135 @@
       ],
       "attribution_class": "attributed-claim",
       "note": "CORRECTION to Brief 011. Brief 011 carried '~30 dead, 24 Aug, farming community' from AP-wire convergence without a full fetch, under that brief's disclosed WebFetch rate-limit caveat. Three independent full fetches this sweep (Al Jazeera, UPI, UN News) agree on 23 August, Kenscoff, and at least 47 dead. The earlier entry is corrected in place by this entry rather than deleted."
+    },
+    {
+      "date": "2026-09-01",
+      "thread": "iran",
+      "title": "US resumes strikes on Iran after a month without a direct exchange",
+      "text": "CENTCOM struck air defence sites, radar systems, maritime assets and facilities, mine-laying capabilities and communications sites. Trump said the strikes answered a failed Iranian attempt to mine the Strait of Hormuz and to target a US base in Jordan. It was the first direct clash in about a month.",
+      "src": [
+        "AJ-USIRAN-0901",
+        "CNN-IRAN-0901",
+        "CENTCOM-0901"
+      ],
+      "attribution_class": "attributed-claim"
+    },
+    {
+      "date": "2026-09-01",
+      "thread": "iran",
+      "title": "Iran alleges a US strike killed civilians at a wedding in Sirik; the figures are contested",
+      "text": "Iran said a US strike hit a house during a wedding celebration in Sirik, in the south. Al Jazeera carried five killed, NBC News 'at least 4', including two children; a local hospital reported 70 admitted with injuries, 11 still under treatment and five in intensive care. The location is given as Sirik in some accounts and Kuhestak in others. Vice President Vance said he was 'extremely skeptical' the strike hit a wedding party; CENTCOM spokesman Tim Hawkins said US forces never target civilians. Iran's foreign ministry called it a war crime. Nothing here is established: the claim, the rebuttal and the discrepancy all run.",
+      "src": [
+        "AJ-SIRIK-0902",
+        "NBC-SIRIK-0902",
+        "RFERL-SIRIK-0902",
+        "CBS-VANCE-0902",
+        "CENTCOM-0901"
+      ],
+      "attribution_class": "contested"
+    },
+    {
+      "date": "2026-09-03",
+      "thread": "iran",
+      "title": "Iran strikes US facilities in five countries: Kuwait, Bahrain, the UAE, Jordan and Iraq",
+      "text": "Iran's military said it attacked US bases in Kuwait and the UAE on the morning of 3 September, naming satellite communications, equipment warehouses and fighter hangars at Ahmad al-Jaber Air Base in Kuwait and troop positions and radar at al-Minhad in the UAE. Gulf News additionally names Ali Al Salem in Kuwait and Sheikh Isa in Bahrain. Kuwait's army said its air defences were engaging hostile missiles and drones and told residents that explosions were interceptions. Critical Threats assesses the Artesh conducted the attack to raise the cost of the US campaign.",
+      "src": [
+        "CT-IRAN-0903",
+        "WAPO-KUWAIT-0903",
+        "GULFNEWS-0903",
+        "AJ-USIRAN-0901"
+      ],
+      "attribution_class": "attributed-claim"
+    },
+    {
+      "date": "2026-09-03",
+      "thread": "energy",
+      "title": "US transit claims for Hormuz diverge sharply from commercial ship-tracking data",
+      "text": "Treasury Secretary Bessent said at least 10 million barrels a day were getting through, and 15 to 17 million on Monday; Energy Secretary Wright told CNBC more than 17 million transited on Monday; Trump said the Navy was helping about 30 ships through each night; the US military reported escorting 40 vessels carrying 18 million barrels on Tuesday, a wartime high, on a day it also struck 60 targets. Against that, Lloyd's List Intelligence counted about 14 non-Iranian-linked ships a day over 17-23 August, and the JMIC advisory of 1 September described commercial traffic as 'far below baseline' despite a modest uptick from recent lows. EIA data put Q2 2026 flows at 4.9 million barrels a day against 21.6 million in Q4 2025. Al Jazeera notes the gap cannot be closed without knowing how the US tallies its own figure, and that a US operational count plausibly includes vessels that moved near the naval convoy corridor without completing a transit.",
+      "src": [
+        "AJ-HORMUZDATA-0903",
+        "CNBC-WRIGHT-0902",
+        "CNN-HORMUZ-0902",
+        "EIA-STEO"
+      ],
+      "attribution_class": "contested"
+    },
+    {
+      "date": "2026-09-04",
+      "thread": "energy",
+      "title": "Brent closes the week near $96, its strongest week since mid-July",
+      "text": "Brent traded around $96 on Friday 4 September, up nearly 9% on the week and briefly above $97, after Iran's strikes on Kuwait and the resumption of the US-Iran exchange.",
+      "src": [
+        "CNBC-BRENT-0903"
+      ],
+      "attribution_class": "attributed-claim"
+    },
+    {
+      "date": "2026-09-05",
+      "thread": "iran",
+      "title": "US strikes Iranian oil tankers after Navy ships are targeted",
+      "text": "The US struck Iranian oil tankers following attacks on US Navy ships; Iran claimed a strike on a US vessel in the strait. Both sides also contested the account publicly on social media, which USNI News reports as a feature of this phase.",
+      "src": [
+        "NPR-TANKERS-0905",
+        "USNI-HORMUZ-0904"
+      ],
+      "attribution_class": "attributed-claim"
+    },
+    {
+      "date": "2026-09-05",
+      "thread": "russia",
+      "title": "Putin orders a 72-hour halt on Kyiv strikes; Ukraine reciprocates on Moscow",
+      "text": "Putin ordered no strikes on Kyiv for three days from midnight, tied to the Witkoff and Kushner visit. Zelenskyy said Ukraine would refrain from strikes on Moscow with immediate effect through the end of 7 September. It is the first reciprocal restraint measure of the war found in this ledger. Neither side's compliance is verifiable from open sources at this cutoff.",
+      "src": [
+        "KI-PAUSE-0905",
+        "PBS-PAUSE-0905"
+      ],
+      "attribution_class": "attributed-claim"
+    },
+    {
+      "date": "2026-09-05",
+      "thread": "russia",
+      "title": "Witkoff and Kushner meet Putin for over three hours; no breakthrough announced",
+      "text": "The envoys met Putin at the Kremlin on 5 September for more than three hours and flew to Kyiv to meet Zelenskyy on 6 September. Peskov said there was 'no talk of new ideas' and later called the Kyiv talks useful with no sign of a breakthrough. Zelenskyy said he expects the war to continue. Putin had said on 3 September there was a chance of a deal, while saying Ukrainian threats to Russian aviation made one harder and that there would be 'no negotiations with terrorists'.",
+      "src": [
+        "AJ-KYIVTALKS-0905",
+        "CNBC-KREMLIN-0906"
+      ],
+      "attribution_class": "attributed-claim"
+    },
+    {
+      "date": "2026-09-01",
+      "thread": "europe",
+      "title": "Germany formally attributes the Leipzig airport drone attack to Russia and moves to close two Russian missions",
+      "text": "After a nearly month-long investigation into an explosive-laden drone that fell near a Ukrainian cargo aircraft at Leipzig/Halle in early August without detonating, and two further drones found nearby, Berlin publicly blamed Russia. Germany will close Russia's consulate general in Bonn by 18 September, terminate the leases on the Russian House for Science and Culture in Berlin, and tighten visa scrutiny of Russian citizens. Russia called the suggestion absurd and Putin accused Germany of planting evidence.",
+      "src": [
+        "AJ-LEIPZIG-0901",
+        "DN-LEIPZIG-0902",
+        "NPR-LEIPZIG-0902",
+        "AJ-LEIPZIGQA-0902"
+      ],
+      "attribution_class": "contested"
+    },
+    {
+      "date": "2026-09-04",
+      "thread": "homeland",
+      "title": "Haiti's government asks for renewal of the Gang Suppression Force as its mandate nears expiry",
+      "text": "The Haitian government publicly called for renewal of the international anti-gang task force. The GSF was authorised for an initial twelve months on 30 September 2025 and its mandate expires on 30 September 2026; the US and Panama, the Council's Haiti penholders, are expected to seek re-authorisation during September. First-round elections remain scheduled for 13 December 2026.",
+      "src": [
+        "AJ-HAITI-0904",
+        "SCR-HAITI-0926"
+      ],
+      "attribution_class": "attributed-claim"
+    },
+    {
+      "date": "2026-09-02",
+      "thread": "china",
+      "title": "PRC foreign ministry invokes the UN Charter 'enemy state' clause against Japan",
+      "text": "A PRC Ministry of Foreign Affairs spokesperson said on 2 September that the UN Charter's 'enemy state' clause remains in effect against former Axis powers including Japan. AEI/ISW also record intensified PRC reconnaissance and strike-capable drone activity over the Senkakus and across the Ryukyus, on flight paths running toward Taiwan's east coast.",
+      "src": [
+        "AEI-CN-0904"
+      ],
+      "attribution_class": "analyst-judgment"
     }
   ],
   "horizon": [
@@ -1995,6 +2498,27 @@
       "item": "Whether the Ratcliffe channel produces a negotiating round, or the ICBM test and the Engels strike close it",
       "confidence": "Open",
       "note": "Added 29 Aug. Kremlin says Putin was briefed on the meetings. Zelenskyy says Kyiv was briefed by Washington. Nothing scheduled has been announced by any party."
+    },
+    {
+      "when": "7 Sept 2026",
+      "thread": "russia",
+      "item": "Reciprocal Kyiv/Moscow strike pause expires",
+      "confidence": "Open",
+      "note": "Putin's 72-hour Kyiv halt ran from midnight on 5 September; Zelenskyy's Moscow halt runs through the end of 7 September. Whether either is extended is the nearest test of whether the Witkoff-Kushner round produced anything."
+    },
+    {
+      "when": "18 Sept 2026",
+      "thread": "europe",
+      "item": "Russia's consulate general in Bonn closes on Germany's order",
+      "confidence": "scheduled",
+      "note": "Announced 1-2 September with the Leipzig attribution, alongside termination of the Russian House Berlin leases. Watch for a Russian reciprocal expulsion."
+    },
+    {
+      "when": "30 Sept 2026",
+      "thread": "homeland",
+      "item": "Haiti Gang Suppression Force mandate expires",
+      "confidence": "scheduled",
+      "note": "Authorised for twelve months on 30 September 2025. The Haitian government asked for renewal on 4 September; the US and Panama are expected to seek re-authorisation. Expiry without a successor would remove the international force during the run-up to 13 December elections."
     }
   ],
   "standing_watchlist": [
@@ -3046,6 +3570,94 @@
       "method": "militarnyi.com is blocked by this environment's network egress proxy -- verified directly: the gateway answers 403 to CONNECT, and the standing instruction not to bypass the proxy was followed rather than worked around. Every corroborating outlet that carries the same story (pravda.com.ua, english.nv.ua, defencematters.eu, united24media.com) is blocked as well. Confirmation therefore came from search-returned page content plus one internal consistency check.",
       "finding": "militarnyi.com carries two similarly titled Engels Tu-95MS articles and the wrong one is a credible decoy -- this ledger entry's own title says 'destroy', and the decoy is headlined 'Satellite Images Confirm Destruction'. The decoy is about the first bomber, struck 16 July 2026, tail section, corroborated by Ukrainska Pravda dated 19 July. The registered URL is the second bomber: night of Friday 28 Aug 2026, right wing partially broken off, AviVector imagery, SSU Special Operations Center 'A' drones, and the article itself contrasts this aircraft with the one destroyed on 16 July. 28 August 2026 was a Friday, which the article's own 'night of Friday, August 28' requires. Ukrainska Pravda's same-day 28 Aug report carries the same right-wing damage and AviVector attribution.",
       "action": "MILITARNYI-ENGELS's note rewritten from 'match rests on the headline' to the full verification above, with the residual limitation stated: the page was not opened, so this is a strong identification rather than a Step 3 primary fetch, and the exact publication date is unconfirmed. A session on a network that can reach militarnyi.com should open it and close this out. No src[] value changed and no brief was altered."
+    },
+    {
+      "date": "2026-09-06",
+      "claim": "The US resumed direct strikes on Iran on 1 September after about a month without an exchange",
+      "result": "confirmed",
+      "class": "attributed-claim",
+      "method": "Cross-read Al Jazeera's 1 Sept report, CNN's same-day report, and CENTCOM's own account of the target set as carried by the Washington Examiner. Trump's stated justification (a failed Iranian attempt to mine the strait and to target a US base in Jordan) is his, and runs as his.",
+      "finding": "The resumption itself is agreed across all three. The target set is CENTCOM's own description of its operation and is an attributed claim, not an independent finding, per the standing rule on government self-assessment."
+    },
+    {
+      "date": "2026-09-06",
+      "claim": "A US strike killed civilians at a wedding in Sirik on 1 September",
+      "result": "CONTESTED -- runs with both sides named and the discrepancy stated",
+      "class": "contested",
+      "method": "Compared Al Jazeera (2 Sept), NBC News (2 Sept) and RFE/RL's explicit what-is-known treatment against CBS's report of Vance's response and CENTCOM's denial. Checked whether the outlets agree on figures and location.",
+      "finding": "They do not. Al Jazeera carries five killed; NBC 'at least 4', including two children; a local hospital reported 70 admitted, 11 still under treatment, five in intensive care. Location appears as Sirik in some accounts and Kuhestak in others. Vance said he is 'extremely skeptical' it hit a wedding party; CENTCOM's Tim Hawkins said US forces never target civilians; Iran's foreign ministry called it a war crime. Nothing here is established. The claim, the rebuttal and the numeric discrepancy all run, named, and none is adopted."
+    },
+    {
+      "date": "2026-09-06",
+      "claim": "Iran struck US facilities in Kuwait, Bahrain, the UAE, Jordan and Iraq on 1-3 September",
+      "result": "confirmed as to occurrence; base names attributed",
+      "class": "attributed-claim",
+      "method": "Critical Threats' 3 Sept Iran Update, the Washington Post's 3 Sept report and Gulf News' 3 Sept report, cross-read against Kuwait's own army statement that its air defences were engaging hostile missiles and drones.",
+      "finding": "Occurrence is corroborated by the host state itself, which is the strongest available confirmation short of a US damage assessment. The specific bases -- Ahmad al-Jaber and Ali Al Salem in Kuwait, al-Minhad in the UAE, Sheikh Isa in Bahrain -- come from Iranian claims and from Gulf News, not from US or host-government confirmation, and are carried as attributed."
+    },
+    {
+      "date": "2026-09-06",
+      "claim": "US officials' Strait of Hormuz throughput figures",
+      "result": "CONTESTED -- the gap is itself the finding",
+      "class": "contested",
+      "method": "Set the US figures (Bessent: at least 10m barrels/day, 15-17m Monday; Energy Secretary Wright: over 17m Monday; Trump: about 30 ships a night; the US military: 40 vessels and 18m barrels Tuesday) against Lloyd's List Intelligence (about 14 non-Iranian-linked ships a day, 17-23 Aug), the JMIC advisory of 1 Sept ('far below baseline'), and EIA's Q2 2026 figure of 4.9m barrels/day against 21.6m in Q4 2025.",
+      "finding": "The two sets cannot be reconciled from open sources. Al Jazeera's analysis notes a US operational count plausibly includes vessels moving near the naval convoy corridor without completing a transit, and that Lloyd's counts only cargo-carrying ships -- which would make both numbers internally honest and mutually useless as a single indicator. No figure is adopted; the dispute runs as the item."
+    },
+    {
+      "date": "2026-09-06",
+      "claim": "Germany's attribution of the Leipzig/Halle airport drone attack to Russia",
+      "result": "CONTESTED -- attribution and denial both run",
+      "class": "contested",
+      "method": "Al Jazeera (1 Sept), Defense News (2 Sept) and NPR (2 Sept) for the attribution and the response measures; Al Jazeera's 2 Sept explainer for Russia's denial. Verified this is an August incident being attributed in September, not a September incident.",
+      "finding": "The drone fell near a Ukrainian cargo aircraft in early August and failed to detonate; two more were found nearby over following days. Berlin blamed Russia on 1 Sept after a nearly month-long investigation and will close Russia's Bonn consulate general by 18 Sept, terminate the Russian House Berlin leases and tighten visa scrutiny. Russia calls the claim absurd; Putin accuses Germany of planting evidence. The dating matters: this is an August event entering the ledger on its September attribution, not a new attack."
+    },
+    {
+      "date": "2026-09-06",
+      "claim": "Putin and Zelenskyy agreed reciprocal pauses on striking each other's capitals",
+      "result": "confirmed as announced; compliance not verifiable",
+      "class": "attributed-claim",
+      "method": "Kyiv Independent and PBS NewsHour, 5 Sept, cross-read against Al Jazeera's report of the envoys' movements and CNBC's 6 Sept report of the Kremlin's characterisation.",
+      "finding": "Both halts are announced and both are dated: Putin's 72 hours on Kyiv from midnight 5 Sept, Ukraine's on Moscow through the end of 7 Sept. Neither side's actual compliance can be confirmed from open sources at this cutoff, and the brief says so rather than implying the pause held."
+    },
+    {
+      "date": "2026-09-06",
+      "claim": "Bessent's forecast that the Strait of Hormuz will be 'worthless' within two years",
+      "result": "CONTESTED -- forecast, carried with the rebuttal",
+      "class": "contested",
+      "method": "The National, 2 Sept, which carries both the Treasury Secretary's forecast and analyst responses on pipeline substitution capacity.",
+      "finding": "A forecast by a serving official about a policy he is party to, disputed by analysts on capacity grounds. Tagged as a forecast, not a projection of fact, per the standing rule that a stated goal is not a prediction."
+    },
+    {
+      "date": "2026-09-06",
+      "claim": "NEGATIVE FINDING -- no new primary strategy or intelligence assessment document was published in this window",
+      "result": "checked, nothing found",
+      "class": "verified-primary",
+      "method": "Searched for ODNI, Department of War and White House strategy or assessment releases dated after 29 August 2026. Standing watchlist item, checked every brief because a new primary document resets the baseline rather than adding to it.",
+      "finding": "Nothing after the 2026 Annual Threat Assessment of 18 March, which remains current and is not superseded. sources[] unchanged for the founding documents."
+    },
+    {
+      "date": "2026-09-06",
+      "claim": "NEGATIVE FINDING -- KP, TR and CY had nothing verified move in this window",
+      "result": "checked, nothing found; threads held",
+      "class": "incomplete",
+      "method": "Swept each thread's own watch[] items. KP: nuclear test indicators and test cadence. TR: post-Khamenei retaliation calls, the Bamako blockade, ISIS reconstitution in Syria. CY: water-sector intrusion spread, CISA guidance, Volt/Salt Typhoon, agentic-AI intrusion tradecraft.",
+      "finding": "KP's most recent confirmed activity remains the 20 August launch during the US-ROK drills; nothing located after 29 August. TR: the Sahel reporting located is either 2025 (the September fuel blockade) or April 2026 (the Mali offensives), neither of which falls in this window -- the dates were checked specifically because aggregators re-date old material. CY: no new joint advisory located after 29 August; the Iranian water-sector campaign reporting is August and already in the ledger. All three held and recorded as quiet. A short brief is the correct outcome; nothing was manufactured to fill these threads."
+    },
+    {
+      "date": "2026-09-06",
+      "claim": "AL filing check -- do the strikes on five host countries change who is obligated to defend whom?",
+      "result": "no, held at 5/holding",
+      "class": "analyst-judgment",
+      "method": "Applied this ledger's own AL filing rule: an event in a theatre goes to that theatre's thread; an event that changes defence obligations goes to AL.",
+      "finding": "Iranian strikes on US facilities hosted in Kuwait, Bahrain, the UAE, Jordan and Iraq are events in a theatre and file to IR. They intensify the question of what the US guarantee is worth, which is AL's subject, but no change in any defence obligation was found -- no pact signed, amended, invoked or renounced. AL held, and the reasoning recorded so a later run can disagree with it."
+    },
+    {
+      "date": "2026-09-06",
+      "claim": "IR moved to intensity 10 -- is the top of the scale warranted?",
+      "result": "yes, with the reasoning recorded",
+      "class": "analyst-judgment",
+      "method": "Compared this window against every prior IR window in the ledger: the mediation channel's status, whether a direct US-Iran exchange was under way, and the geographic spread of retaliation.",
+      "finding": "Brief 012 held 9/volatile because a concrete mediation framework ran alongside escalation. This window has no mediation channel, a resumed direct exchange, and Iranian retaliation reaching five countries in one sequence -- the first time in this ledger's record. 10 records that this is materially worse than any prior window here. It is a relative judgment on this ledger's own scale, not a claim that escalation has a ceiling."
     }
   ],
   "schema_notes": [
@@ -5362,6 +5974,136 @@
         "note": "Two of the eleven are tooling checks (WebFetch recovery, absent render/validate scripts). Corrections: the Haiti toll/date, and the unapplied Brief 011 thread moves."
       },
       "headline_correction": "The 23 Aug Kenscoff attack killed at least 47, not the ~30 Brief 011 reported, and occurred on 23 not 24 August."
+    },
+    {
+      "number": 13,
+      "date": "2026-09-06",
+      "weekday": "Sunday",
+      "file": "briefs/daily-brief-2026-09-06.html",
+      "cutoff": "2026-09-06T19:30Z",
+      "revision": "D — canonical; renderer-backed",
+      "bottom_line": "The war restarted. After about a month without a direct exchange the US struck Iran on 1 September, citing a failed Iranian attempt to mine the strait and hit a US base in Jordan, and Iran retaliated across five countries hosting US facilities — Kuwait, Bahrain, the UAE, Jordan and Iraq. The Qatari mediation channel that opened Brief 012's window is dead; Vance says there will be no talks until Iran stops attacking commercial shipping. Iran alleges a US strike killed civilians at a wedding in Sirik: the figures differ between outlets, Vance is 'extremely skeptical', CENTCOM says it does not target civilians, and the claim runs here unresolved. Separately, the one number everyone uses to judge whether Hormuz works is now itself in dispute — Treasury, Energy and the White House cite 10 to 18 million barrels a day while Lloyd's List Intelligence counts about 14 non-Iranian-linked ships a day and JMIC's 1 September advisory calls traffic far below baseline. Brent closed the week near $96, its strongest since mid-July. On Russia, the first reciprocal restraint of the war: Putin ordered a 72-hour pause on Kyiv, Zelenskyy reciprocated on Moscow, and Witkoff and Kushner met Putin for over three hours on 5 September and Zelenskyy on 6 September, with no breakthrough announced by any party. IR moves to 10 and escalating; EU to 6 after Germany formally blamed Russia for the Leipzig airport drone attack.",
+      "threads": {
+        "IR": [
+          10,
+          "escalating"
+        ],
+        "RU": [
+          8,
+          "volatile"
+        ],
+        "CN": [
+          6,
+          "escalating"
+        ],
+        "KP": [
+          6,
+          "volatile"
+        ],
+        "HL": [
+          5,
+          "escalating"
+        ],
+        "TR": [
+          8,
+          "escalating"
+        ],
+        "EU": [
+          6,
+          "escalating"
+        ],
+        "CY": [
+          8,
+          "escalating"
+        ],
+        "EN": [
+          8,
+          "escalating"
+        ],
+        "AL": [
+          5,
+          "holding"
+        ]
+      },
+      "items": [
+        {
+          "n": "01",
+          "thread": "IR",
+          "head": "The war restarted on 1 September, and the mediation channel that defined Brief 012's window is dead",
+          "sowhat": "Brief 012 led on the first structured Hormuz mediation since the Islamabad memorandum lapsed. That channel is now gone and the exchange is back. The mediation was the thing holding the intensity judgment at 'volatile'; without it the direction is one-way.",
+          "body": [
+            "US forces struck Iranian targets on 1 September, the first direct clash in about a month. Trump said the strikes answered a failed Iranian attempt to mine the Strait of Hormuz and to target a US base in Jordan. CENTCOM described the target set as air defence sites, radar systems, maritime assets and facilities, mine-laying capabilities and communications sites.",
+            "Iran alleges one strike hit a house during a wedding celebration in Sirik, in the south. Al Jazeera reported five killed; NBC News reported at least four, including two children; a local hospital said 70 people were admitted, 11 still under treatment and five in intensive care. Some accounts place the strike at Kuhestak rather than Sirik. Vice President Vance said he was 'extremely skeptical' it hit a wedding party and said he would not call the conflict a war; CENTCOM spokesman Tim Hawkins said US forces never target civilians, unlike the IRGC. Iran's foreign ministry called it a war crime. None of this is established here: the claim, the rebuttal and the discrepancy between figures all run, named."
+          ]
+        },
+        {
+          "n": "02",
+          "thread": "IR",
+          "head": "Iran's retaliation reached five countries hosting US facilities: Kuwait, Bahrain, the UAE, Jordan and Iraq",
+          "sowhat": "Hosting a US installation is now what draws the strike. That is the concrete form of the question this ledger has tracked on AL since Brief 012 — Gulf states asking what the American guarantee is worth — and it arrived as incoming fire rather than as a communiqué.",
+          "body": [
+            "Iran's military said it attacked US bases in Kuwait and the UAE on the morning of 3 September, naming satellite communications equipment, warehouses and fighter hangars at Ahmad al-Jaber Air Base in Kuwait, and troop positions and radar at al-Minhad in the UAE. Gulf News additionally names Ali Al Salem in Kuwait and Sheikh Isa in Bahrain among the targets, and reports Iranian strikes on Jordan and Iraq in the same sequence.",
+            "Kuwait's army said its air defences were engaging hostile missiles and drones and told residents that explosions they heard were interceptions. Critical Threats assesses the Artesh conducted the attack as part of an effort to raise the cost of the US campaign. Under this ledger's own filing rule these are events in a theatre and file to IR, not to AL: no change in who is obligated to defend whom has been found, and AL is held."
+          ]
+        },
+        {
+          "n": "03",
+          "thread": "EN",
+          "head": "The headline Hormuz throughput number is now itself contested between the US government and commercial ship trackers",
+          "sowhat": "This is the number every reader uses to judge whether the strait is working, and it can no longer be quoted as a fact without saying who is counting. A brief that picks a side here is guessing; the honest product is the gap itself.",
+          "body": [
+            "Treasury Secretary Bessent said at least 10 million barrels a day were getting through, and 15 to 17 million on Monday. Energy Secretary Chris Wright told CNBC more than 17 million transited on Monday. Trump said the Navy was helping about 30 ships through each night. The US military reported escorting 40 vessels carrying 18 million barrels on Tuesday — a wartime high, on a day it also struck 60 targets.",
+            "Against that, Lloyd's List Intelligence counted about 14 non-Iranian-linked ships a day over 17-23 August, and the Joint Maritime Information Center's advisory of 1 September described commercial traffic as far below baseline despite a modest uptick from recent lows. EIA data put second-quarter flows at 4.9 million barrels a day against 21.6 million in the fourth quarter of 2025. Al Jazeera's analysis notes the gap cannot be closed without knowing how the US tallies its own figure, and that an operational count plausibly includes vessels that moved near the naval convoy corridor without completing a transit — which would not be dishonest, but would not be the same measure Lloyd's is reporting either."
+          ]
+        },
+        {
+          "n": "04",
+          "thread": "RU",
+          "head": "The first reciprocal restraint of the war, and a three-hour Kremlin meeting that produced no announced framework",
+          "sowhat": "A mutual pause on striking capitals is a real, checkable commitment rather than a statement of intent, and it is the first of its kind found in this ledger. It also expires on 7 September, which makes the next 24 hours the test of whether anything was actually agreed.",
+          "body": [
+            "Putin ordered no strikes on Kyiv for three days from midnight on 5 September, tied to the visit of Steve Witkoff and Jared Kushner. Zelenskyy said Ukraine would refrain from strikes on Moscow with immediate effect through the end of 7 September. Neither side's compliance can be verified from open sources at this cutoff.",
+            "The envoys met Putin at the Kremlin for more than three hours on 5 September and flew on to meet Zelenskyy in Kyiv on 6 September. Peskov said beforehand there was 'no talk of new ideas', and afterwards called the Kyiv talks useful with no sign of a breakthrough. Zelenskyy said he expects the war to continue. Putin had said on 3 September that there was a chance of an agreement while adding that Ukrainian threats against Russian aviation made one harder, and that there would be 'no negotiations with terrorists'. The thread is held at 8/volatile: movement in both directions inside one window is exactly what that value is reserved for."
+          ]
+        },
+        {
+          "n": "05",
+          "thread": "EU",
+          "head": "Germany formally blamed Russia for the Leipzig airport drone attack and moved to close two Russian missions",
+          "sowhat": "A NATO member has publicly attributed an attempted explosive attack on its own soil, against a supply line into Ukraine, and acted on the attribution diplomatically. That is a different category from the sabotage incidents this thread has been logging, and it moves EU to 6.",
+          "body": [
+            "An explosive-laden drone fell near a Ukrainian cargo aircraft at Leipzig/Halle airport in early August and failed to detonate; a police bomb squad defused it, and two further drones were found at or near the airport over the following days and weeks. After a nearly month-long investigation, Berlin publicly blamed Russia on 1 September, citing what it described as the signatures of a Russian hybrid operation.",
+            "Germany will close Russia's consulate general in Bonn by 18 September, terminate the leases on the Russian House for Science and Culture in Berlin, and tighten immigration scrutiny of Russian citizens. Russia called the suggestion absurd, and Putin accused Germany of planting the evidence. Both run: the attribution is Germany's and the denial is Russia's, and neither is adopted here."
+          ]
+        },
+        {
+          "n": "06",
+          "thread": "HL",
+          "head": "Haiti's Gang Suppression Force mandate expires on 30 September and the government has asked for renewal",
+          "sowhat": "A hard, dated deadline inside the next month, on the only international security instrument operating in Haiti, ten weeks before a first-round election that gangs have said publicly they intend to prevent.",
+          "body": [
+            "The Haitian government publicly called on 4 September for renewal of the international anti-gang task force. The Gang Suppression Force was authorised for an initial twelve months on 30 September 2025; its mandate expires on 30 September 2026, and the US and Panama, the Security Council's penholders on Haiti, are expected to seek re-authorisation during September.",
+            "The request follows the Kenscoff attack of 23 August, which this ledger corrected in Brief 012 to at least 47 killed and more than 50 abducted. First-round presidential and legislative elections remain scheduled for 13 December 2026, with a possible runoff on 21 February 2027."
+          ]
+        }
+      ],
+      "changed": [
+        "IR 9/volatile -> 10/escalating: the mediation channel is gone, the direct exchange resumed on 1 September, and Iranian retaliation reached five host countries in one window.",
+        "EU 5/escalating -> 6/escalating: Germany formally attributed an attempted explosive drone attack on its own territory to Russia and moved to close two Russian missions.",
+        "EN 8/volatile -> 8/escalating: intensity held; the week's move was consistently upward and war-driven rather than two-way.",
+        "RU, CN, KP, HL, TR, CY and AL held, each with a dated line recording why, so a held thread is visibly held rather than merely unrevised.",
+        "27 sources registered, all with URLs. Three horizon items added, all dated inside the next 24 days.",
+        "The iran->gulf node edge label extended to record that the relationship now includes direct strikes on US facilities hosted in Gulf states, rather than adding a duplicate edge."
+      ],
+      "verification": {
+        "checked": 22,
+        "confirmed": 15,
+        "contested": 4,
+        "corrections": 0,
+        "negative_findings": 3,
+        "cut": 0,
+        "note": "Eleven verification_log entries carry this brief's date, plus the seven tooling entries from the same day's toolchain rebuild and citation backfill. Contested: the Sirik casualty figures and location, the Hormuz throughput numbers, the Leipzig attribution, and Bessent's 'worthless in two years' forecast -- all four run with both sides named and none adopted. Negative findings: KP, TR and CY had nothing verified move and are recorded as quiet rather than padded; no new primary strategy or assessment document was published, so the 2026 ATA of 18 March remains current."
+      }
     }
   ],
   "node_topics": {
@@ -5653,7 +6395,7 @@
       "from": "iran",
       "to": "gulf",
       "type": "conflict",
-      "label": "Hormuz blockade, Houthi strikes on Gulf shipping and territory"
+      "label": "Hormuz blockade, Houthi strikes on Gulf shipping and territory; from 3 Sept 2026, direct Iranian missile and drone strikes on US facilities hosted in Kuwait, Bahrain and the UAE"
     },
     {
       "from": "russia",
