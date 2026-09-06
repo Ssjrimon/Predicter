@@ -232,6 +232,335 @@
       "added_on": "2026-08-17",
       "attribution_class": "attributed-claim",
       "note": "FDD is a Washington think tank with a hawkish, pro-sanctions orientation on Iran specifically; its framing is not adopted, but its daily roundup indexes same-day wire and primary reporting across every thread this ledger tracks. Every claim sourced through it is walked back to FDD's own cited origin before running here, and FDD's own two-hop distance from the original reporting is disclosed where it applies."
+    },
+    {
+      "id": "AJ-HOUTHI-0824",
+      "title": "Yemen's Houthis report attack on Saudi oil tanker in Red Sea",
+      "publisher": "Al Jazeera",
+      "published": "2026-08-24",
+      "url": "https://www.aljazeera.com/news/2026/8/24/yemens-houthis-report-attack-on-saudi-ship",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "Houthi military spokesman's claim of a ballistic-missile strike on the Bahri tanker Amzan off Yanbu. The claim is the belligerent's own.",
+      "status": "cited",
+      "cited_as": [
+        "Al Jazeera 24 Aug 2026"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "BAHRI-0824",
+      "title": "Bahri statement confirming the Amzan maritime incident (reported via Al Jazeera)",
+      "publisher": "Bahri (Saudi national shipping company), via Al Jazeera",
+      "published": "2026-08-24",
+      "url": "https://www.aljazeera.com/news/2026/8/24/yemens-houthis-report-attack-on-saudi-ship",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "Registered separately from AJ-HOUTHI-0824 although it shares a URL: the operator's own confirmation is a different origin from the attacker's claim, and BRIEFING-PROTOCOL.md Step 3 counts origin and hops, not article count.",
+      "status": "cited",
+      "cited_as": [
+        "Bahri statement via Al Jazeera"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "UPI-HORMUZ-0824",
+      "title": "Projectile strikes, disables tanker near Strait of Hormuz",
+      "publisher": "UPI",
+      "published": "2026-08-24",
+      "url": "https://www.upi.com/Top_News/World-News/2026/08/24/oman-Hormuz-tanker-attacked/9311787626785/",
+      "tier": "secondary",
+      "attribution_class": "verified-primary",
+      "note": "Reports UKMTO's own account of a strike ~9nm NE of Ash Shishan, Oman, disabling the engine room. No attribution claimed by any party.",
+      "status": "cited",
+      "cited_as": [
+        "UKMTO via UPI, 24 Aug 2026"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "AXIOS-MOSCOW-0825",
+      "title": "CIA director Ratcliffe visits Moscow",
+      "publisher": "Axios",
+      "published": "2026-08-25",
+      "url": "https://www.axios.com/2026/08/25/cia-director-ratcliffe-visits-moscow",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "status": "cited",
+      "cited_as": [
+        "Axios 25 Aug 2026"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "AJ-KREMLIN-0825",
+      "title": "Kremlin denies planned talks with US envoys amid reports CIA head in Russia",
+      "publisher": "Al Jazeera",
+      "published": "2026-08-25",
+      "url": "https://www.aljazeera.com/news/2026/8/25/kremlin-denies-planned-talks-with-us-envoys-amid-reports-cia-head-in-russia",
+      "tier": "secondary",
+      "attribution_class": "contested",
+      "note": "Peskov's same-day denial, later contradicted by the Kremlin's own confirmation. Both sides of the contradiction run, per Step 3's contradiction sweep.",
+      "status": "cited",
+      "cited_as": [
+        "Al Jazeera 25 Aug 2026"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "CNN-MOSCOW-0827",
+      "title": "CIA Director John Ratcliffe was in Moscow to warn Russia against attacking NATO and encourage cutting off Iran",
+      "publisher": "CNN",
+      "published": "2026-08-27",
+      "url": "https://www.cnn.com/2026/08/27/politics/john-ratcliffe-cia-moscow-visit",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "Brief 012 recorded this source as NOT FETCHED — blocked by robots.txt — and used it only as referenced through other outlets. That disclosure stands for what Brief 012 knew; the URL is registered here so the citation resolves. Covers the citations dated both 25 and 27 Aug.",
+      "status": "cited",
+      "cited_as": [
+        "CNN 25 and 27 Aug 2026",
+        "CNN 27 Aug 2026"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "KP-NYT-0828",
+      "title": "CIA Chief Secretly Warned Kremlin Russia's War Position Is Worsening – NYT",
+      "publisher": "Kyiv Post, reporting The New York Times",
+      "published": "2026-08-28",
+      "url": "https://www.kyivpost.com/post/83245",
+      "tier": "secondary",
+      "attribution_class": "single-source",
+      "note": "Two hops from origin: NYT reporting, carried by Kyiv Post. The chain is named in the brief's text per Step 3, point 2.",
+      "status": "cited",
+      "cited_as": [
+        "Kyiv Post 28 Aug 2026 reporting NYT",
+        "New York Times via Kyiv Post, 28 Aug 2026"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "UKMTO-121-26",
+      "title": "UKMTO Warning 121-26 (Attack) — tanker struck by unknown projectile, Strait of Hormuz near Khasab",
+      "publisher": "UK Maritime Trade Operations",
+      "published": "2026-08-27",
+      "url": "https://www.ukmto.org/-/media/ukmto/products/20260827-ukmto_attack-121-26.pdf?rev=226cf65c89254bd9981c91abebc7f75c",
+      "tier": "primary",
+      "attribution_class": "verified-primary",
+      "note": "The warning document itself, not reporting about it.",
+      "status": "cited",
+      "cited_as": [
+        "UKMTO warning 121-26"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "JMIC-090",
+      "title": "JMIC Advisory Note Update 090, 27 August 2026",
+      "publisher": "Joint Maritime Information Center / UKMTO",
+      "published": "2026-08-27",
+      "url": "https://www.ukmto.org/-/media/ukmto/products/update-090-jmic-advisory-note-27-august.pdf?rev=1a77a88156554b4d86243312f9d26028",
+      "tier": "primary",
+      "attribution_class": "verified-primary",
+      "note": "Identifies the vessel in warning 121-26 as the Kuwaiti tanker Al Salam II and holds the Strait of Hormuz at SEVERE.",
+      "status": "cited",
+      "cited_as": [
+        "UKMTO/JMIC Advisory Note Update 090, 27 Aug 2026"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "AJ-HORMUZ-0827",
+      "title": "Iran, Qatar hold Hormuz talks amid int'l hopes dialogue with US will resume",
+      "publisher": "Al Jazeera",
+      "published": "2026-08-27",
+      "url": "https://www.aljazeera.com/news/2026/8/27/iran-qatar-hold-hormuz-talks-amid-intl-hopes-dialogue-with-us-will-resume",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "Distinct from AJ-HAITI-0827 despite both having been cited as the bare string 'Al Jazeera 27 Aug 2026' — the single clearest argument for registry codes over inline citations.",
+      "status": "cited",
+      "cited_as": [
+        "Al Jazeera 27 Aug 2026"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "ALARABIYA-0827",
+      "title": "Qatar PM pursues mediation in Tehran as US ramps up 'economic war'",
+      "publisher": "Al Arabiya English",
+      "published": "2026-08-27",
+      "url": "https://english.alarabiya.net/News/middle-east/2026/08/27/qatar-pm-visits-tehran-to-pursue-mediation-efforts",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "status": "cited",
+      "cited_as": [
+        "Al Arabiya 27 Aug 2026"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "REUTERS-OIL-0828",
+      "title": "Oil settles lower on clues about Fed policy, rumors of Hormuz deal",
+      "publisher": "Reuters, via AOL",
+      "published": "2026-08-28",
+      "url": "https://www.aol.com/articles/oil-track-weekly-loss-even-011619000.html",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "Brent settled $89.31, down 5.38% on the week. Cited via AOL's syndication of the Reuters wire, which is the copy the brief actually read.",
+      "status": "cited",
+      "cited_as": [
+        "Reuters via AOL, 28 Aug 2026"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "TE-BRENT",
+      "title": "Brent crude oil — live price, chart and historical data",
+      "publisher": "Trading Economics",
+      "published": "ongoing",
+      "url": "https://tradingeconomics.com/commodity/brent-crude-oil",
+      "tier": "secondary-aggregator",
+      "attribution_class": "attributed-claim",
+      "note": "A live quote page, not a dated article: the 28 Aug 2026 Brent value the brief cited cannot be recovered from this URL retrospectively. Registered as the page consulted, with that limitation stated rather than papered over.",
+      "status": "cited",
+      "cited_as": [
+        "Trading Economics, 28 Aug 2026"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "CNBC-OIL-0825",
+      "title": "Oil hits one-week low as investors shrug off U.S. sanctions on Iran",
+      "publisher": "CNBC",
+      "published": "2026-08-25",
+      "url": "https://www.cnbc.com/2026/08/25/oil-hits-one-week-low-as-investors-shrug-off-iran-sanctions.html",
+      "tier": "secondary",
+      "attribution_class": "single-source",
+      "note": "Brief 012 recorded this as HEADLINE ONLY — a full fetch returned HTTP 403. That disclosure stands for what Brief 012 knew; the URL is registered here so the citation resolves.",
+      "status": "cited",
+      "cited_as": [
+        "CNBC 25 Aug 2026 (headline only; full fetch returned 403)"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "MILITARNYI-ENGELS",
+      "title": "Satellite Images Confirm Damage to Tu-95MS Bomber in Engels",
+      "publisher": "Militarnyi",
+      "published": "2026-08-29",
+      "url": "https://militarnyi.com/en/news/satellite-images-damage-tu-95-bomber-engels/",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "Imagery credited to the AviVector group. militarnyi.com is unreachable from the environment this backfill ran in (blocked by the network egress proxy), so the page itself was not opened: the match rests on the headline agreeing with Brief 012's own Sources line ('Militarnyi — satellite imagery, Tu-95MS damage at Engels') and on the article's described content. A session that can reach the domain should confirm it.",
+      "status": "cited",
+      "cited_as": [
+        "Militarnyi 29 Aug 2026 (AviVector imagery)"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "ISW-ROCA-0828",
+      "title": "Russian Offensive Campaign Assessment, August 28, 2026",
+      "publisher": "Institute for the Study of War / Critical Threats Project",
+      "published": "2026-08-28",
+      "url": "https://www.criticalthreats.org/analysis/russian-offensive-campaign-assessment-august-28-2026",
+      "tier": "secondary-analytic",
+      "attribution_class": "analyst-judgment",
+      "note": "Brief 012 cited this via Kyiv Post's republication (kyivpost.com/post/83304). Registered here as ISW's own publication, per Step 2: never summarise a document from an article about the document.",
+      "status": "cited",
+      "cited_as": [
+        "ISW Russian Offensive Campaign Assessment, 28 Aug 2026, via Kyiv Post"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "AJ-DRONES-0828",
+      "title": "Ukraine's Zelenskyy plans to hit Russia with '1,000 drones' a day",
+      "publisher": "Al Jazeera",
+      "published": "2026-08-28",
+      "url": "https://www.aljazeera.com/news/2026/8/28/ukraines-zelenskyy-plans-to-hit-russia-with-1000-drones-a-day",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "A stated goal, not an achieved capability — roughly a threefold increase on the ~300/day then estimated.",
+      "status": "cited",
+      "cited_as": [
+        "Al Jazeera 28 Aug 2026"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "MT-ICBM-0828",
+      "title": "Russian Military Conducts Mobile ICBM Test",
+      "publisher": "The Moscow Times, reporting the Russian Ministry of Defence",
+      "published": "2026-08-28",
+      "url": "https://www.themoscowtimes.com/2026/08/28/russian-military-conducts-mobile-icbm-test-a93601",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "The MoD's account of its own launch is a claim, not a finding — Step 3's hard rule on government self-assessment.",
+      "status": "cited",
+      "cited_as": [
+        "Russian MoD via The Moscow Times, 28 Aug 2026"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "KP-ICBM-0828",
+      "title": "Russia Test-Launches ICBM Days After CIA Chief Visits Moscow",
+      "publisher": "Kyiv Post",
+      "published": "2026-08-28",
+      "url": "https://www.kyivpost.com/post/83349",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "status": "cited",
+      "cited_as": [
+        "Kyiv Post 28 Aug 2026"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "AJ-HAITI-0827",
+      "title": "Haiti police confront public frustration after deadly gang attack kills 47",
+      "publisher": "Al Jazeera",
+      "published": "2026-08-27",
+      "url": "https://www.aljazeera.com/news/2026/8/27/haiti-police-confront-public-frustration-after-deadly-gang-attack-kills-47",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "Distinct from AJ-HORMUZ-0827 despite both having been cited as the bare string 'Al Jazeera 27 Aug 2026'.",
+      "status": "cited",
+      "cited_as": [
+        "Al Jazeera 27 Aug 2026"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "UPI-HAITI-0826",
+      "title": "Haitian gangs threaten to kill more than 50 hostages",
+      "publisher": "UPI",
+      "published": "2026-08-26",
+      "url": "https://www.upi.com/Top_News/World-News/2026/08/26/latam-haiti-gang-killings/4291787768733/",
+      "tier": "secondary",
+      "attribution_class": "attributed-claim",
+      "note": "Source for the Izo 2 hostage-execution threat, itself sourced to Le Nouvelliste — three hops from origin, disclosed.",
+      "status": "cited",
+      "cited_as": [
+        "UPI 26 Aug 2026"
+      ],
+      "registered_on": "2026-09-06"
+    },
+    {
+      "id": "UNNEWS-HAITI-0828",
+      "title": "Security Council LIVE: Deadly gang attacks spike in Haiti",
+      "publisher": "UN News",
+      "published": "2026-08-28",
+      "url": "https://news.un.org/en/story/2026/08/1168222",
+      "tier": "primary",
+      "attribution_class": "verified-primary",
+      "note": "BINUH's figures for the Kenscoff attack, given to the Security Council on 28 Aug: at least 47 killed including five children, dozens abducted.",
+      "status": "cited",
+      "cited_as": [
+        "UN News 28 Aug 2026"
+      ],
+      "registered_on": "2026-09-06"
     }
   ],
   "threads": [
@@ -1337,8 +1666,8 @@
       "title": "Houthi ballistic missile strikes Saudi tanker Amzan off Yanbu; Bahri confirms incident",
       "text": "Yemen's Houthis said they struck the Saudi-flagged tanker Amzan, operated by national shipping company Bahri, with a ballistic missile in the Red Sea off Yanbu on 24 August, claiming an accurate hit that started a fire. Bahri confirmed a maritime incident and said all crew were safe with no injuries. UKMTO separately reported a tanker struck by an unknown projectile 63 nautical miles west of Yanbu. Saudi Arabia's Foreign Ministry did not respond to Al Jazeera's request for comment.",
       "src": [
-        "Al Jazeera 24 Aug 2026",
-        "Bahri statement via Al Jazeera",
+        "AJ-HOUTHI-0824",
+        "BAHRI-0824",
         "UKMTO"
       ],
       "attribution_class": "attributed-claim",
@@ -1350,7 +1679,7 @@
       "title": "Projectile disables a tanker's engine room off Ash Shishan, Oman; no attribution",
       "text": "UKMTO reported that at approximately 00:25 local on 24 August an unidentified projectile struck the engine room of a vessel roughly 9 nautical miles northeast of Ash Shishan, Oman, near the Strait of Hormuz, disabling it. Crew were reported safe. UKMTO did not identify who launched the projectile and no party claimed responsibility.",
       "src": [
-        "UKMTO via UPI, 24 Aug 2026"
+        "UPI-HORMUZ-0824"
       ],
       "attribution_class": "verified-primary",
       "note": "LATE FILE. Occurred before Brief 011's cutoff and was not carried in Brief 011. Unattributed by the reporting authority; this ledger does not assign attribution."
@@ -1361,10 +1690,10 @@
       "title": "CIA Director Ratcliffe makes an unannounced Moscow visit; Kremlin denies, then confirms",
       "text": "CBS News first reported that CIA Director John Ratcliffe was in Moscow on Tuesday 25 August; Axios confirmed it citing two US officials, calling it the highest-level Trump administration visit to Russia since January. Flight-tracking showed a US military C-17 departing Riga at 05:50 GMT and landing in Moscow around 07:04 GMT. Kremlin spokesman Dmitry Peskov told reporters the same day that no talks with US envoys were planned that week -- 'No, there are no such plans' -- and said he had no information about a US military aircraft in Moscow. The Kremlin subsequently confirmed the visit and said Putin had been briefed on the outcome, without disclosing specifics. The CIA declined to comment.",
       "src": [
-        "Axios 25 Aug 2026",
-        "Al Jazeera 25 Aug 2026",
-        "CNN 25 and 27 Aug 2026",
-        "Kyiv Post 28 Aug 2026 reporting NYT"
+        "AXIOS-MOSCOW-0825",
+        "AJ-KREMLIN-0825",
+        "CNN-MOSCOW-0827",
+        "KP-NYT-0828"
       ],
       "attribution_class": "contested",
       "note": "The denial and the later confirmation are both recorded deliberately rather than resolved into one line. Peskov's 25 Aug denial is on the record; the later Kremlin confirmation supersedes it as to the fact of the visit. All accounts of what was said inside the meetings rest on unnamed current and former US officials."
@@ -1375,8 +1704,8 @@
       "title": "NYT: Ratcliffe told FSB chief Bortnikov Russia's position will worsen without serious talks",
       "text": "The New York Times reported on 27 August, sourced to current and former US officials, that Ratcliffe delivered a bleak assessment to FSB director Aleksandr Bortnikov: that Moscow's military and economic position would deteriorate further absent serious peace negotiations. The reported assessment held that the life expectancy of a Russian soldier at the front was 'less than 35 minutes' and that Russia had taken about 1% of Ukraine's territory over the previous 18 months. CNN reported on 27 August that Ratcliffe also warned Russia against attacking NATO and pressed Moscow to cut off Iran.",
       "src": [
-        "New York Times via Kyiv Post, 28 Aug 2026",
-        "CNN 27 Aug 2026"
+        "KP-NYT-0828",
+        "CNN-MOSCOW-0827"
       ],
       "attribution_class": "single-source",
       "note": "Two hops from origin: NYT reporting on unnamed US officials, read here via Kyiv Post's write-up after a direct CNN fetch was blocked by robots.txt. The specific figures ('less than 35 minutes', '1%') are US-official characterisations delivered as an argument to a counterpart, not independently verified battlefield statistics, and are reported here as such."
@@ -1387,8 +1716,8 @@
       "title": "UKMTO 121-26: tanker AL SALAM II struck by unknown projectile in the Strait of Hormuz",
       "text": "UKMTO warning 121-26 records a tanker hit by an unknown projectile in the Strait of Hormuz near Khasab, Oman, causing a fire that was subsequently extinguished; all crew reported safe and no environmental damage. The UKMTO warning document timestamps the incident 25 August 1730 UTC. The JMIC advisory note published 27 August lists the same incident number against 27 August, names the vessel as AL SALAM II, and describes it as hit just above the waterline while transiting eastbound, causing a small hole and a small fire extinguished by the crew, with tug assistance rendered.",
       "src": [
-        "UKMTO warning 121-26",
-        "UKMTO/JMIC Advisory Note Update 090, 27 Aug 2026"
+        "UKMTO-121-26",
+        "JMIC-090"
       ],
       "attribution_class": "verified-primary",
       "note": "DATE DISCREPANCY, NOT RESOLVED: the UKMTO warning PDF states 25 Aug 1730 UTC; the JMIC advisory note lists incident 121-26 under 27 August. Both are primary UKMTO products and both are recorded here rather than harmonised. The 25 Aug timestamp is carried as the event date on the reasoning that the warning is the incident-time document, but this is an assumption, flagged as such."
@@ -1399,9 +1728,9 @@
       "title": "Qatari PM holds Hormuz talks in Tehran; Iran sets sequencing conditions, Trump 'not in a hurry'",
       "text": "Qatar's Prime Minister and Foreign Minister Sheikh Mohammed bin Abdulrahman bin Jassim Al Thani met Iranian Foreign Minister Abbas Araghchi, President Masoud Pezeshkian, Parliament Speaker Mohammad Bagher Ghalibaf and security chief Mohsen Rezai in Tehran on 27 August. Officials reviewed a proposed Hormuz framework including a temporary shipping corridor, possible joint mine-clearing, and conditions for resuming US-Iran dialogue. Tehran's stated conditions are that Washington lift its naval blockade on Iranian ports, unfreeze Iranian assets abroad, and remove oil sanctions. Rezai: 'the US must first take practical steps to fulfil Iran's conditions and then Iran will proceed to open the Strait of Hormuz.' Trump said he was 'not in a hurry' to resume negotiations. Reuters-sourced market coverage reported Tehran agreed to draw up a list of conditions after the Qatari emissary pressed Iran to respect freedom of navigation.",
       "src": [
-        "Al Jazeera 27 Aug 2026",
-        "Reuters via AOL, 28 Aug 2026",
-        "Al Arabiya 27 Aug 2026"
+        "AJ-HORMUZ-0827",
+        "REUTERS-OIL-0828",
+        "ALARABIYA-0827"
       ],
       "attribution_class": "attributed-claim",
       "note": "First structured mediation framework found since the Islamabad memorandum's 60-day window lapsed on 16 Aug (Brief 007). The framework's contents are as described by the parties and by reporting on the talks; no signed text was found this sweep."
@@ -1412,9 +1741,9 @@
       "title": "Brent falls to about $89 and posts a weekly loss above 5% despite the 24 Aug sanctions package",
       "text": "Brent settled at $89.31 on Friday 28 August, down 0.43% on the day and more than 5% on the week; WTI settled at $83.40, down more than 4% on the week. Trading Economics quoted Brent at $88.29 on 28 August. CNBC reported on 25 August that oil hit a one-week low as investors shrugged off the new US sanctions on Iran. Phil Flynn of Price Futures Group cited 'rumors we might see a deal to reopen the Strait of Hormuz over the weekend'; Janiv Shah of Rystad Energy and John Evans of PVM Oil Futures were also quoted in the same coverage.",
       "src": [
-        "Reuters via AOL, 28 Aug 2026",
-        "Trading Economics, 28 Aug 2026",
-        "CNBC 25 Aug 2026 (headline only; full fetch returned 403)"
+        "REUTERS-OIL-0828",
+        "TE-BRENT",
+        "CNBC-OIL-0825"
       ],
       "attribution_class": "attributed-claim",
       "note": "Closes the price gap Brief 011 left open, which could not confirm a Brent figure. Two independent quotes for the level ($89.31 settle via Reuters, $88.29 via Trading Economics) differ slightly and are both recorded rather than averaged. Direction of the weekly move is consistent across both."
@@ -1425,8 +1754,8 @@
       "title": "SBU drones destroy a second Tu-95MS at Engels-2; satellite imagery confirms structural damage",
       "text": "Ukraine's Security Service Special Operations Centre 'A' struck Engels-2 strategic bomber base in Saratov Oblast overnight into 28 August. Satellite imagery released by the AviVector analyst group and reported 29 August shows serious structural damage to a Tu-95MS, with part of the right wing broken off, assessed as likely beyond repair. The same unit destroyed another Tu-95MS at Engels on 16 July 2026. ISW's 28 August assessment records the Engels strike alongside continued Ukrainian strikes on Russian oil refineries and 164 Russian drones launched against Ukraine overnight.",
       "src": [
-        "Militarnyi 29 Aug 2026 (AviVector imagery)",
-        "ISW Russian Offensive Campaign Assessment, 28 Aug 2026, via Kyiv Post"
+        "MILITARNYI-ENGELS",
+        "ISW-ROCA-0828"
       ],
       "attribution_class": "attributed-claim",
       "note": "Damage assessment rests on third-party satellite imagery analysis (AviVector) reported by Militarnyi, not on an official Russian or Ukrainian damage statement. Russia has not confirmed the loss."
@@ -1437,7 +1766,7 @@
       "title": "Zelenskyy sets a 1,000-drone-a-day goal against Russia",
       "text": "In his Friday evening address on 28 August, Zelenskyy called for Ukraine to reach at least 1,000 drones launched daily against Russia, roughly triple the then-current estimate of about 300: 'There needs to be more. There is a concrete goal, and we will fulfil this task.' He also said Kyiv 'received information from the American side about the meetings in Moscow that took place these days' and thanked the US for the tone of its dialogue with Russia. Al Jazeera reported the same day that a Ukrainian strike hit an oil refinery in Russia's Yaroslavl region, about 1,000km from the front, and reported 28 August casualties of one killed and two injured in Kyiv region, one killed and seven wounded in Sumy, one killed and eleven injured in Kherson, and two killed and thirteen injured in Kharkiv region.",
       "src": [
-        "Al Jazeera 28 Aug 2026"
+        "AJ-DRONES-0828"
       ],
       "attribution_class": "attributed-claim",
       "note": "STATED GOAL, not a capability finding. Casualty figures are Ukrainian official claims relayed by Al Jazeera. Kyiv Post reporting separately says Washington asked Ukraine to halt strikes on Moscow and St Petersburg during the Ratcliffe visit; the Engels and Yaroslavl targets are not those cities, so the public record does not establish that the request was breached."
@@ -1448,8 +1777,8 @@
       "title": "Russia test-launches a mobile ICBM from Plesetsk three days after the Ratcliffe visit",
       "text": "Russia's Defence Ministry announced a mobile ICBM test launch on 28 August from Plesetsk Cosmodrome in Arkhangelsk region to the Kura range on Kamchatka, over 6,700km. The ministry said 'All assigned tasks were completed in full' and that the missile held a 'flawless trajectory', with the stated purpose of confirming the system's tactical, technical and flight characteristics. The ministry did not name the missile; reporting identifies it as likely the RS-24 Yars.",
       "src": [
-        "Russian MoD via The Moscow Times, 28 Aug 2026",
-        "Kyiv Post 28 Aug 2026"
+        "MT-ICBM-0828",
+        "KP-ICBM-0828"
       ],
       "attribution_class": "attributed-claim",
       "note": "The Russian MoD's account of its own test is a claim, not a finding. The three-day proximity to Ratcliffe's 25 Aug visit is chronology; no source found this sweep asserts causation, and none is asserted here."
@@ -1460,9 +1789,9 @@
       "title": "CORRECTED: Kenscoff gang attack killed 47, not 30, and occurred on 23 not 24 August",
       "text": "The gang attack Brief 011 logged as killing at least 30 on 24 August in a Haitian farming community is now established as an attack on the night of 23 August on Kenscoff, a hillside community outside Port-au-Prince, killing at least 47 including five children, injuring 22, and abducting more than 52. The UN Integrated Office in Haiti is the source for the figures. UPI names Izo 2 (alias Didi) as leading the armed group in Kenscoff, under Johnson Andre's Viv Ansanm coalition; Izo 2 posted video of nearly 20 captives and threatened to execute hostages if security operations continued -- 'If one of my men or a soldier dies, these people will be killed.' Haitian police head Vladimir Paraison said an investigation is underway into whether the violence was enabled by complicity or negligence. The UN Security Council called an emergency meeting for 28 August. The UN's quarterly figures record 1,408 killed, 656 injured and 326 subjected to sexual violence in gang violence between April and June 2026.",
       "src": [
-        "Al Jazeera 27 Aug 2026",
-        "UPI 26 Aug 2026",
-        "UN News 28 Aug 2026"
+        "AJ-HAITI-0827",
+        "UPI-HAITI-0826",
+        "UNNEWS-HAITI-0828"
       ],
       "attribution_class": "attributed-claim",
       "note": "CORRECTION to Brief 011. Brief 011 carried '~30 dead, 24 Aug, farming community' from AP-wire convergence without a full fetch, under that brief's disclosed WebFetch rate-limit caveat. Three independent full fetches this sweep (Al Jazeera, UPI, UN News) agree on 23 August, Kenscoff, and at least 47 dead. The earlier entry is corrected in place by this entry rather than deleted."
@@ -2699,6 +3028,15 @@
       "method": "render.py was written against BRIEFING-PROTOCOL.md's own description of its contract and now emits, on every generated page, a natdef:counts meta tag holding the counts that page was built from. validate.py diffs those declared counts against the ledger instead of scraping rendered markup.",
       "finding": "Event counts (dashboard), archive-entry counts (brief-archive.html), node and edge counts (node-map.html) and the displayed brief number (index.html, and every other page) are all checked for real. The 'retired claims cannot reappear' check is implemented against a new retired_claims[] registry, seeded with the two claims this operation has actually retired: the 9 Aug 2026 Cowork cloud-execution claim corrected on 10 Aug, and the numbering and interval narrative of the forked 'Brief 003' retracted on 16 Aug. validate.py's first run with all fifteen checks live reports 0 failures and 0 skips against this ledger.",
       "action": "The SKIPPED disclosures the 6 Sep migration wrote into validate.py are removed because the checks they stood in for now exist, not because the disclosure was withdrawn. brief_number, last_cutoff and archive[] are untouched: this is infrastructure, not a thirteenth brief."
+    },
+    {
+      "date": "2026-09-06",
+      "claim": "TOOLING -- the 23 inline free-text citations are backfilled into sources[] with recovered URLs",
+      "result": "completed, with one item disclosed as unverified",
+      "class": "verified-primary",
+      "method": "Brief 012's own Sources table was read first: it records each citation's outlet, headline, date, tier and attribution class, but carries no URLs at all -- contrary to MIGRATION-NOTES.md's assumption that these citations 'carry a working <a href> in the delivered brief's own Sources table'. That assumption is wrong for Brief 012 and is corrected here. Each citation was then searched and matched on outlet, date and headline against both Brief 012's table and the ledger entry's own claim before a URL was registered.",
+      "finding": "All 23 resolved to real documents, including both UKMTO primary PDFs (warning 121-26 and JMIC Advisory Note Update 090) and ISW's own publication of the 28 Aug Russian Offensive Campaign Assessment, which Brief 012 had cited through Kyiv Post's republication. One item is disclosed rather than asserted: militarnyi.com is blocked by this environment's network egress proxy, so the Engels Tu-95MS article was not opened; its match rests on the headline agreeing with Brief 012's Sources line, and the entry's note says so. Two entries retain Brief 012's original access disclosures: CNN (never fetched, robots.txt) and CNBC (headline only, HTTP 403).",
+      "action": "22 sources[] entries added with status 'cited'. 25 src[] values across timeline_additions_2026[74..84] rewritten to registry codes. No brief text was altered and no delivered brief was re-rendered. brief_number, last_cutoff and archive[] are untouched -- infrastructure, not a thirteenth brief."
     }
   ],
   "schema_notes": [
@@ -2717,6 +3055,10 @@
     {
       "date": "2026-09-06",
       "note": "retired_claims[] added. BRIEFING-PROTOCOL.md Step 6 has always required validate.py to check that 'retired claims cannot reappear', swept across the dashboard, the archive and every daily-brief-*.html on disk. The check was never implemented because the schema had nowhere to record what counts as retired: sources[].status 'superseded' tracks a retired document, and nothing tracked a retired claim. Each entry carries id, claim, retired_on, retired_by_brief, reason, patterns[] (case-insensitive regexes matched against the visible text of rendered output) and exempt_files[]. A brief filed on or before retired_on is exempt automatically, because delivered briefs are never rewritten and necessarily still contain the claim they made; preserved RETRACTED-* files are exempt for the same reason. Adding a claim here is part of issuing a correction, not a separate housekeeping task."
+    },
+    {
+      "date": "2026-09-06",
+      "note": "The 23 inline free-text citations introduced from Brief 011 onward are backfilled into sources[] with real, recovered URLs, and timeline_additions_2026[].src now carries registry codes throughout. New sources[] entries use status 'cited' — a dated item a brief cited, as distinct from a standing document ('current') or a recurring tracker ('tracking') — so they do not inflate the current-primary-document count the dashboard displays. Each carries cited_as[], the original inline strings, so the pre-backfill form of every citation is preserved rather than erased. Note that the bare string 'Al Jazeera 27 Aug 2026' denoted two different articles in two different entries (the Qatar Hormuz talks and the Haiti Kenscoff attack); they are now AJ-HORMUZ-0827 and AJ-HAITI-0827. With no free-text citations left, validate.py treats an unregistered citation as a failure by default."
     }
   ],
   "timeline": [

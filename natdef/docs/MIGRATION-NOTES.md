@@ -1,5 +1,14 @@
 # Migration notes — claude.ai Project → Claude Code, 6 September 2026
 
+> **Correction, 6 September 2026 (toolchain rebuild).** One claim in this document is
+> wrong and was acted on: the "schema style split" note below states that a free-text
+> citation "carries a working `<a href>` in the delivered brief's own Sources table."
+> Brief 012's Sources table contains no hyperlinks at all — zero `http` hrefs in the whole
+> file — so those URLs were not recoverable from this repository by any route. They were
+> recovered by search and backfilled into `sources[]` instead. See
+> `REBUILD-NOTES.md`, "The citation backfill". The rest of this document stands as written;
+> it is the record of what the migration knew at the time, and is not edited retroactively.
+
 This document is the full account of how this repository came to exist. Read it once before
 treating the repository as a clean, fully-understood starting point — several things in here
 are load-bearing, not just historical color.

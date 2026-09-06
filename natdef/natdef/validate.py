@@ -28,7 +28,7 @@ not be loaded at all.
 Usage::
 
     python3 -m natdef.validate                 # ledger + whatever rendered pages exist
-    python3 -m natdef.validate --strict        # unregistered citations fail instead of warn
+    python3 -m natdef.validate --strict        # also fail on a source registered without a url
     python3 -m natdef.validate --check-links   # live HTTP checks on every source URL (slow)
     python3 -m natdef.validate --ledger other.json
 """
@@ -224,52 +224,68 @@ def check_sources(ledger: Ledger, report: Report) -> None:
 
 
 def check_citations(ledger: Ledger, report: Report, *, strict: bool) -> None:
-    """Every citation resolves, or is one of the two documented non-resolving styles.
+    """Every citation must resolve to a registered source.
 
     Step 6: "every timeline citation resolves to a URL — a dead link fails the build."
-    Three outcomes are possible and are treated differently, because they are genuinely
-    different things:
+
+    Five outcomes, treated differently because they need different fixes:
 
     * **registry / legacy** — resolves to a URL. Fine.
-    * **sentinel** (``PRESS``) — documented to have no single URL. Fine, reported once.
-    * **free text** ("Reuters via AOL, 28 Aug 2026") — a real source that was never
-      registered. Warned by default; ``--strict`` makes it a failure. The rebuild's
-      recommendation is that new entries register a code, and ``--strict`` is how a run
-      enforces that once the historical entries have been backfilled.
-    * **dead** — looks like a registry code, resolves nowhere. Always a failure.
+    * **sentinel** (``PRESS``) — documented to have no single URL, because there is no one
+      document to point at. Reported once, never a failure, in strict mode either: it is a
+      deliberate design, not an unfinished job.
+    * **registered-no-url** — resolves to a ``sources[]`` entry that carries no URL. A
+      disclosed gap: the source is identified, its address was not recovered. Warned by
+      default, failed under ``--strict``.
+    * **free text** ("Reuters via AOL, 28 Aug 2026") — registered nowhere, so the ledger
+      alone cannot reconstruct what was cited. **This is a failure by default.** It was a
+      warning until the 6 September 2026 backfill registered all 23 historical free-text
+      citations; with none left, warning about it would only let a new one slip in.
+    * **dead** — looks like a registry code and resolves nowhere. Always a failure.
     """
     dead: list[str] = []
-    free_text = 0
+    free_text: list[str] = []
+    no_url: list[str] = []
     sentinel = 0
     resolved = 0
     for array, index, raw, citation in ledger.iter_citations():
         if citation.is_dead:
             dead.append(f"{array}[{index}] src {raw!r}")
         elif citation.kind == "free-text":
-            free_text += 1
-            message = (
-                f"citations: {array}[{index}] src {raw!r} is an inline free-text citation, "
-                "not registered in sources[] or source_urls{}"
-            )
-            report.fail(message) if strict else report.warn(message)
+            free_text.append(f"{array}[{index}] src {raw!r}")
+        elif citation.kind == "registered-no-url":
+            no_url.append(f"{array}[{index}] src {raw!r}")
         elif citation.kind == "sentinel":
             sentinel += 1
         else:
             resolved += 1
+
     for item in dead:
         report.fail(
             f"citations: {item} looks like a registry code but resolves in neither "
             "sources[].id nor source_urls{} — a dead reference"
         )
+    for item in free_text:
+        report.fail(
+            f"citations: {item} is an inline free-text citation, registered nowhere. "
+            "Register it in sources[] (see the 2026-09-06 backfill for the pattern) so the "
+            "ledger alone can reconstruct what was cited."
+        )
+    for item in no_url:
+        message = (
+            f"citations: {item} resolves to a sources[] entry that carries no url — the "
+            "source is identified but its address was never recovered"
+        )
+        report.fail(message) if strict else report.warn(message)
     if sentinel:
         report.warn(
             f"citations: {sentinel} use(s) of the documented generic-press sentinel, which "
-            "has no single URL by design"
+            "has no single URL by design and is not a gap to close"
         )
-    if not dead:
+    if not dead and not free_text:
         report.ok(
-            f"citations: {resolved} resolve to a URL, {free_text} inline free-text, "
-            f"{sentinel} documented sentinel, 0 dead references"
+            f"citations: {resolved} resolve to a URL, {len(no_url)} registered without one, "
+            f"{sentinel} documented sentinel, 0 free-text, 0 dead references"
         )
 
 
@@ -731,7 +747,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument(
         "--strict",
         action="store_true",
-        help="treat unregistered inline free-text citations as failures rather than warnings",
+        help="also fail on a citation that resolves to a sources[] entry carrying no url "
+        "(a disclosed gap). Free-text and dead citations fail in both modes.",
     )
     parser.add_argument(
         "--check-links",

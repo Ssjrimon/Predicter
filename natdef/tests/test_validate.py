@@ -90,19 +90,33 @@ class TestCitationChecks(ValidateCase):
         data = with_defect(lambda d: d["timeline"][0].__setitem__("src", ["GHOST"]))
         self.assertFailsWith(self.report_for(data), "dead reference")
 
-    def test_free_text_warns_by_default(self) -> None:
+    def test_free_text_fails_by_default(self) -> None:
+        """Since the 6 Sep 2026 backfill there are none left, so a new one is a defect."""
         data = with_defect(
             lambda d: d["timeline"][0].__setitem__("src", ["Reuters via AOL, 28 Aug 2026"])
         )
+        self.assertFailsWith(self.report_for(data), "free-text citation")
+
+    def test_a_long_registry_code_that_resolves_nowhere_is_dead_not_free_text(self) -> None:
+        """The discriminator is whitespace, not length: a mistyped long code is a dead ref."""
+        data = with_defect(lambda d: d["timeline"][0].__setitem__("src", ["AJ-HORMUZ-0827"]))
+        self.assertFailsWith(self.report_for(data), "dead reference")
+
+    def test_a_source_registered_without_a_url_warns_by_default(self) -> None:
+        data = with_defect(lambda d: d["sources"][1].pop("url"))
         report = self.report_for(data)
         self.assertFalse(report.failed, report.failures)
-        self.assertTrue(any("free-text" in w for w in report.warnings))
+        self.assertTrue(any("carries no url" in w for w in report.warnings))
 
-    def test_free_text_fails_under_strict(self) -> None:
-        data = with_defect(
-            lambda d: d["timeline"][0].__setitem__("src", ["Reuters via AOL, 28 Aug 2026"])
-        )
-        self.assertFailsWith(self.report_for(data, strict=True), "free-text")
+    def test_a_source_registered_without_a_url_fails_under_strict(self) -> None:
+        data = with_defect(lambda d: d["sources"][1].pop("url"))
+        self.assertFailsWith(self.report_for(data, strict=True), "carries no url")
+
+    def test_the_press_sentinel_never_fails_even_under_strict(self) -> None:
+        """It has no single URL by design; failing it would be asking for a fabrication."""
+        data = with_defect(lambda d: d["timeline"][0].__setitem__("src", ["PRESS"]))
+        report = self.report_for(data, strict=True)
+        self.assertFalse(report.failed, report.failures)
 
 
 class TestCutoffChecks(ValidateCase):

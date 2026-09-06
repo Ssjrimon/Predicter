@@ -249,7 +249,9 @@ def citations_line(citations: Iterable[Citation]) -> str:
 
 def sources_table(sources: Sequence[Source]) -> str:
     """Every primary document, linked and tiered, current first then superseded."""
-    order = {"current": 0, "tracking": 1, "superseded": 2}
+    # `cited` is a dated item a brief cited, as opposed to a standing document or a
+    # recurring tracker; it sorts after both and before the superseded record.
+    order = {"current": 0, "tracking": 1, "cited": 2, "superseded": 3}
     rows: list[str] = []
     for source in sorted(sources, key=lambda s: (order.get(s.status, 3), s.id)):
         link = (

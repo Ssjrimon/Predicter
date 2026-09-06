@@ -40,6 +40,28 @@ class TestRealLedger(unittest.TestCase):
         report = validate.run(self.ledger)
         self.assertFalse(report.failed, "\n".join(report.failures))
 
+    def test_it_validates_under_strict(self) -> None:
+        """Every citation resolves to a registered source that carries a URL."""
+        report = validate.run(self.ledger, strict=True)
+        self.assertFalse(report.failed, "\n".join(report.failures))
+
+    def test_no_citation_is_unregistered_free_text(self) -> None:
+        """Regression guard on the 6 Sep 2026 backfill: all 23 were registered."""
+        stragglers = [
+            f"{array}[{index}] {raw!r}"
+            for array, index, raw, citation in self.ledger.iter_citations()
+            if citation.kind == "free-text"
+        ]
+        self.assertEqual(stragglers, [], f"unregistered citations: {stragglers}")
+
+    def test_every_registered_source_has_a_url_or_says_why_not(self) -> None:
+        for source in self.ledger.sources:
+            if not source.url:
+                self.assertTrue(
+                    source.note,
+                    f"source {source.id!r} has no url and no note explaining why",
+                )
+
     def test_no_check_is_skipped(self) -> None:
         """The four render-dependent checks must be live, not stood down."""
         report = validate.run(self.ledger)

@@ -42,7 +42,7 @@ silently, which is the drift this design exists to prevent.
 | `sources/SOURCES.md` | The founding government documents this tracks against. |
 | `natdef/` | The toolchain. One module per job; see `natdef/__init__.py`. |
 | `templates/` | The two page shells. Strict tokens only — no logic in templates. |
-| `tests/` | 104 tests, stdlib `unittest`, no pytest. |
+| `tests/` | 112 tests, stdlib `unittest`, no pytest. |
 | `docs/` | How this repository came to exist, and what was decided along the way. |
 
 Four pages are generated, plus the console:
@@ -79,7 +79,7 @@ Open this folder in Claude Code and ask for today's brief — it reads
 
 This is a from-scratch rebuild of the toolchain, on the same data. The operation's history,
 its briefs, its protocol and its ledger content were carried over verbatim; every script
-was rewritten. The three things worth knowing:
+was rewritten. The four things worth knowing:
 
 - **`render.py` exists.** It was specified in `BRIEFING-PROTOCOL.md` from the beginning and
   no copy of it ever survived into any session. The four validator checks that depended on
@@ -90,6 +90,10 @@ was rewritten. The three things worth knowing:
 - **Briefs are generated from their archive entry**, which makes the Brief 011 defect —
   where the brief's prose and the live ledger disagreed for four days — structurally
   impossible rather than merely detectable after the fact.
+- **Every citation resolves.** The 23 inline free-text citations written from Brief 011
+  onward had no recoverable URLs — not even, contrary to the migration notes, in the
+  delivered briefs, whose Sources tables carry no links at all. They were recovered and
+  backfilled into `sources[]`, so an unregistered citation is now a gate failure.
 
 Full account, including which previously-open decisions were resolved and how, in
 [`docs/REBUILD-NOTES.md`](docs/REBUILD-NOTES.md). The earlier migration out of the

@@ -47,10 +47,14 @@ Read `BRIEFING-PROTOCOL.md` in full and follow it from Step 1. Do not skip to wr
   for the pattern.
 - **The em dash (`—`) is a real, allow-listed archive thread code**, not a data error. See
   "Cross-thread archive items" in `BRIEFING-PROTOCOL.md`. Do not "fix" it.
-- **`source_urls{}` and `sources[]` are two coexisting registries**, plus a documented
-  free-text citation style used from Brief 011 onward. All three are handled in
-  `natdef/ledger.py`'s `resolve_citation`; read it before assuming an unresolved `src[]`
-  value is broken.
+- **Every citation must resolve to a registered source.** `src[]` values are registry
+  codes, resolved against `sources[]` or the older `source_urls{}` shorthand. An inline
+  free-text citation (`"Reuters via AOL, 28 Aug 2026"`) **fails the gate** — the 23
+  historical ones were backfilled on 6 Sep 2026, so a new one is a defect, not a
+  convention. When you cite something new, add a `sources[]` entry with
+  `status: "cited"`, a real URL, `tier`, `attribution_class` and a `note` naming the
+  origin and hop count; see the 2026-09-06 entries for the pattern. `PRESS` remains a
+  documented sentinel with no single URL by design.
 - **When you retire a claim, register it.** Add an entry to `retired_claims[]` in the same
   pass as the correction. That is what makes the "retired claims cannot reappear" check
   mean anything; a correction that skips it is half-done.
@@ -63,7 +67,7 @@ Read `BRIEFING-PROTOCOL.md` in full and follow it from Step 1. Do not skip to wr
 | `python3 -m natdef render` | Ledger → `index.html`, the dashboard, the node map, the archive. `--check` exits 3 if any is stale. |
 | `python3 -m natdef brief` | Archive entry → `briefs/daily-brief-YYYY-MM-DD.html`. |
 | `python3 -m natdef build-app` | Ledger → `natdef-console.html`. `--check` exits 3 if stale. |
-| `python3 -m natdef validate` | The Step 6 gate. `--strict` also fails on unregistered citations. |
+| `python3 -m natdef validate` | The Step 6 gate. `--strict` also fails on a source registered without a URL. |
 | `python3 -m natdef check` | All of the above as one gate. **This is the pre-commit command.** |
 | `python3 -m natdef serve` | Localhost server rendering from the live ledger. |
 | `python3 -m unittest discover -s tests -t .` | 104 tests. |
@@ -79,10 +83,6 @@ it runs unattended, and every import is one more way a scheduled run fails silen
   ever get device access, check it, and reconcile any divergence the deliberate way the
   16 Aug 2026 fork was reconciled: log it in `verification_log[]`, discard neither side,
   renumber over nothing.
-- **Backfilling citations.** 25 `src[]` values are inline free text with no registry entry,
-  so their URLs cannot be recovered from the ledger alone. `validate.py --strict` fails on
-  them; it is not run in `check` by default because failing 25 historical entries every day
-  would train people to ignore the gate. Backfill them, then make `--strict` the default.
 - **Item bodies for Briefs 001–012.** Their archive entries carry headlines and So-whats but
   not body prose, because `archive[]` was never designed to hold it. Re-rendering those
   briefs is *not* the fix — delivered briefs are never rewritten. New briefs should carry

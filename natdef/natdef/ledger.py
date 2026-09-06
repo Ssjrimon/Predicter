@@ -134,9 +134,15 @@ REQUIRED_META_KEYS: tuple[str, ...] = ("title", "brief_number", "last_cutoff", "
 CUTOFF_RE = re.compile(r"^(\d{4}-\d{2}-\d{2})T(\d{2}):?(\d{2})Z$")
 
 #: A ``src[]`` value that *looks* like it was meant to resolve against a registry. Anything
-#: matching this and resolving nowhere is a dead reference; anything not matching it is
-#: read as an inline free-text citation instead.
-SHORT_CODE_RE = re.compile(r"^[A-Za-z][A-Za-z0-9_.-]{1,11}$")
+#: matching this and resolving nowhere is a dead reference; anything not matching it is read
+#: as an inline free-text citation instead.
+#:
+#: The discriminator is whitespace, not length. Registry codes are single tokens
+#: (``ATA26``, ``UKMTO-121-26``, ``AJ-HORMUZ-0827``); every real inline citation in this
+#: ledger's history contains spaces (``"Reuters via AOL, 28 Aug 2026"``). An earlier
+#: 12-character cap would have classified a mistyped long code as free text rather than as
+#: the dead reference it is, which is the wrong failure.
+SHORT_CODE_RE = re.compile(r"^[A-Za-z][A-Za-z0-9_.:+-]{0,63}$")
 
 
 def parse_cutoff(value: str | None) -> datetime | None:
@@ -274,12 +280,18 @@ class Citation:
 
     ``kind`` is one of:
 
-    ``registry``    Resolved to a ``sources[]`` entry with a URL.
-    ``legacy``      Resolved via the older ``source_urls{}`` shorthand dict.
-    ``sentinel``    A documented generic sentinel (``PRESS``) with no single URL.
-    ``free-text``   An inline citation ("Reuters via AOL, 28 Aug 2026"). Real, but not
-                    registered anywhere, so no URL can be recovered from the ledger alone.
-    ``dead``        Looks like a registry code and resolves nowhere. A defect.
+    ``registry``            Resolved to a ``sources[]`` entry with a URL.
+    ``legacy``              Resolved via the older ``source_urls{}`` shorthand dict.
+    ``sentinel``            A documented generic sentinel (``PRESS``) with no single URL.
+                            Not a gap — there is no one URL to record.
+    ``registered-no-url``   Resolves to a ``sources[]`` entry that carries no URL. A
+                            disclosed gap, not a typo: the source is known, its address is
+                            not. Distinct from ``dead`` so the two can be treated
+                            differently, because they need different fixes.
+    ``free-text``           An inline citation ("Reuters via AOL, 28 Aug 2026") registered
+                            nowhere, so no URL is recoverable from the ledger alone. None
+                            remain after the 6 Sep 2026 backfill; a new one is a defect.
+    ``dead``                Looks like a registry code and resolves nowhere. A defect.
     """
 
     raw: str
@@ -1052,7 +1064,7 @@ class Ledger:
         if source is not None:
             if source.url:
                 return Citation(raw=src_id, kind="registry", url=source.url, title=source.title)
-            return Citation(raw=src_id, kind="dead", title=source.title)
+            return Citation(raw=src_id, kind="registered-no-url", title=source.title)
         legacy = self.source_urls.get(src_id)
         if legacy:
             return Citation(raw=src_id, kind="legacy", url=legacy)

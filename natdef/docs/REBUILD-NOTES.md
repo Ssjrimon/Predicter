@@ -113,18 +113,66 @@ frozen dashboard. The daily brief and the standing picture are now visibly one p
 twelve delivered briefs are **not** re-rendered into it — they are preserved exactly as
 delivered, which is what the protocol requires, so the archive still holds two visual eras.
 
-**2. Citation style — settled: register going forward, tolerate the history.**
-`resolve_citation` classifies every `src[]` value as registry, legacy, sentinel, free-text
-or dead. Dead always fails. Free-text warns by default and fails under `--strict`. The
-recommendation is that new entries register a `sources[]` code; `--strict` is how that
-becomes enforced once the 25 historical free-text citations are backfilled. Making it the
-default today would fail the gate 25 times a day on entries nobody is going to fix that
-morning, which is how a gate gets ignored.
+**2. Citation style — settled: registry codes, and the history is backfilled.** See
+"The citation backfill" below. `resolve_citation` classifies every `src[]` value as
+registry, legacy, sentinel, registered-without-url, free-text or dead. Free-text and dead
+both fail; registered-without-url warns, and fails under `--strict`. All 23 historical
+free-text citations were backfilled, so the strict policy costs nothing to enforce and is
+on by default.
 
 **3. Retired claims — implemented, and the registry starts small.** Two entries is not a
 complete history of everything this operation has ever corrected. The mechanism is real and
 tested; populating it further is ordinary work, and `CLAUDE.md` now says registering a
 retired claim is part of issuing a correction rather than a separate task.
+
+## The citation backfill
+
+From Brief 011 onward, citations were increasingly written as inline free text —
+`"Reuters via AOL, 28 Aug 2026"`, `"UKMTO warning 121-26"` — rather than as codes resolving
+against `sources[]`. 25 `src[]` values across 23 distinct strings. Their URLs could not be
+reconstructed from the ledger at all.
+
+`MIGRATION-NOTES.md` assumed that was survivable because "the same citation carries a
+working `<a href>` in the delivered brief's own Sources table." **That assumption is wrong.**
+Brief 012's Sources table lists every citation with its outlet, headline, date, tier and
+attribution class — and contains no hyperlinks whatsoever, zero `http` hrefs in the whole
+file. The URLs were not recoverable from the repository by any route.
+
+They were recovered by search instead, each one matched on outlet, date and headline
+against both Brief 012's Sources table and the ledger entry's own claim before being
+registered. All 23 resolved to real documents. Worth noting in particular:
+
+- **Both UKMTO items resolved to the primary PDFs**, not to reporting about them: warning
+  121-26 and JMIC Advisory Note Update 090, both on ukmto.org.
+- **The ISW citation was re-pointed to ISW's own publication.** Brief 012 cited the
+  28 August Russian Offensive Campaign Assessment through Kyiv Post's republication;
+  it is now registered against criticalthreats.org, per Step 2's rule against summarising
+  a document from an article about the document.
+- **`"Al Jazeera 27 Aug 2026"` denoted two different articles** in two different entries —
+  the Qatar Hormuz talks, and the Haiti Kenscoff attack. They are now `AJ-HORMUZ-0827` and
+  `AJ-HAITI-0827`. This is the single clearest argument for registry codes over inline
+  citations, and it was invisible until the backfill.
+- **Two entries keep Brief 012's own access disclosures**: CNN was never fetched (blocked
+  by robots.txt) and CNBC returned HTTP 403 to a full fetch. The URLs are registered so the
+  citations resolve; the disclosures stand for what Brief 012 knew.
+- **One item is disclosed rather than asserted.** militarnyi.com is blocked by the network
+  egress proxy in the environment this ran in, so that article was never opened; the match
+  rests on its headline agreeing with Brief 012's own Sources line. Its `note` says so, and
+  a session that can reach the domain should confirm it.
+
+The 22 new `sources[]` entries carry `status: "cited"` — a dated item a brief cited, as
+distinct from a standing document (`current`) or a recurring tracker (`tracking`) — so they
+do not inflate the "current primary documents" count the dashboard displays, which stays at
+10. Each carries `cited_as[]`, the original inline strings, so the pre-backfill form of
+every citation is preserved rather than erased.
+
+With no free-text citations left, an unregistered citation is now a **failure** by default
+rather than a warning. Leaving it a warning would have meant the one thing the backfill was
+for — stopping new ones appearing — never actually took effect.
+
+Result: 199 citations resolve to a URL, 3 uses of the documented `PRESS` sentinel, 0
+free-text, 0 dead. `validate.py` and `validate.py --strict` both pass. Warnings against the
+real ledger fell from 38 to 13.
 
 ## Defects found and fixed during the rebuild
 
@@ -151,8 +199,8 @@ Two real bugs surfaced from running the new code against the real data:
   has never seen. It needs a human on that machine. If it turns out to hold its own
   `render.py`, that is a historical curiosity now, not a recovery target — but a divergent
   *ledger* would matter a great deal.
-- **Backfilling the 25 free-text citations**, after which `--strict` should become the
-  default.
+- **Confirming the Militarnyi URL** from an environment that can reach militarnyi.com. It
+  is the one citation registered on a headline match rather than an opened page.
 - **Item bodies.** `archive[]` entries for Briefs 001–012 carry headlines and So-whats but
   not body prose, so `natdef brief` renders those items with a visible placeholder. That is
   correct behaviour for a historical entry and is not a reason to re-render a delivered
@@ -160,7 +208,7 @@ Two real bugs surfaced from running the new code against the real data:
 
 ## Testing performed
 
-- 104 tests, stdlib `unittest`, no third-party dependencies. Each validator check is
+- 112 tests, stdlib `unittest`, no third-party dependencies. Each validator check is
   asserted by introducing exactly one defect and confirming that check — and the message it
   produces — catches it.
 - `tests/test_real_ledger.py` runs the whole pipeline against the real
