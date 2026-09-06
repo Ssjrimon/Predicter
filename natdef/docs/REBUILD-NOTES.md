@@ -20,13 +20,17 @@ Nothing in this list was rewritten, reformatted or re-derived:
 | `sources/SOURCES.md` | Unchanged. |
 | `docs/MIGRATION-NOTES.md` | Moved into `docs/`, otherwise unchanged. |
 
-Three things were **added** to the ledger, all logged in `verification_log[]` under
-`2026-09-06` as infrastructure. `brief_number`, `last_cutoff` and `archive[]` were not
-touched — this is not a thirteenth brief:
+Everything **added** to the ledger is logged in `verification_log[]` under `2026-09-06` as
+infrastructure. `brief_number`, `last_cutoff` and `archive[]` were not touched — this is not
+a thirteenth brief:
 
-1. `retired_claims[]`, the registry described below.
-2. A `schema_notes[]` entry documenting that registry's shape and rules.
-3. A `verification_log[]` entry recording that the four skipped checks are now implemented.
+1. `retired_claims[]`, the registry described below, plus a `schema_notes[]` entry
+   documenting its shape and rules.
+2. 22 `sources[]` entries backfilling the historical free-text citations, plus the `src[]`
+   rewrites that point at them and a `schema_notes[]` entry for the `status: "cited"`
+   convention. See "The citation backfill".
+3. `verification_log[]` entries recording that the four skipped checks are now implemented,
+   that the backfill ran, and how the one unfetchable citation was identified.
 
 ## What was rebuilt
 
@@ -95,11 +99,11 @@ August), and the numbering and 173-hour-gap narrative of the forked "Brief 003" 
 16 August). The check was verified by injecting a restatement of the first into a
 post-retirement brief and confirming the gate failed with the matched text quoted.
 
-**Result:** `validate.py` reports **0 failures, 0 skips** against the real ledger. The
-38 remaining warnings are the disclosed schema gaps (25 free-text citations, 3 uses of the
-`PRESS` sentinel, 11 archive entries using the older bare-filename convention, 1 stale
-cutoff) — each one a thing the protocol or the migration notes already documents as
-accepted rather than broken.
+**Result:** `validate.py` reports **0 failures and 0 skips** against the real ledger, under
+`--strict` as well as by default. The 13 remaining warnings are all disclosed, accepted
+conventions rather than defects: 3 uses of the `PRESS` sentinel (no single URL by design),
+11 archive entries using the older bare-filename convention (both are accepted), and 1 stale
+cutoff (the operation has not run since 29 August, which is the point of the warning).
 
 ## Open decisions this rebuild closed
 
