@@ -56,7 +56,7 @@ has been shown for review. See handoff Part II, rules 2 and 4.
 | 1 | `money` + `fees` + `format` + tests | **done** |
 | 2 | `orderbook`: complement, ordering, depth walk, `simulateOrder` + tests | **done** |
 | 3 | `probability` (fair vs executable) + `sizing` + validation + tests | **done** |
-| 4 | `scoring` + `category` + `horizon` + `calibration` gating + tests | not started |
+| 4 | `scoring` + `category` + `horizon` + `calibration` gating + tests | **done** |
 | 5 | `storage`: keys, append-only archive, interactions, settlement guard + tests | not started |
 | 6 | `backtesting` + tests | not started |
 | 7 | `data`: defensive http, Kalshi client, schema parsing, expired-market check | not started |
@@ -162,6 +162,27 @@ tests, 45 total, all passing).
   the handoff names (blank/NaN price, 0 contracts, 150% probability) —
   Stage 9's UI must check `valid` before rendering the Analysis card, per
   Part IV Phase 1.
+
+## Stage 4 — what shipped
+
+`src/domain/scoring.ts`, `category.ts`, `horizon.ts`, `calibration.ts` +
+tests (20 new tests, 65 total, all passing).
+
+- `logLoss` clamps to `[LOG_LOSS_EPSILON, 1-LOG_LOSS_EPSILON]` (0.001) so a
+  boundary prediction (0% or 100%) can never produce `Infinity` and
+  silently destroy an average — tested by asserting finiteness at the
+  exact boundary, not just a passing mid-range case.
+- `assignCategory`: deterministic prefix detection (`KXFED`, `KXHIGH*`,
+  `INX`) with an explicit `source` tag and an override that always wins.
+  Documented the one place this build extrapolates beyond a literally
+  verified fact: `KXHIGH*` as a general prefix (vs. the single verified
+  `KXHIGHNY`) is an inference, flagged as such in the doc comment, not
+  presented as equally verified.
+- `summarizeCalibration`: the `n < 5` gate runs *before* any Brier/log-loss
+  math executes, returning `null` averages — not a computed value that
+  gets hidden by a display condition. A dedicated test asserts the
+  summary object has exactly three keys (`n`, `avgBrier`, `avgLogLoss`),
+  guarding against a future session quietly adding a blended score field.
 
 ## Unverified claims carried forward (handoff Part VIII — do not build on without checking)
 
