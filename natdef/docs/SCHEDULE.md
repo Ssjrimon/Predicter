@@ -18,11 +18,29 @@ first — there is already one.
 | **Local time** | 15:00 US Central while CDT (UTC−5) is in effect |
 | **Session model** | A fresh session per firing (`create_new_session_on_fire`) |
 | **Environment** | `env_01RvyxQUGov1snpzySEwbmtn` ("node briefs") |
+| **Model** | `claude-opus-5` |
 | **Notifications** | Push on completion; email off |
 | **Created** | 2026-09-07, at the user's request, after confirming no other Routine existed |
 
 It is managed with the `claude-code-remote` MCP tools — `list_triggers`, `update_trigger`,
 `delete_trigger`, `fire_trigger` — or from the Routines UI on claude.ai.
+
+## Why the model is pinned
+
+The Routine was created without an explicit model and defaulted to Sonnet 5 — confirmed from
+the pre-flight run's own record (`last_served_model`). It was changed to `claude-opus-5` on
+7 September 2026 at the user's request.
+
+This is a real setting, not a preference: the daily run is a ten-thread sweep whose output has
+to clear the Step 3 verification gate — walking each claim back to origin, counting hops,
+checking the date of the assertion rather than the date it was found, and running a
+contradiction sweep before anything reaches the ledger. Judgement about what *fails* that gate
+is the expensive part of the job, and a run that quietly lowers its bar produces a brief that
+looks exactly like a good one.
+
+Because this Routine creates a fresh session per firing, a model change applies from the next
+fire. A Routine bound to a persistent session would keep that session's model until the
+binding cleared.
 
 ## Why a fresh session per firing
 
