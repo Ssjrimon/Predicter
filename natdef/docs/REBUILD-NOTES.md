@@ -230,7 +230,7 @@ Two real bugs surfaced from running the new code against the real data:
 
 ## Testing performed
 
-- 112 tests, stdlib `unittest`, no third-party dependencies. Each validator check is
+- 114 tests, stdlib `unittest`, no third-party dependencies. Each validator check is
   asserted by introducing exactly one defect and confirming that check — and the message it
   produces — catches it.
 - `tests/test_real_ledger.py` runs the whole pipeline against the real

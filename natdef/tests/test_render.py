@@ -80,6 +80,25 @@ class TestRenderAll(RenderCase):
             [r.filename for r in later if r.changed],
         )
 
+    def test_output_is_a_pure_function_of_the_ledger(self) -> None:
+        """No render-time clock may leak into a page.
+
+        Regression: `index.html` baked a "cutoff age" and `node-map.html` baked "N d ago"
+        readouts, both computed at render time. The pages therefore changed every hour on an
+        unchanged ledger, which made `render --check` report drift that was not there and
+        turned the Step 6 pre-commit gate into one that cries wolf. Relative times are now
+        computed in the browser at read time — which is also the only correct answer for a
+        page someone opens tomorrow.
+        """
+        for filename in render.PAGE_BUILDERS:
+            early, _ = render.render_page(self.ledger, filename, generated_at="2026-01-01T00:00Z")
+            late, _ = render.render_page(self.ledger, filename, generated_at="2027-06-30T23:59Z")
+            self.assertEqual(
+                render._without_stamp(early),
+                render._without_stamp(late),
+                f"{filename} differs between renders for a reason other than the stamp",
+            )
+
     def test_a_real_ledger_change_does_count_as_changed(self) -> None:
         render.render_all(self.ledger, out_dir=self.root)
         data = with_defect(lambda d: d["ledger_meta"].__setitem__("brief_number", 3))

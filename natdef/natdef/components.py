@@ -44,6 +44,8 @@ __all__ = [
     "map_svg",
     "archive_thread_strip",
     "cutoff_age_note",
+    "cutoff_age_element",
+    "RELATIVE_TIME_SCRIPT",
     "direction_arrow",
     "humanize_ago",
 ]
@@ -416,6 +418,70 @@ def archive_thread_strip(entry: ArchiveEntry, previous: ArchiveEntry | None) -> 
             f"{esc(code)} {esc(intensity)}{esc(direction_arrow(str(direction)))}</span>"
         )
     return f'<div class="bc-strip">{"".join(chips)}</div>'
+
+
+#: Fills every ``[data-ago]`` and ``[data-cutoff-age]`` element in the browser, at read time.
+#:
+#: Relative times must not be baked into a generated page. Two reasons, and the second is the
+#: one that bites: a page saying "8 days old" is wrong the moment it is archived or reopened
+#: tomorrow; and a page whose text changes every hour without the ledger changing makes
+#: ``render --check`` report drift that is not there, which turns the Step 6 pre-commit gate
+#: into a check that cries wolf. Rendered output must be a pure function of the ledger.
+RELATIVE_TIME_SCRIPT = """<script>
+(function(){
+  "use strict";
+  var MS_DAY = 86400000;
+  function parse(text){
+    // Ledger dates run YYYY-MM-DD, YYYY-MM and YYYY; cutoffs run YYYY-MM-DDTHH:MMZ and
+    // YYYY-MM-DDTHHMMZ. Anything else yields null and the fallback text is left alone.
+    var m = /^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):?(\\d{2})Z$/.exec(text);
+    if (m) return Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]);
+    m = /^(\\d{4})(?:-(\\d{2}))?(?:-(\\d{2}))?$/.exec(text);
+    if (m) return Date.UTC(+m[1], (+m[2] || 1) - 1, +m[3] || 1);
+    return null;
+  }
+  function ago(ms, now){
+    var days = Math.floor((now - ms) / MS_DAY);
+    if (days < 0) {
+      var ahead = -days;
+      return ahead >= 365 ? "in " + Math.round(ahead / 365.25) + " yr" : "in " + ahead + " d";
+    }
+    if (days === 0) return "today";
+    if (days < 45) return days + " d ago";
+    if (days < 365) return Math.max(1, Math.round(days / 30.44)) + " mo ago";
+    return Math.round(days / 365.25) + " yr ago";
+  }
+  function apply(){
+    var now = Date.now();
+    document.querySelectorAll("[data-ago]").forEach(function(el){
+      var ms = parse(el.getAttribute("data-ago"));
+      if (ms !== null) el.textContent = ago(ms, now);
+    });
+    document.querySelectorAll("[data-cutoff-age]").forEach(function(el){
+      var ms = parse(el.getAttribute("data-cutoff-age"));
+      if (ms === null) return;
+      var hours = (now - ms) / 3600000;
+      if (hours < 0) { el.textContent = "cutoff is in the future"; return; }
+      el.textContent = hours <= 48
+        ? hours.toFixed(0) + "h old"
+        : (hours / 24).toFixed(0) + " days old \\u2014 the next brief is a multi-day catch-up";
+    });
+  }
+  apply();
+  window.__natdefFillAgo = apply;
+})();
+</script>"""
+
+
+def cutoff_age_element(cutoff: str) -> str:
+    """A cutoff-age readout the browser fills, with a time-independent fallback.
+
+    The fallback is the cutoff itself, not an age: a static string, so two renders of one
+    ledger produce identical bytes.
+    """
+    return (
+        f'<span data-cutoff-age="{attr(cutoff)}">as of {esc(cutoff)}</span>'
+    )
 
 
 def cutoff_age_note(cutoff: str, *, now: datetime | None = None) -> str:
