@@ -3676,6 +3676,15 @@
       "method": "fire_trigger on trig_01H1Wd2FeZ1LiWYpUwUDTVka with a text override countermanding the brief-producing prompt, per BRIEFING-PROTOCOL.md: 'Run it manually once before scheduling. The single thing being tested is whether the task can reach the ledger.' The fired session (cse_01Fwqx9VgeuZqNmqBneZmtLJ) is a separate session whose transcript this session cannot read; only its run record and the repository's own state are available as evidence.",
       "finding": "The run reports ROUTINE_RUN_STATUS_SUCCEEDED, fired 05:13:45Z and finished 05:25:50Z -- 12 minutes and roughly 218,000 context tokens of work. origin/main is unchanged at 928d152 with zero commits added, so the run honoured the read-only override and wrote nothing. WHAT THIS ESTABLISHES: the whole unattended path works -- the Routine fires, a session spawns in the environment, it does substantial work and exits cleanly. WHAT IT DOES NOT ESTABLISH: the outcome of each of the seven individual checks, because the transcript is not readable from here. The strongest available inference, stated as an inference rather than a finding, is that a session unable to reach the repository would have stopped within seconds on its own mandatory refusal clause rather than working for twelve minutes.",
       "action": "Recorded in docs/SCHEDULE.md alongside the configuration. The 20:07Z scheduled run is the first real test of the checks themselves; its push notification and its commit on main are the signals to watch. If it produces no commit, treat the refusal clause as having fired and read that session's report before changing anything."
+    },
+    {
+      "date": "2026-09-07",
+      "claim": "SCHEDULE -- the daily run's model was changed from Sonnet 5 to Opus 5",
+      "result": "changed at the user's explicit request",
+      "class": "verified-primary",
+      "method": "The Routine had been created without an explicit model and was defaulting to Sonnet 5, established from the pre-flight session's own run record (last_served_model), not assumed. update_trigger was called with model=claude-opus-5; the response confirms config.model and derived_state.model both now read claude-opus-5, with cron, enabled state, notifications and prompt unchanged.",
+      "finding": "Because this Routine creates a fresh session per firing rather than binding to a persistent one, the change applies from the next fire -- the 20:07Z run on 7 September. The reasoning is recorded rather than left implicit: the daily run's expensive work is the Step 3 gate, where the judgement being exercised is about what to CUT, and a run that quietly lowers that bar produces a brief indistinguishable in form from a good one.",
+      "action": "docs/SCHEDULE.md updated with the model and the reasoning behind pinning it."
     }
   ],
   "schema_notes": [
