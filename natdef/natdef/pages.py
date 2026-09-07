@@ -35,7 +35,6 @@ exactly the situation it exists for.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 from typing import Any
 
 from . import components as C
@@ -125,7 +124,6 @@ def build_index(ledger: Ledger) -> tuple[str, str, dict[str, Any]]:
             byline=[
                 ("Brief", str(stats.brief_number)),
                 ("Information cutoff", ledger.last_cutoff),
-                ("Cutoff age", C.cutoff_age_note(ledger.last_cutoff)),
                 ("Ledger updated", ledger.last_updated),
                 ("Revision", ledger.revision),
             ],
@@ -146,6 +144,10 @@ def build_index(ledger: Ledger) -> tuple[str, str, dict[str, Any]]:
         + f'<section id="board">{C.movement_board(threads)}'
         + f'<p class="sec-desc" style="margin-top:14px">{esc(moved_note)}</p></section>'
         + f'<section id="ways-in"><div class="grid cols-3">{card_html}</div></section>'
+        + '<section id="freshness"><p class="sec-desc">Information cutoff '
+        + f'<span class="mono">{esc(ledger.last_cutoff)}</span> &mdash; '
+        + f'{C.cutoff_age_element(ledger.last_cutoff)}. Every relative time on these pages is '
+        + 'computed when you open them, not when they were generated.</p></section>'
         + "</main>"
     )
     counts = {
@@ -153,7 +155,7 @@ def build_index(ledger: Ledger) -> tuple[str, str, dict[str, Any]]:
         "threads": stats.threads,
         "archive_entries": stats.archive_entries,
     }
-    return body, "", counts
+    return body, C.RELATIVE_TIME_SCRIPT, counts
 
 
 def _threads_moved(ledger: Ledger) -> list[str]:
@@ -673,7 +675,6 @@ def build_archive(ledger: Ledger) -> tuple[str, str, dict[str, Any]]:
 
 def build_node_map(ledger: Ledger) -> tuple[str, str, dict[str, Any]]:
     stats = ledger.stats()
-    now = datetime.now(timezone.utc)
     history = ledger.node_history
 
     payload: dict[str, Any] = {}
@@ -690,7 +691,6 @@ def build_node_map(ledger: Ledger) -> tuple[str, str, dict[str, Any]]:
             "history": [
                 {
                     "date": h.date,
-                    "ago": C.humanize_ago(h.date, now=now),
                     "title": h.title,
                     "text": h.text,
                     "tier": h.tier,
@@ -702,7 +702,6 @@ def build_node_map(ledger: Ledger) -> tuple[str, str, dict[str, Any]]:
             "recent": [
                 {
                     "date": e.date,
-                    "ago": C.humanize_ago(e.date, now=now),
                     "title": e.title,
                     "text": e.text,
                     "tier": e.attribution_class or "",
@@ -712,7 +711,6 @@ def build_node_map(ledger: Ledger) -> tuple[str, str, dict[str, Any]]:
             "future": [
                 {
                     "date": h.when,
-                    "ago": "",
                     "title": h.item,
                     "text": h.note,
                     "tier": h.confidence,
@@ -928,7 +926,7 @@ def build_node_map(ledger: Ledger) -> tuple[str, str, dict[str, Any]]:
       }}
       var tier = r.tier ? '<span class="pill tier-' + esc(r.tier) + '">' + esc(r.tier) + "</span>" : "";
       return '<div class="diveitem"><div class="di-date">' + esc(r.date) +
-        (r.ago ? '<span class="di-ago">' + esc(r.ago) + "</span>" : "") + "</div>" +
+        '<span class="di-ago" data-ago="' + esc(r.date) + '"></span></div>' +
         '<div class="di-title">' + esc(r.title) + "</div>" +
         (r.text ? '<div class="di-text">' + esc(r.text) + "</div>" : "") +
         (tier ? '<div class="di-src">' + tier + "</div>" : "") + src + "</div>";
@@ -955,6 +953,8 @@ def build_node_map(ledger: Ledger) -> tuple[str, str, dict[str, Any]]:
       '<div style="margin-top:22px"></div>' +
       columnInner("Dated ahead", n.future, "Nothing dated ahead for this node.") +
       "</div>";
+    // The shared relative-time filler ran at load, before these rows existed.
+    if (window.__natdefFillAgo) window.__natdefFillAgo();
     if (history.replaceState) history.replaceState(null, "", "#node-" + id);
   }}
 
@@ -978,4 +978,4 @@ def build_node_map(ledger: Ledger) -> tuple[str, str, dict[str, Any]]:
         "node_edges": stats.node_edges,
         "node_history_entries": stats.node_history_entries,
     }
-    return body, script, counts
+    return body, C.RELATIVE_TIME_SCRIPT + script, counts

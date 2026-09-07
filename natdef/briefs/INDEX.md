@@ -14,6 +14,21 @@ Any run that finds a gap between this index and `ledger_meta.brief_number` /
 
 ## Filed
 
+- 2026-09-06 · Brief 013 · cutoff 2026-09-06T1930Z · a 190-hour catch-up (29 Aug-6 Sep): the war
+  restarted — the US struck Iran on 1 Sep after about a month without a direct exchange, citing a
+  failed Iranian attempt to mine the strait and hit a US base in Jordan, and Iran retaliated across
+  five countries hosting US facilities (Kuwait, Bahrain, the UAE, Jordan, Iraq); the Qatari
+  mediation channel Brief 012 led on is dead, with Vance ruling out talks until Iran stops attacking
+  commercial shipping; Iran's claim that a US strike killed civilians at a Sirik wedding runs
+  unresolved against Vance's scepticism, CENTCOM's denial and figures that differ between outlets;
+  the Hormuz throughput number is itself now contested, with Treasury, Energy and the White House
+  citing 10-18m barrels/day against Lloyd's List Intelligence counting ~14 non-Iranian-linked ships
+  a day and JMIC calling traffic far below baseline; Brent closed near $96, its strongest week since
+  mid-July; and on Russia the first reciprocal restraint of the war — a 72-hour Kyiv pause matched by
+  Ukraine on Moscow — around a three-hour Witkoff/Kushner meeting with Putin that produced no
+  announced framework. IR 9/volatile → 10/escalating; EU 5 → 6/escalating; EN volatile → escalating;
+  RU, CN, KP, HL, TR, CY, AL held with dated reasons.
+
 - 2026-08-29 · Brief 012 · cutoff 2026-08-29T2200Z · a 114-hour catch-up (25-29 Aug): CIA Director
   Ratcliffe made an unannounced 25 Aug Moscow visit that Peskov denied the same day and the Kremlin
   later confirmed, saying Putin had been briefed; Qatar's PM ran the first structured Hormuz

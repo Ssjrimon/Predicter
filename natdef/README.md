@@ -42,7 +42,7 @@ silently, which is the drift this design exists to prevent.
 | `sources/SOURCES.md` | The founding government documents this tracks against. |
 | `natdef/` | The toolchain. One module per job; see `natdef/__init__.py`. |
 | `templates/` | The two page shells. Strict tokens only — no logic in templates. |
-| `tests/` | 112 tests, stdlib `unittest`, no pytest. |
+| `tests/` | 114 tests, stdlib `unittest`, no pytest. |
 | `docs/` | How this repository came to exist, and what was decided along the way. |
 
 Four pages are generated, plus the console:

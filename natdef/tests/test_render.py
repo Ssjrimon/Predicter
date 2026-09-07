@@ -80,6 +80,25 @@ class TestRenderAll(RenderCase):
             [r.filename for r in later if r.changed],
         )
 
+    def test_output_is_a_pure_function_of_the_ledger(self) -> None:
+        """No render-time clock may leak into a page.
+
+        Regression: `index.html` baked a "cutoff age" and `node-map.html` baked "N d ago"
+        readouts, both computed at render time. The pages therefore changed every hour on an
+        unchanged ledger, which made `render --check` report drift that was not there and
+        turned the Step 6 pre-commit gate into one that cries wolf. Relative times are now
+        computed in the browser at read time — which is also the only correct answer for a
+        page someone opens tomorrow.
+        """
+        for filename in render.PAGE_BUILDERS:
+            early, _ = render.render_page(self.ledger, filename, generated_at="2026-01-01T00:00Z")
+            late, _ = render.render_page(self.ledger, filename, generated_at="2027-06-30T23:59Z")
+            self.assertEqual(
+                render._without_stamp(early),
+                render._without_stamp(late),
+                f"{filename} differs between renders for a reason other than the stamp",
+            )
+
     def test_a_real_ledger_change_does_count_as_changed(self) -> None:
         render.render_all(self.ledger, out_dir=self.root)
         data = with_defect(lambda d: d["ledger_meta"].__setitem__("brief_number", 3))
@@ -157,6 +176,22 @@ class TestBrief(RenderCase):
         with self.assertRaises(RenderError) as ctx:
             brief.build_brief(self.ledger, 99)
         self.assertIn("Step 4", str(ctx.exception))
+
+    def test_a_catch_up_with_no_late_file_says_so(self) -> None:
+        """Promising a late file that isn't there sends the reader looking for nothing."""
+        data = with_defect(
+            lambda d: (
+                d["archive"][1].__setitem__("cutoff", "2026-08-14T15:00Z"),
+                d["archive"][1].__setitem__(
+                    "items",
+                    [i for i in d["archive"][1]["items"] if not str(i["n"]).startswith("LF")],
+                ),
+            )
+        )
+        ledger = Ledger.load(write_ledger(self.root, data))
+        html = brief.build_brief(ledger, 2)
+        self.assertIn("there is no late file", html)
+        self.assertNotIn("Late-file items run first", html)
 
     def test_multi_day_interval_is_stated_on_the_masthead(self) -> None:
         data = with_defect(
