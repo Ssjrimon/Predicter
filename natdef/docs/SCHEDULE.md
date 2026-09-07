@@ -107,6 +107,31 @@ fire_trigger(
 )
 ```
 
+### What the first pre-flight established (7 September 2026)
+
+The pre-flight was run before the schedule was trusted, and the honest reading of it is
+narrower than "it passed".
+
+**Established.** The run reports `ROUTINE_RUN_STATUS_SUCCEEDED`, fired 05:13:45Z and finished
+05:25:50Z — twelve minutes and roughly 218,000 context tokens of work. `origin/main` was
+unchanged at `928d152` afterwards, with zero commits added, so the run honoured the read-only
+override and wrote nothing. The whole unattended path therefore works: the Routine fires, a
+session spawns in the environment, it does substantial work, and it exits cleanly.
+
+**Not established.** The outcome of each of the seven individual checks. The fired session is
+a separate session and its transcript is not readable from the session that fired it — only
+the run record and the repository's own state are available as evidence. Do not record the
+individual checks as having passed on the strength of `SUCCEEDED`, which only means the
+session ran to completion without erroring.
+
+**The strongest available inference**, stated as an inference rather than a finding: a session
+that could not reach the repository would have stopped within seconds on its own mandatory
+refusal clause, not worked for twelve minutes.
+
+**The real test is the first scheduled run.** Watch for two signals: the push notification,
+and a commit on `main`. If the run produces no commit, treat the refusal clause as having
+fired and read that session's report before changing any configuration.
+
 A failure is the useful outcome. The four things that would silently break the daily run,
 in rough order of likelihood:
 
