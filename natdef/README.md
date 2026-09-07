@@ -43,7 +43,7 @@ silently, which is the drift this design exists to prevent.
 | `natdef/` | The toolchain. One module per job; see `natdef/__init__.py`. |
 | `templates/` | The two page shells. Strict tokens only — no logic in templates. |
 | `tests/` | 114 tests, stdlib `unittest`, no pytest. |
-| `docs/` | How this repository came to exist, and what was decided along the way. |
+| `docs/` | How this repository came to exist, what was decided along the way, and how the daily schedule is configured ([`SCHEDULE.md`](docs/SCHEDULE.md)). |
 
 Four pages are generated, plus the console:
 

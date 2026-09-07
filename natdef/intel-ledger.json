@@ -4,7 +4,7 @@
     "title": "Strategic Threat & Posture Ledger",
     "purpose": "Single source of truth for the dashboard artifact and the daily briefs. Every update edits this file first; downstream artifacts are regenerated from it.",
     "created": "2026-08-08",
-    "last_updated": "2026-09-06",
+    "last_updated": "2026-09-07",
     "brief_number": 13,
     "update_rule": "The ledger is the ONLY source of truth. timeline[], map_nodes[], briefings[], threads[], sources[] and horizon[] are rendered into strategic-threat-briefing.html by render.py — never hand-edit that file. Nothing enters without clearing the Step 3 verification gate; log every check in verification_log[].",
     "revision": "D — canonical; renderer-backed",
@@ -3658,6 +3658,24 @@
       "class": "analyst-judgment",
       "method": "Compared this window against every prior IR window in the ledger: the mediation channel's status, whether a direct US-Iran exchange was under way, and the geographic spread of retaliation.",
       "finding": "Brief 012 held 9/volatile because a concrete mediation framework ran alongside escalation. This window has no mediation channel, a resumed direct exchange, and Iranian retaliation reaching five countries in one sequence -- the first time in this ledger's record. 10 records that this is materially worse than any prior window here. It is a relative judgment on this ledger's own scale, not a claim that escalation has a ceiling."
+    },
+    {
+      "date": "2026-09-07",
+      "claim": "SCHEDULE -- one recurring daily task now drives this operation, firing 15:00 US Central",
+      "result": "created, after confirming no competing cloud-side schedule existed",
+      "class": "verified-primary",
+      "method": "BRIEFING-PROTOCOL.md Rule 0 point 2 requires checking for an existing task before creating one -- the check that was skipped on 16 Aug 2026 and produced the fork. list_triggers was called first and returned an empty list, so nothing on the cloud side competes with this Routine.",
+      "finding": "Routine trig_01H1Wd2FeZ1LiWYpUwUDTVka, cron '0 20 * * *' evaluated in UTC, which is 15:00 US Central while CDT (UTC-5) is in effect. A fresh session per firing, matching Rule 0's own statement that continuity lives in the ledger rather than in conversation history. The run commits directly to main and does not open a pull request: an unmerged PR would leave main stale in both ledger_meta and briefs/INDEX.md together, so the next run's Step 1 continuity check would pass on stale-but-consistent state, re-sweep the same interval and mint a duplicate brief number -- a fork arrived at by a different mechanism than the 16 Aug one. TWO LIMITATIONS, both disclosed rather than assumed away: (1) list_triggers sees only the cloud list and its own documentation states that Cowork desktop scheduled tasks do not appear in it, so whether a desktop task still points at the retired claude.ai project can only be checked on the user's machine; (2) cron does not follow daylight saving, so from 1 November 2026 the cron must move to '0 21 * * *' or the brief will fire at 14:00 Central.",
+      "action": "Configuration and both limitations documented in docs/SCHEDULE.md. A read-only pre-flight was fired before the schedule was trusted, per the protocol's own requirement to run it manually once first; results recorded separately. brief_number, last_cutoff and archive[] untouched -- this is infrastructure, not a fourteenth brief."
+    },
+    {
+      "date": "2026-09-07",
+      "claim": "SCHEDULE -- the pre-flight the protocol requires before a schedule is trusted was run, and what it does and does not establish",
+      "result": "run completed; mechanics proven end-to-end, individual checks not independently readable",
+      "class": "attributed-claim",
+      "method": "fire_trigger on trig_01H1Wd2FeZ1LiWYpUwUDTVka with a text override countermanding the brief-producing prompt, per BRIEFING-PROTOCOL.md: 'Run it manually once before scheduling. The single thing being tested is whether the task can reach the ledger.' The fired session (cse_01Fwqx9VgeuZqNmqBneZmtLJ) is a separate session whose transcript this session cannot read; only its run record and the repository's own state are available as evidence.",
+      "finding": "The run reports ROUTINE_RUN_STATUS_SUCCEEDED, fired 05:13:45Z and finished 05:25:50Z -- 12 minutes and roughly 218,000 context tokens of work. origin/main is unchanged at 928d152 with zero commits added, so the run honoured the read-only override and wrote nothing. WHAT THIS ESTABLISHES: the whole unattended path works -- the Routine fires, a session spawns in the environment, it does substantial work and exits cleanly. WHAT IT DOES NOT ESTABLISH: the outcome of each of the seven individual checks, because the transcript is not readable from here. The strongest available inference, stated as an inference rather than a finding, is that a session unable to reach the repository would have stopped within seconds on its own mandatory refusal clause rather than working for twelve minutes.",
+      "action": "Recorded in docs/SCHEDULE.md alongside the configuration. The 20:07Z scheduled run is the first real test of the checks themselves; its push notification and its commit on main are the signals to watch. If it produces no commit, treat the refusal clause as having fired and read that session's report before changing anything."
     }
   ],
   "schema_notes": [

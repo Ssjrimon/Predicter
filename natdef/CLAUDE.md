@@ -70,10 +70,26 @@ Read `BRIEFING-PROTOCOL.md` in full and follow it from Step 1. Do not skip to wr
 | `python3 -m natdef validate` | The Step 6 gate. `--strict` also fails on a source registered without a URL. |
 | `python3 -m natdef check` | All of the above as one gate. **This is the pre-commit command.** |
 | `python3 -m natdef serve` | Localhost server rendering from the live ledger. |
-| `python3 -m unittest discover -s tests -t .` | 104 tests. |
+| `python3 -m unittest discover -s tests -t .` | 114 tests. |
 
 Standard library only. If you find yourself adding a dependency to this toolchain, stop:
 it runs unattended, and every import is one more way a scheduled run fails silently.
+
+## The daily schedule
+
+One Routine drives this operation, firing at 15:00 US Central: `trig_01H1Wd2FeZ1LiWYpUwUDTVka`.
+**Read [`docs/SCHEDULE.md`](docs/SCHEDULE.md) before creating, changing or duplicating any
+scheduled task** — Rule 0 allows exactly one, and two schedules pointed at this ledger is not
+redundancy, it is two runs racing to increment `brief_number`.
+
+The scheduled run commits straight to `main` and deliberately does not open a pull request;
+`docs/SCHEDULE.md` explains why filing behind a review queue would fork the ledger rather
+than protect it.
+
+Two things there need a human rather than a session: the cron does not follow daylight saving
+and must move to `0 21 * * *` on 1 November 2026, and only the user's own machine can confirm
+that no Cowork desktop task still points at the retired claude.ai project.
+
 
 ## What is still genuinely open
 
