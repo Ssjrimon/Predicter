@@ -199,23 +199,48 @@ One caveat on the probe, stated because it is easy to over-read: it proves a *sp
 can push. It does not prove a *fired* session can, because the fired session's configuration is
 exactly the thing that cannot be set.
 
-### Fixing it
+### Fixing it — and why no session can
 
-`update_trigger` cannot attach a source. Two routes:
+Three routes were tried on 8 September 2026. All three are closed to a session, and the
+evidence for each is a run, not an argument.
 
-1. **Attach the repository to the Routine from the Routines UI on claude.ai**, if that editor
-   exposes a source or repository field. That is the entire fix if it does — fired sessions
-   then start checked out and authenticated, exactly like the probe.
-2. **A launcher session.** Bind the Routine to one small persistent session
-   (`persistent_session_id`) whose only daily act is to call `create_session` with
-   `source_url`, `outcome_branch="main"` and the brief prompt. The brief still runs in a fresh
-   session with no inherited context, so Rule 0 holds; the launcher carries one tool call a
-   day. The cost is a second moving part and a long-lived session that must eventually be
-   recreated.
+| Route | Result |
+|---|---|
+| `git push` from a fired session | **Dead.** No declared source, so no push credential. `create_trigger` has no parameter for one and `update_trigger` cannot add one. |
+| Filing through the GitHub API instead of git | **Dead.** Fired sessions carry no MCP tools at all. `mcp_servers` and `mcp_connections` are both empty on the trigger record, and a probe run confirmed it. |
+| A launcher session that spawns a properly-sourced one | **Dead.** The launcher built the `create_session` call correctly — right source, `outcome_branch`, prompt passed through verbatim — then blocked waiting for a human to approve the MCP tool, and sat there indefinitely. |
 
-Until one is in place the Routine fires daily, does the full sweep, and discards it. Nothing is
-corrupted by that: `last_cutoff` never advances, so the next successful run covers the whole
-gap. That is what lookback discipline is for.
+The launcher deserves its own note, because it half-worked and that is the trap. Its permission
+block was caused by a fixable name mismatch: the grant must name the hashed server id
+(`mcp__<uuid>__create_session`), not the friendly `mcp__Claude_Code_Remote__create_session`.
+Fixing the name might well make it run. **It was still abandoned deliberately.** A daily
+unattended job that is *able* to raise a permission prompt is a job that will one day stop at
+15:00 and wait forever, reporting healthy while producing nothing — a worse failure than the
+one being repaired, because this one at least announced itself by leaving `main` unchanged.
+
+The probe that settled the API route is worth keeping in mind as a technique: a fired session's
+transcript cannot be read by anyone, so the only diagnostic that survives its container is one
+it writes to the remote. When it can write nothing, silence is the finding.
+
+### What actually fixes it — all three need a human
+
+1. **Attach a repository to the Routine in the Routines UI on claude.ai.** If that editor
+   exposes a source or repository field, this is the whole fix and nothing else changes: fired
+   sessions would start checked out and authenticated, exactly as a spawned session does.
+   Try this first — it introduces no secret and no new moving part.
+2. **Put a repo-scoped token in the environment's variables.** The fired session could then
+   push over HTTPS. This works, but it means creating and storing a credential, which is the
+   owner's decision to make and not one a session should make for them. Scope it to this one
+   repository if you go this way.
+3. **Run the schedule from the Cowork desktop app** on a machine that already holds git
+   credentials. This works too, but it reintroduces exactly the desktop dependency the
+   migration out of the claude.ai Project removed, and this document already carries one open
+   item that only that machine can settle. Prefer either of the first two.
+
+Until one of these is done the Routine stays **paused** (`enabled: false`), which is the honest
+state: a schedule that fires and discards its work is worse than one that is visibly off.
+Briefs must be produced from an interactive session meanwhile. Nothing decays while it is
+paused — `last_cutoff` does not advance, so the next brief covers the whole gap.
 
 ### Housekeeping left behind
 
