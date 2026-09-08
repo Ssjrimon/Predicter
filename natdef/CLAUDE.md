@@ -86,9 +86,16 @@ The scheduled run commits straight to `main` and deliberately does not open a pu
 `docs/SCHEDULE.md` explains why filing behind a review queue would fork the ledger rather
 than protect it.
 
-Two things there need a human rather than a session: the cron does not follow daylight saving
-and must move to `0 21 * * *` on 1 November 2026, and only the user's own machine can confirm
-that no Cowork desktop task still points at the retired claude.ai project.
+**The daily run is currently not filing.** Its first firing, 7 September 2026, did a full
+sweep and lost it: a Routine's fired sessions declare no repository source, so they can read
+this public repo but cannot push, and `update_trigger` cannot add one. `docs/SCHEDULE.md`
+records the evidence and the two ways out. Until it is fixed, briefs must be produced from an
+interactive session. Nothing is corrupted meanwhile — `last_cutoff` does not advance, so the
+next brief covers the whole gap.
+
+Two other things there need a human rather than a session: the cron does not follow daylight
+saving and must move to `0 21 * * *` on 1 November 2026, and only the user's own machine can
+confirm that no Cowork desktop task still points at the retired claude.ai project.
 
 
 ## What is still genuinely open
