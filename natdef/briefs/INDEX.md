@@ -14,6 +14,14 @@ Any run that finds a gap between this index and `ledger_meta.brief_number` /
 
 ## Filed
 
+- 2026-09-08 · Brief 014 · cutoff 2026-09-08T0545Z · two channels opened and one shut in thirty-four
+  hours — Iran says an Oman-brokered Hormuz accord is days away, but it said the same on 2 and 5 August
+  and the route as described runs inbound traffic through Iranian territorial waters; the three-day
+  pause on the capitals held through the Witkoff and Kushner visits, produced no tangible progress, and
+  expired into a missile attack on Kyiv at about 03:30 on 8 September, with casualty counts diverging;
+  energy returns to volatile as Brent hit a seven-week high then gave ground to the Hormuz headline;
+  seven of ten threads recorded quiet
+
 - 2026-09-06 · Brief 013 · cutoff 2026-09-06T1930Z · a 190-hour catch-up (29 Aug-6 Sep): the war
   restarted — the US struck Iran on 1 Sep after about a month without a direct exchange, citing a
   failed Iranian attempt to mine the strait and hit a US base in Jordan, and Iran retaliated across
