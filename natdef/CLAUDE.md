@@ -86,10 +86,13 @@ The scheduled run commits straight to `main` and deliberately does not open a pu
 `docs/SCHEDULE.md` explains why filing behind a review queue would fork the ledger rather
 than protect it.
 
-**The daily run is currently not filing.** Its first firing, 7 September 2026, did a full
+**The daily run is PAUSED and files nothing.** Its first firing, 7 September 2026, did a full
 sweep and lost it: a Routine's fired sessions declare no repository source, so they can read
-this public repo but cannot push, and `update_trigger` cannot add one. `docs/SCHEDULE.md`
-records the evidence and the two ways out. Until it is fixed, briefs must be produced from an
+this public repo but cannot push. Three fixes were tried on 8 September and all three are
+closed to a session — git push (no credential), the GitHub API (fired sessions get no MCP
+tools), and a launcher session (blocks on an unattended permission prompt). `docs/SCHEDULE.md`
+carries the evidence for each and the three routes that need a human. **Do not re-attempt them
+from a session; they have been tested, not guessed.** Until one is done, briefs come from an
 interactive session. Nothing is corrupted meanwhile — `last_cutoff` does not advance, so the
 next brief covers the whole gap.
 
