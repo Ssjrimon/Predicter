@@ -146,22 +146,83 @@ session ran to completion without erroring.
 that could not reach the repository would have stopped within seconds on its own mandatory
 refusal clause, not worked for twelve minutes.
 
-**The real test is the first scheduled run.** Watch for two signals: the push notification,
-and a commit on `main`. If the run produces no commit, treat the refusal clause as having
-fired and read that session's report before changing any configuration.
+**The real test is the first scheduled run.** It ran on 7 September 2026 and it failed. What
+follows replaces the guesswork with what that run established.
 
-A failure is the useful outcome. The four things that would silently break the daily run,
-in rough order of likelihood:
+## The first scheduled run failed — 7 September 2026
 
-1. **No repository access** in the fired session — it cannot clone, or has no push
-   credentials. The run would stop at its own refusal clause, which is correct behaviour but
-   produces nothing.
-2. **No web search** — the sweep cannot happen. A run without it must stop, not guess.
-3. **Push rejected** on `main` — branch protection, or a credential the fired session does
-   not carry.
-4. **The Routine's connector grant is empty.** Fired sessions get no `mcp__*` tools. The run
-   does not need them — git over HTTPS and the CLI are enough — but anything that assumed a
-   GitHub MCP tool would fail.
+It fired on time at 20:09:30Z (15:09 CT), ran sixteen minutes, spent 71,895 output tokens on
+`claude-opus-5`, exited `ROUTINE_RUN_STATUS_SUCCEEDED` — and put nothing on `main`. No commit,
+no branch, no pull request, no issue.
+
+**Do not read "no commit" as the mandatory refusal clause firing.** An earlier version of this
+document said to, and that was wrong. A session that stops because it cannot find
+`BRIEFING-PROTOCOL.md` cannot spend 72,000 output tokens doing it — and it had no reason to
+stop, because the repository is public and an anonymous clone reaches the ledger. That volume
+of work is the shape of a completed brief. The run almost certainly produced brief 014 and
+lost it when the container was reclaimed, because the one step that reaches outside the
+container — the push — had nothing to authenticate with.
+
+### The cause: a Routine's fired sessions declare no repository
+
+There is no credential on disk in any of these containers. Pushes are authenticated by the
+agent git proxy against the session's **declared source and outcome**, not by a token:
+
+| | An interactive session | The Routine's fired sessions |
+|---|---|---|
+| `sources` | `[Ssjrimon/Predicter @ refs/heads/main]` | `[]` |
+| `outcomes` | `[branches: claude/…]` | `[]` |
+| Repo at startup | checked out | absent — must clone anonymously |
+| Can push | yes | **no** |
+
+`create_trigger` has no parameter for either field and `update_trigger` cannot add them, so
+this is not a setting someone forgot — it is what the trigger API produces. The prompt, the
+cron, the model pin and the protocol are all correct. The run simply has no way to write its
+result back.
+
+### What was ruled out, by experiment
+
+A probe session was spawned into the same environment on 8 September with `source_url` and
+`outcome_branch` set, and told to write its diagnostics into a branch and push it — a fired
+session's transcript cannot be read from the session that fired it, so a pushed file is the
+only report channel that survives the container. It pushed in 45 seconds and reported the
+repository **already checked out**, `WebSearch` available, the full `mcp__github__` suite
+available, `natdef status` correct at brief 13, and 114/114 tests passing.
+
+That disposes of failure modes 2 and 4 for a properly-sourced session. Branch policy was ruled
+out separately, from an interactive session: a dry-run push to an *undeclared* branch is
+accepted, and a dry-run push to `main` is refused only as a non-fast-forward — a git objection,
+not a permissions one. **Nothing restricts pushing to `main`**, and mode 3 is not the problem
+either. The single defect is the empty `sources`.
+
+One caveat on the probe, stated because it is easy to over-read: it proves a *spawned* session
+can push. It does not prove a *fired* session can, because the fired session's configuration is
+exactly the thing that cannot be set.
+
+### Fixing it
+
+`update_trigger` cannot attach a source. Two routes:
+
+1. **Attach the repository to the Routine from the Routines UI on claude.ai**, if that editor
+   exposes a source or repository field. That is the entire fix if it does — fired sessions
+   then start checked out and authenticated, exactly like the probe.
+2. **A launcher session.** Bind the Routine to one small persistent session
+   (`persistent_session_id`) whose only daily act is to call `create_session` with
+   `source_url`, `outcome_branch="main"` and the brief prompt. The brief still runs in a fresh
+   session with no inherited context, so Rule 0 holds; the launcher carries one tool call a
+   day. The cost is a second moving part and a long-lived session that must eventually be
+   recreated.
+
+Until one is in place the Routine fires daily, does the full sweep, and discards it. Nothing is
+corrupted by that: `last_cutoff` never advances, so the next successful run covers the whole
+gap. That is what lookback discipline is for.
+
+### Housekeeping left behind
+
+The probe's branch `probe/push-check` could not be deleted from a session — the git proxy
+accepts new refs but hangs up on a delete refspec, across four attempts with backoff, while the
+proxy itself reports healthy and no relay failures. Delete it from the GitHub branch list. It
+holds one file, `PROBE-REPORT.md`, and nothing depends on it.
 
 ## Changing the cadence
 
