@@ -230,7 +230,7 @@ Two real bugs surfaced from running the new code against the real data:
 
 ## Testing performed
 
-- 114 tests, stdlib `unittest`, no third-party dependencies. Each validator check is
+- 124 tests, stdlib `unittest`, no third-party dependencies. Each validator check is
   asserted by introducing exactly one defect and confirming that check — and the message it
   produces — catches it.
 - `tests/test_real_ledger.py` runs the whole pipeline against the real
@@ -244,3 +244,50 @@ Two real bugs surfaced from running the new code against the real data:
   the timeline thread filter and projected-item toggle, the archive catch-up digest, and
   the node-map deep dive were each exercised.
 - `python3 -m natdef check` — render freshness, console freshness, validator — passes.
+
+## Code review, 12 September 2026
+
+A read-through of the toolchain plus an exercise of every CLI path, the server and the
+gate. Four defects were found and fixed. None of them could corrupt the ledger or a
+delivered brief; all four shared the same shape, which is why they are recorded together:
+**a failure that does not announce itself.** That is the one property this toolchain is
+built around, so a quiet failure in the tooling is worth more attention than its blast
+radius suggests.
+
+- **`natdef check --strict` ran the loose gate and printed PASS.** `--strict` is declared on
+  the `check` subparser, so `argparse` put it in the parsed namespace; `cli._check` read it
+  out of the *leftover* argv, where it never appears, and therefore always saw `False`.
+  Anyone tightening the gate got no error and no behaviour change — only a pass. Fixed in
+  `cli.py`; `tests/test_cli.py` asserts the flag reaches `_check` in both directions.
+- **`natdef render --page X --out <new dir>` died with a bare traceback.** `render_all()`
+  creates its output directory; the single-page branch of `render.main` never got the same
+  `mkdir`, so it raised `FileNotFoundError` instead of writing. Fixed, with the `--check`
+  case asserted too: inspecting a page must not create the directory it was only asked to
+  look at.
+- **`check_sources` and `check_nodes` printed their PASS line unconditionally.** A run could
+  report "every superseded_by resolves" directly above the failure saying one did not, and
+  "edges all resolvable and typed" above an unresolvable edge. The exit code was always
+  right; the report contradicted itself.
+- **`check_archive` tested the whole run's failure list rather than its own findings.** An
+  unrelated earlier failure — a bad thread direction, say — silently withheld a PASS the
+  archive had earned, and undercounted the "N check group(s) passed" summary with it.
+
+The last two are fixed with `Report.mark()` / `Report.clean_since()`, so each check decides
+its own PASS line from its own findings and neither failure mode can return.
+
+Verified, not assumed: the gate was re-run against mutated copies of the real ledger to
+confirm each check still catches what it is for — a live `threads[]` moved without its
+archive snapshot (the Brief 011 defect class), a new free-text citation, an out-of-range
+intensity, an invalid direction, an unresolvable edge, a stale rendered page and a stale
+console. All were caught. `natdef check` and `natdef check --strict` now give different
+answers on a ledger with a disclosed URL gap, which is the whole point of the flag.
+
+Also checked and found sound, recorded so the next reviewer need not redo it: `server.py`
+rejects `..` traversal, encoded traversal and absolute paths, and serves only the four
+generated pages plus `briefs/`, `sources/` and `docs/`; every ledger value reaching HTML
+goes through `esc()`, `attr()` or `json_literal()`, and the two interpolations that look
+raw are not (a `float`-coerced SVG coordinate and an `href` escaped at its use site);
+rendering is deterministic apart from the generated-at stamp, which `--check` already
+neutralises; and every failure path — missing ledger, malformed JSON, wrong root type,
+missing required keys, an unknown brief number, an existing brief without `--force` —
+exits non-zero with a message that names the fix.

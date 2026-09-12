@@ -247,6 +247,9 @@ def main(argv: Sequence[str] | None = None) -> int:
                 previous = path.read_text(encoding="utf-8") if path.is_file() else None
                 changed = previous is None or _without_stamp(previous) != _without_stamp(html)
                 if not args.check:
+                    # Same mkdir render_all() does. Without it, `--page X --out <new dir>`
+                    # died with a bare FileNotFoundError traceback instead of writing.
+                    path.parent.mkdir(parents=True, exist_ok=True)
                     path.write_text(html, encoding="utf-8")
                 results.append(RenderedPage(filename, path, html, counts, changed))
     except NatDefError as exc:

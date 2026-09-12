@@ -137,7 +137,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         if known.command == "status":
             return _status(ledger_path)
         if known.command == "check":
-            return _check(ledger_path, strict="--strict" in rest)
+            # `--strict` is declared on the `check` subparser, so argparse consumes it into
+            # `known` and it never reaches `rest`. Reading it from `rest` made
+            # `natdef check --strict` run the *non*-strict gate and still print PASS —
+            # exactly the silent weakening of a gate this toolchain exists to prevent.
+            return _check(ledger_path, strict=getattr(known, "strict", False))
         if known.command == "render":
             return render.main(forward)
         if known.command == "validate":

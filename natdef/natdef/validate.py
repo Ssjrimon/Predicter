@@ -107,6 +107,22 @@ class Report:
     def failed(self) -> bool:
         return bool(self.failures)
 
+    def mark(self) -> int:
+        """A bookmark into :attr:`failures`, for :meth:`clean_since`.
+
+        A check must decide its own PASS line from its own findings. Two ways of getting
+        that wrong were both live here: testing ``report.failures`` (the *whole* run's
+        failures, so an unrelated earlier check suppressed this one's PASS line) and
+        testing nothing at all (so a check printed "every superseded_by resolves"
+        immediately above the failure saying one did not). Bookmark on entry, ask
+        :meth:`clean_since` on exit.
+        """
+        return len(self.failures)
+
+    def clean_since(self, mark: int) -> bool:
+        """Whether no failure has been recorded since ``mark`` was taken."""
+        return len(self.failures) == mark
+
 
 # --------------------------------------------------------------------------------------
 # Ledger-only checks
@@ -198,6 +214,7 @@ def check_threads_match_latest_archive(ledger: Ledger, report: Report) -> None:
 
 
 def check_sources(ledger: Ledger, report: Report) -> None:
+    mark = report.mark()
     sources = ledger.sources
     by_id = {s.id: s for s in sources}
     superseded = 0
@@ -217,10 +234,11 @@ def check_sources(ledger: Ledger, report: Report) -> None:
             report.fail(
                 f"sources: {source.id!r} attribution_class {source.attribution_class!r} invalid"
             )
-    report.ok(
-        f"sources: {len(sources)} documents, {superseded} superseded, "
-        "every superseded_by resolves"
-    )
+    if report.clean_since(mark):
+        report.ok(
+            f"sources: {len(sources)} documents, {superseded} superseded, "
+            "every superseded_by resolves"
+        )
 
 
 def check_citations(ledger: Ledger, report: Report, *, strict: bool) -> None:
@@ -312,6 +330,7 @@ def check_cutoff(ledger: Ledger, report: Report, *, now: datetime | None = None)
 
 
 def check_archive(ledger: Ledger, report: Report) -> None:
+    mark = report.mark()
     entries = ledger.archive
     if not entries:
         report.fail("archive: archive[] is empty — every brief gets an entry (Step 4.8)")
@@ -377,7 +396,7 @@ def check_archive(ledger: Ledger, report: Report) -> None:
                 f"archive: {path.name} is on disk with no archive[] entry — Step 4.8 was skipped"
             )
 
-    if not report.failures:
+    if report.clean_since(mark):
         report.ok(
             f"archive: {len(entries)} entries, sequential from 1, no duplicate dates, "
             "every thread code valid, every file on disk, every delivered brief accounted for"
@@ -385,6 +404,7 @@ def check_archive(ledger: Ledger, report: Report) -> None:
 
 
 def check_nodes(ledger: Ledger, report: Report) -> None:
+    mark = report.mark()
     node_ids = ledger.node_ids
     edges = ledger.node_edges
     for index, edge in enumerate(edges):
@@ -424,10 +444,11 @@ def check_nodes(ledger: Ledger, report: Report) -> None:
             f"node_topics: {len(orphans)} node(s) map to no topic codes, so their deep dive "
             f"has no derived timeline: {orphans}"
         )
-    report.ok(
-        f"node map: {len(node_ids)} nodes, {len(edges)} edges all resolvable and typed, "
-        f"{total} node_history entries all dated, titled and tiered"
-    )
+    if report.clean_since(mark):
+        report.ok(
+            f"node map: {len(node_ids)} nodes, {len(edges)} edges all resolvable and typed, "
+            f"{total} node_history entries all dated, titled and tiered"
+        )
 
 
 def check_attribution_classes(ledger: Ledger, report: Report) -> None:
