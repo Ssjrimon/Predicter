@@ -303,5 +303,70 @@ class TestRetiredClaims(ValidateCase):
         self.assertFailsWith(self.report_for(data), "not a valid regex")
 
 
+class ReportLinesAreEarnedByTheCheckThatPrintsThem(ValidateCase):
+    """Each check's PASS line must reflect that check's own findings, and nothing else.
+
+    Two separate ways of getting this wrong were live, and both made the report lie in a
+    way the exit code did not. ``check_sources`` and ``check_nodes`` printed their PASS line
+    unconditionally, so a run could assert "every superseded_by resolves" directly above the
+    failure saying one did not. ``check_archive`` tested the *whole run's* failure list, so
+    an unrelated earlier failure silently withheld a PASS the archive had earned — and
+    undercounted the "N check group(s) passed" summary with it.
+    """
+
+    def assertNoPassContaining(self, report, needle: str) -> None:
+        offending = [line for line in report.passed if needle in line]
+        self.assertEqual(
+            offending,
+            [],
+            f"a check printed PASS {offending!r} while failures were {report.failures!r}",
+        )
+
+    def assertPassContaining(self, report, needle: str) -> None:
+        self.assertTrue(
+            any(needle in line for line in report.passed),
+            f"expected a PASS line containing {needle!r}; got {report.passed!r}",
+        )
+
+    def test_sources_does_not_claim_superseded_by_resolves_when_it_does_not(self) -> None:
+        data = with_defect(
+            lambda d: d["sources"][0].__setitem__("superseded_by", "NO_SUCH_SOURCE")
+        )
+        report = self.report_for(data)
+        self.assertFailsWith(report, "does not resolve to another source")
+        self.assertNoPassContaining(report, "every superseded_by resolves")
+
+    def test_nodes_does_not_claim_every_edge_resolves_when_one_does_not(self) -> None:
+        data = with_defect(lambda d: d["node_edges"][0].__setitem__("to", "GHOST_NODE"))
+        report = self.report_for(data)
+        self.assertFailsWith(report, "is not a map_nodes id")
+        self.assertNoPassContaining(report, "edges all resolvable and typed")
+
+    def test_an_unrelated_failure_does_not_withhold_the_archive_pass(self) -> None:
+        """A bad thread direction says nothing about ``archive[]``, which is intact here."""
+        data = with_defect(lambda d: d["threads"][0].__setitem__("direction", "sideways"))
+        report = self.report_for(data)
+        self.assertFailsWith(report, "is not one of")
+        self.assertPassContaining(report, "entries, sequential from 1")
+
+    def test_a_real_archive_defect_still_withholds_it(self) -> None:
+        data = with_defect(
+            lambda d: d["archive"][1].__setitem__("date", d["archive"][0]["date"])
+        )
+        report = self.report_for(data)
+        self.assertFailsWith(report, "duplicate dates")
+        self.assertNoPassContaining(report, "entries, sequential from 1")
+
+    def test_a_clean_ledger_still_earns_every_pass_line(self) -> None:
+        report = self.report_for()
+        self.assertFalse(report.failed, report.failures)
+        for needle in (
+            "every superseded_by resolves",
+            "edges all resolvable and typed",
+            "entries, sequential from 1",
+        ):
+            self.assertPassContaining(report, needle)
+
+
 if __name__ == "__main__":  # pragma: no cover
     unittest.main()

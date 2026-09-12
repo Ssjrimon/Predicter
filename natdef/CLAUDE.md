@@ -70,7 +70,7 @@ Read `BRIEFING-PROTOCOL.md` in full and follow it from Step 1. Do not skip to wr
 | `python3 -m natdef validate` | The Step 6 gate. `--strict` also fails on a source registered without a URL. |
 | `python3 -m natdef check` | All of the above as one gate. **This is the pre-commit command.** |
 | `python3 -m natdef serve` | Localhost server rendering from the live ledger. |
-| `python3 -m unittest discover -s tests -t .` | 114 tests. |
+| `python3 -m unittest discover -s tests -t .` | 124 tests. |
 
 Standard library only. If you find yourself adding a dependency to this toolchain, stop:
 it runs unattended, and every import is one more way a scheduled run fails silently.
